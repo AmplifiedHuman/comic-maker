@@ -18,8 +18,8 @@ public class App extends Application {
     public void start(Stage stage) {
         var scene = new Scene(new Layout(), 640, 480);
         stage.setScene(scene);
-        ImageIcon icon = new ImageIcon(getClass().getResource("/logo.png"));
-        if (Taskbar.isTaskbarSupported()) {
+        if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE)) {
+            ImageIcon icon = new ImageIcon(getClass().getResource("/logo.png"));
             Taskbar.getTaskbar().setIconImage(icon.getImage());
         }
         stage.show();
