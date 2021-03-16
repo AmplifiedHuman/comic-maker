@@ -19,7 +19,9 @@ public class App extends Application {
         var scene = new Scene(new Layout(), 640, 480);
         stage.setScene(scene);
         ImageIcon icon = new ImageIcon(getClass().getResource("/logo.png"));
-        Taskbar.getTaskbar().setIconImage(icon.getImage());
+        if (Taskbar.isTaskbarSupported()) {
+            Taskbar.getTaskbar().setIconImage(icon.getImage());
+        }
         stage.show();
     }
 
