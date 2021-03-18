@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class App extends Application {
 
@@ -15,8 +16,8 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
-        var scene = new Scene(new Layout(), 640, 480);
+    public void start(Stage stage){
+        var scene = new Scene(new Layout(), 640, 740);
         stage.setScene(scene);
         if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE)) {
             ImageIcon icon = new ImageIcon(getClass().getResource("/logo.png"));
