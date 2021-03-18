@@ -19,7 +19,7 @@ public class StagePane extends VBox {
 
     GridPane tiles = new GridPane();
     Circle circle_Red, circle_Blue, circle_Gray, circle_Orange;
-    TextArea labelL, labelR;
+    DialogueBox labelL, labelR;
 
     public StagePane() {
         this.getChildren().add(new NarrativeBar());
@@ -41,14 +41,8 @@ public class StagePane extends VBox {
         circle_Orange.setCursor(Cursor.HAND);
 
         //init labels
-        labelL = new TextArea("Dialogue text of character on the left");
-        labelR = new TextArea("Dialogue text of character on the right");
-        labelL.setMinWidth(200);
-        labelR.setMinWidth(200);
-        labelL.setMinHeight(200);
-        labelR.setMinHeight(200);
-        labelL.setWrapText(true);
-        labelR.setWrapText(true);
+        labelL = new DialogueBox("Dialogue text of character on the left");
+        labelR = new DialogueBox("Dialogue text of character on the right");
 
         //dialogue
         tiles.add(labelL, 0,0,1,1);

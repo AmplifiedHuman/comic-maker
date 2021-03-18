@@ -12,4 +12,12 @@ public class NarrativeBar extends HBox {
         narrative.setMinWidth(500);
         this.getChildren().add(narrative);
     }
+
+    public TextArea getNarrative() {
+        return narrative;
+    }
+
+    public void setNarrative(TextArea narrative) {
+        this.narrative = narrative;
+    }
 }
