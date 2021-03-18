@@ -7,5 +7,6 @@ public class Layout extends VBox {
         // TODO: add components here
         this.getChildren().add(new TopMenuBar());
         this.getChildren().add(new ColorPane());
+        this.getChildren().add(new OptionsPane());
     }
 }
