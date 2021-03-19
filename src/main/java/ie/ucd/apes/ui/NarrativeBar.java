@@ -1,23 +1,12 @@
 package ie.ucd.apes.ui;
 
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.HBox;
 
-public class NarrativeBar extends HBox {
-    TextArea narrative;
-
-    public NarrativeBar() {
-        narrative = new TextArea("This is for narration");
-        narrative.setMaxHeight(70);
-        narrative.setMinWidth(500);
-        this.getChildren().add(narrative);
-    }
-
-    public TextArea getNarrative() {
-        return narrative;
-    }
-
-    public void setNarrative(TextArea narrative) {
-        this.narrative = narrative;
+public class NarrativeBar extends TextArea {
+    public NarrativeBar(String placeholder) {
+        super(placeholder);
+        this.setMaxWidth(620);
+        this.setMaxHeight(150);
+        this.setWrapText(true);
     }
 }

@@ -1,65 +1,45 @@
 package ie.ucd.apes.ui;
 
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
+import javafx.geometry.NodeOrientation;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
-
-import java.awt.*;
 
 
 public class StagePane extends VBox {
-
-    GridPane tiles = new GridPane();
-    Circle circle_Red, circle_Blue, circle_Gray, circle_Orange;
-    DialogueBox labelL, labelR;
-
     public StagePane() {
-        this.getChildren().add(new NarrativeBar());
-        //give pane a border
-        tiles.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        GridPane tiles = new GridPane();
+        DialogueBox labelL, labelR;
+        this.getChildren().add(new NarrativeBar("Some sample text for the narrative bar."));
         tiles.setMaxWidth(500);
-
         tiles.setHgap(20);
-        //add object to stage area
-        //temporarily use a circle instead of image -- adding image is to be implemented
-        circle_Red = new Circle(50.0f, Color.RED);
-        circle_Red.setCursor(Cursor.HAND);
-        circle_Blue = new Circle(50.0f, Color.BLUE);
-        circle_Blue.setCursor(Cursor.HAND);
-        circle_Gray = new Circle(30.0f, Color.GRAY);
-        circle_Gray.setCursor(Cursor.HAND);
-        circle_Orange = new Circle(30.0f, Color.ORANGE);
-        circle_Orange.setCursor(Cursor.HAND);
 
-        //init labels
+        // init labels
         labelL = new DialogueBox("Dialogue text of character on the left");
         labelR = new DialogueBox("Dialogue text of character on the right");
 
-        //dialogue
-        tiles.add(labelL, 0,0,1,1);
-        tiles.add(labelR, 1,0,1,1);
+        // dialogue
+        tiles.add(labelL, 0, 0);
+        tiles.add(labelR, 1, 0);
+        GridPane.setHalignment(labelR, HPos.RIGHT);
 
-        //types of speech
-        tiles.add(circle_Gray,0,1,1,1);
-        tiles.add(circle_Orange,1,1,1,1);
-        tiles.setHalignment(circle_Orange, HPos.RIGHT);
+        // character models
+        Image image1 = new Image(getClass().getResourceAsStream("/characters/angry.png"));
+        Image image2 = new Image(getClass().getResourceAsStream("/characters/accusing.png"));
+        ImageView character1 = new CharacterImage(image1);
+        ImageView character2 = new CharacterImage(image2);
+        character2.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        tiles.add(character1, 0, 2);
+        tiles.add(character2, 1, 2);
 
-        //character models
-        tiles.add(circle_Blue, 0,2,1,1);
-        tiles.add(circle_Red, 1,2,1,1);
-        tiles.setHalignment(circle_Red, HPos.RIGHT);
-
+        // background
+        tiles.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         this.getChildren().add(tiles);
-        this.getChildren().add(new NarrativeBar());
+        this.getChildren().add(new NarrativeBar("Some sample text for the narrative bar."));
+        HBox.setHgrow(this, Priority.ALWAYS);
     }
 
 }
