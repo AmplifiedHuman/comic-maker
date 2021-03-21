@@ -16,3 +16,10 @@ class when everyone is finished with their part. Our final product also included
 with the character images.
 
 ![Sprint 1 Gui](readme-resources/sprint1.png)
+
+## Team Members
+
+- Chee Guan Tee (Jason) - @AmplifiedHuman
+- Choon Wei Tong - @choonjerald
+- Simonas Ramonas - @SimonRamone
+- Taranpreet Singh - @Tyrionpreet
