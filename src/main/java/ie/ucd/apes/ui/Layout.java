@@ -2,6 +2,7 @@ package ie.ucd.apes.ui;
 
 import ie.ucd.apes.controller.StageController;
 import ie.ucd.apes.entity.Character;
+import ie.ucd.apes.entity.Constants;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -16,8 +17,8 @@ public class Layout extends VBox {
         HBox hbox = new HBox(50);
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        Character characterLeft = new Character("accusing.png", false, true);
-        Character characterRight = new Character("angry.png", true, true);
+        Character characterLeft = new Character(Constants.blankImage, false, true);
+        Character characterRight = new Character(Constants.blankImage, true, true);
         StageController stageController = new StageController(characterLeft, characterRight);
 
         StagePane stagePane = new StagePane(stageController);

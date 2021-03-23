@@ -19,6 +19,9 @@ public class StageController {
     }
 
     public Image renderCharacterImage(String imageFileName) {
+        if (imageFileName.equals(Constants.blankImage)) {
+            return null;
+        }
         String imagePath = String.format("/%s/%s", Constants.characterFolder, imageFileName);
         return new Image(getClass().getResourceAsStream(imagePath));
     }

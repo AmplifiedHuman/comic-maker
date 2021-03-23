@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class OptionsPane extends VBox {
@@ -85,6 +86,8 @@ public class OptionsPane extends VBox {
 
     private CustomMenuItem loadCharactersMenuItem(CharacterEnum characterEnum) throws IOException {
         List<String> files = FileLoader.getFileNames(Constants.characterFolder);
+        Collections.sort(files);
+        files.add(0, Constants.blankImage);
         ListView<String> listView = new ListView<>(FXCollections.observableList(files));
         listView.setCellFactory(param -> new ListCell<>() {
             private final ImageView imageView = new ImageView();
@@ -94,6 +97,9 @@ public class OptionsPane extends VBox {
                 super.updateItem(name, empty);
                 if (empty) {
                     setText(null);
+                    setGraphic(null);
+                } else if (name.equals(Constants.blankImage)) {
+                    setText(Constants.blankImage);
                     setGraphic(null);
                 } else {
                     Image iconImage = new Image(getClass()
@@ -107,7 +113,6 @@ public class OptionsPane extends VBox {
                 }
             }
         });
-
         listView.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldValue, newValue) -> stagePane.updateCharacterImage(newValue, characterEnum));
 
