@@ -38,4 +38,10 @@ public class StageController {
     private Character getCharacter(CharacterEnum characterEnum) {
         return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeft : characterRight;
     }
+
+    public void changeGender(CharacterEnum characterEnum) {
+        getCharacter(characterEnum).changeGender();
+    }
+
+    public boolean isMale(CharacterEnum characterEnum) { return getCharacter(characterEnum).isMale(); }
 }

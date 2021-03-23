@@ -38,4 +38,6 @@ public class Character {
     public void flipOrientation() {
         isFlipped = !isFlipped;
     }
+
+    public void changeGender() { isMale = !isMale; }
 }

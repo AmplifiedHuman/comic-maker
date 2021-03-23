@@ -18,14 +18,16 @@ public class OptionsPane extends VBox {
     private MenuButton rightButton;
     private Button flipButton;
     private StagePane stagePane;
+    private Button genderButton;
 
     public OptionsPane(StagePane stagePane) {
         this.stagePane = stagePane;
         initLeftAndRightButton();
         initFlipButton();
+        initGenderButton();
 
-        Button genderButton = new Button("", new ImageView("/buttons/gender_button.png"));
-        genderButton.setTooltip(new Tooltip("Switch Gender"));
+//        Button genderButton = new Button("", new ImageView("/buttons/gender_button.png"));
+//        genderButton.setTooltip(new Tooltip("Switch Gender"));
 
         ToggleButton bubbleButton1 = new ToggleButton("", new ImageView("/buttons/bubble1_button.png"));
         bubbleButton1.setTooltip(new Tooltip("Add Speech Bubble"));
@@ -72,6 +74,13 @@ public class OptionsPane extends VBox {
         } catch (IOException ioException) {
             System.out.println("Cannot load characters.");
         }
+    }
+
+    private void initGenderButton() {
+        genderButton = new Button("", new ImageView("/buttons/gender_button.png"));
+        genderButton.setTooltip(new Tooltip("Gender Change"));
+        genderButton.setFocusTraversable(false);
+        genderButton.setOnMouseClicked((e) -> stagePane.changeGenderSelectedImage());
     }
 
     private CustomMenuItem loadCharactersMenuItem(CharacterEnum characterEnum) throws IOException {

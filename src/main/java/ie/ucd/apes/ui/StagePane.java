@@ -2,6 +2,7 @@ package ie.ucd.apes.ui;
 
 import ie.ucd.apes.controller.StageController;
 import ie.ucd.apes.entity.CharacterEnum;
+import ie.ucd.apes.utils.ColorChange;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
@@ -12,6 +13,7 @@ import javafx.scene.paint.Color;
 
 public class StagePane extends VBox {
     private final StageController stageController;
+    private final ColorChange colorChange = new ColorChange();
     private ImageView characterLeftView;
     private ImageView characterRightView;
 
@@ -51,6 +53,8 @@ public class StagePane extends VBox {
     private void initCharacters() {
         characterLeftView = new CharacterImage(stageController.renderCharacterImage(CharacterEnum.IS_LEFT));
         characterRightView = new CharacterImage(stageController.renderCharacterImage(CharacterEnum.IS_RIGHT));
+        characterLeftView.setSmooth(false);
+        characterRightView.setSmooth(false);
         if (stageController.isFlipped(CharacterEnum.IS_LEFT)) {
             characterLeftView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         }
@@ -90,4 +94,47 @@ public class StagePane extends VBox {
             imageView.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
         }
     }
+
+    public void changeGenderSelectedImage() {
+        if(characterLeftView.isFocused()) {
+            stageController.changeGender(CharacterEnum.IS_LEFT);
+            if(stageController.isMale(CharacterEnum.IS_LEFT)){
+                changeGenderToMale(characterLeftView);
+            } else {
+                changeGenderToFemale(characterLeftView);
+            }
+
+        } else if (characterRightView.isFocused()) {
+            stageController.changeGender(CharacterEnum.IS_RIGHT);
+            if(stageController.isMale(CharacterEnum.IS_RIGHT)){
+                changeGenderToMale(characterRightView);
+            } else {
+                changeGenderToFemale(characterRightView);
+            }
+        }
+    }
+
+    //default colors of
+    //hair - R:240 G:255 B:0
+    //lips -  R:255 G:0 B:0
+    //ribbon -  R:236 G:180 B:181
+    //skin - R:255 G:232 B:216
+    private void changeGenderToMale(ImageView imageView) {
+        //hair
+        colorChange.changeColor(imageView, 240, 255, 0, 255,255,254);
+        //ribbon
+        colorChange.changeColor(imageView, 236, 180, 181, 255,255,253);
+        //lips
+        colorChange.changeColor(imageView, 255, 0, 0, 255,232,215);
+    }
+
+    private void changeGenderToFemale(ImageView imageView) {
+        //hair
+        colorChange.changeColor(imageView, 255,255,254, 240, 255, 0);
+        //ribbon
+        colorChange.changeColor(imageView, 255,255,253, 236, 180, 181);
+        //lips
+        colorChange.changeColor(imageView,255,232,215, 255, 0, 0);
+    }
+
 }
