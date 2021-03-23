@@ -1,30 +1,41 @@
 package ie.ucd.apes.entity;
 
 public class Character {
-    private String imageLink;
-    private CharacterGender gender;
+    private String imageFileName;
+    private boolean isFlipped;
+    private boolean isMale;
 
-    public Character() {
+    public Character(String imageFileName, boolean isFlipped, boolean isMale) {
+        this.imageFileName = imageFileName;
+        this.isFlipped = isFlipped;
+        this.isMale = isMale;
     }
 
-    public Character(String imageLink, CharacterGender gender) {
-        this.imageLink = imageLink;
-        this.gender = gender;
+    public String getImageFileName() {
+        return imageFileName;
     }
 
-    public String getImageLink() {
-        return imageLink;
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
+    public boolean isFlipped() {
+        return isFlipped;
     }
 
-    public CharacterGender getGender() {
-        return gender;
+    public void setFlipped(boolean flipped) {
+        isFlipped = flipped;
     }
 
-    public void setGender(CharacterGender gender) {
-        this.gender = gender;
+    public boolean isMale() {
+        return isMale;
+    }
+
+    public void setMale(boolean male) {
+        isMale = male;
+    }
+
+    public void flipOrientation() {
+        isFlipped = !isFlipped;
     }
 }

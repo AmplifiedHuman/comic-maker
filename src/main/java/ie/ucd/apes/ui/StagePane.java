@@ -1,20 +1,30 @@
 package ie.ucd.apes.ui;
 
+import ie.ucd.apes.controller.StageController;
+import ie.ucd.apes.entity.CharacterEnum;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 
 public class StagePane extends VBox {
-    public StagePane() {
+    private final StageController stageController;
+    private ImageView characterLeftView;
+    private ImageView characterRightView;
+
+    public StagePane(StageController stageController) {
+        this.stageController = stageController;
+        initView();
+    }
+
+    private void initView() {
         GridPane tiles = new GridPane();
         DialogueBox labelL, labelR;
         this.getChildren().add(new NarrativeBar("Some sample text for the narrative bar."));
-        tiles.setMaxWidth(500);
+        tiles.setMaxWidth(600);
         tiles.setHgap(20);
 
         // init labels
@@ -27,13 +37,9 @@ public class StagePane extends VBox {
         GridPane.setHalignment(labelR, HPos.RIGHT);
 
         // character models
-        Image image1 = new Image(getClass().getResourceAsStream("/characters/angry.png"));
-        Image image2 = new Image(getClass().getResourceAsStream("/characters/accusing.png"));
-        ImageView character1 = new CharacterImage(image1);
-        ImageView character2 = new CharacterImage(image2);
-        character2.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-        tiles.add(character1, 0, 2);
-        tiles.add(character2, 1, 2);
+        initCharacters();
+        tiles.add(characterLeftView, 0, 2);
+        tiles.add(characterRightView, 1, 2);
 
         // background
         tiles.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -42,4 +48,46 @@ public class StagePane extends VBox {
         HBox.setHgrow(this, Priority.ALWAYS);
     }
 
+    private void initCharacters() {
+        characterLeftView = new CharacterImage(stageController.renderCharacterImage(CharacterEnum.IS_LEFT));
+        characterRightView = new CharacterImage(stageController.renderCharacterImage(CharacterEnum.IS_RIGHT));
+        if (stageController.isFlipped(CharacterEnum.IS_LEFT)) {
+            characterLeftView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        }
+        if (stageController.isFlipped(CharacterEnum.IS_RIGHT)) {
+            characterRightView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        }
+        characterLeftView.setFocusTraversable(true);
+        characterRightView.setFocusTraversable(true);
+
+        characterLeftView.setOnMouseClicked((e) -> characterLeftView.requestFocus());
+        characterRightView.setOnMouseClicked((e) -> characterRightView.requestFocus());
+    }
+
+    public void updateCharacterImage(String newImageName, CharacterEnum characterEnum) {
+        stageController.setCharacterImageFileName(newImageName, characterEnum);
+        if (characterEnum.equals(CharacterEnum.IS_LEFT)) {
+            characterLeftView.setImage(stageController.renderCharacterImage(CharacterEnum.IS_LEFT));
+        } else {
+            characterRightView.setImage(stageController.renderCharacterImage(CharacterEnum.IS_RIGHT));
+        }
+    }
+
+    public void flipSelectedCharacterImage() {
+        if (characterLeftView.isFocused()) {
+            stageController.flipCharacterOrientation(CharacterEnum.IS_LEFT);
+            flipOrientation(characterLeftView);
+        } else if (characterRightView.isFocused()) {
+            stageController.flipCharacterOrientation(CharacterEnum.IS_RIGHT);
+            flipOrientation(characterRightView);
+        }
+    }
+
+    private void flipOrientation(ImageView imageView) {
+        if (imageView.getNodeOrientation().equals(NodeOrientation.LEFT_TO_RIGHT)) {
+            imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        } else {
+            imageView.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+        }
+    }
 }

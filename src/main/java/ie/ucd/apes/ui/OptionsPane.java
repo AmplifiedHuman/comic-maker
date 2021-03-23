@@ -1,5 +1,6 @@
 package ie.ucd.apes.ui;
 
+import ie.ucd.apes.entity.CharacterEnum;
 import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.io.FileLoader;
 import javafx.collections.FXCollections;
@@ -15,30 +16,32 @@ import java.util.List;
 public class OptionsPane extends VBox {
     private MenuButton leftButton;
     private MenuButton rightButton;
+    private Button flipButton;
+    private StagePane stagePane;
 
-    public OptionsPane() {
+    public OptionsPane(StagePane stagePane) {
+        this.stagePane = stagePane;
         initLeftAndRightButton();
-        Button genderButton = new Button("", new ImageView("/gender_button.png"));
+        initFlipButton();
+
+        Button genderButton = new Button("", new ImageView("/buttons/gender_button.png"));
         genderButton.setTooltip(new Tooltip("Switch Gender"));
 
-        Button mirrorButton = new Button("", new ImageView("/mirror_button.png"));
-        mirrorButton.setTooltip(new Tooltip("Mirror Image"));
-
-        ToggleButton bubbleButton1 = new ToggleButton("", new ImageView("/bubble1_button.png"));
+        ToggleButton bubbleButton1 = new ToggleButton("", new ImageView("/buttons/bubble1_button.png"));
         bubbleButton1.setTooltip(new Tooltip("Add Speech Bubble"));
-        ToggleButton bubbleButton2 = new ToggleButton("", new ImageView("/bubble2_button.png"));
+        ToggleButton bubbleButton2 = new ToggleButton("", new ImageView("/buttons/bubble2_button.png"));
         bubbleButton2.setTooltip(new Tooltip("Add Thought Bubble"));
 
-        Button textButton1 = new Button("", new ImageView("/text1_button.png"));
+        Button textButton1 = new Button("", new ImageView("/buttons/text1_button.png"));
         textButton1.setTooltip(new Tooltip("Add Text Above"));
-        Button textButton2 = new Button("", new ImageView("/text2_button.png"));
+        Button textButton2 = new Button("", new ImageView("/buttons/text2_button.png"));
         textButton2.setTooltip(new Tooltip("Add Text Below"));
 
         GridPane optionsPane = new GridPane();
 
         optionsPane.add(leftButton, 0, 0, 1, 1);
         optionsPane.add(rightButton, 1, 0, 1, 1);
-        optionsPane.add(mirrorButton, 0, 1, 1, 1);
+        optionsPane.add(flipButton, 0, 1, 1, 1);
         optionsPane.add(genderButton, 1, 1, 1, 1);
         optionsPane.add(bubbleButton1, 0, 2, 1, 1);
         optionsPane.add(textButton1, 1, 2, 1, 1);
@@ -51,20 +54,27 @@ public class OptionsPane extends VBox {
         this.getChildren().add(optionsPane);
     }
 
+    private void initFlipButton() {
+        flipButton = new Button("", new ImageView("/buttons/mirror_button.png"));
+        flipButton.setTooltip(new Tooltip("Mirror Image"));
+        flipButton.setFocusTraversable(false);
+        flipButton.setOnMouseClicked((e) -> stagePane.flipSelectedCharacterImage());
+    }
+
     private void initLeftAndRightButton() {
-        leftButton = new MenuButton("", new ImageView("/left_button.png"));
+        leftButton = new MenuButton("", new ImageView("/buttons/left_button.png"));
         leftButton.setTooltip(new Tooltip("Edit Left Side"));
-        rightButton = new MenuButton("", new ImageView("/right_button.png"));
+        rightButton = new MenuButton("", new ImageView("/buttons/right_button.png"));
         rightButton.setTooltip(new Tooltip("Edit Right Side"));
         try {
-            leftButton.getItems().add(loadCharactersMenuItem());
-            rightButton.getItems().add(loadCharactersMenuItem());
+            leftButton.getItems().add(loadCharactersMenuItem(CharacterEnum.IS_LEFT));
+            rightButton.getItems().add(loadCharactersMenuItem(CharacterEnum.IS_RIGHT));
         } catch (IOException ioException) {
             System.out.println("Cannot load characters.");
         }
     }
 
-    private CustomMenuItem loadCharactersMenuItem() throws IOException {
+    private CustomMenuItem loadCharactersMenuItem(CharacterEnum characterEnum) throws IOException {
         List<String> files = FileLoader.getFileNames(Constants.characterFolder);
         ListView<String> listView = new ListView<>(FXCollections.observableList(files));
         listView.setCellFactory(param -> new ListCell<>() {
@@ -88,6 +98,10 @@ public class OptionsPane extends VBox {
                 }
             }
         });
+
+        listView.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldValue, newValue) -> stagePane.updateCharacterImage(newValue, characterEnum));
+
         return new CustomMenuItem(listView, true);
     }
 }
