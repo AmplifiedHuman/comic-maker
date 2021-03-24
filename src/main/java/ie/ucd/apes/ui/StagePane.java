@@ -2,6 +2,7 @@ package ie.ucd.apes.ui;
 
 import ie.ucd.apes.controller.StageController;
 import ie.ucd.apes.entity.CharacterEnum;
+import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.utils.ColorChange;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -53,14 +54,13 @@ public class StagePane extends VBox {
     private void initCharacters() {
         characterLeftView = new CharacterImage(stageController.renderCharacterImage(CharacterEnum.IS_LEFT));
         characterRightView = new CharacterImage(stageController.renderCharacterImage(CharacterEnum.IS_RIGHT));
-        characterLeftView.setSmooth(false);
-        characterRightView.setSmooth(false);
         if (stageController.isFlipped(CharacterEnum.IS_LEFT)) {
             characterLeftView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         }
         if (stageController.isFlipped(CharacterEnum.IS_RIGHT)) {
             characterRightView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         }
+
         characterLeftView.setFocusTraversable(true);
         characterRightView.setFocusTraversable(true);
 
@@ -70,10 +70,11 @@ public class StagePane extends VBox {
 
     public void updateCharacterImage(String newImageName, CharacterEnum characterEnum) {
         stageController.setCharacterImageFileName(newImageName, characterEnum);
-        if (characterEnum.equals(CharacterEnum.IS_LEFT)) {
-            characterLeftView.setImage(stageController.renderCharacterImage(CharacterEnum.IS_LEFT));
-        } else {
-            characterRightView.setImage(stageController.renderCharacterImage(CharacterEnum.IS_RIGHT));
+        ImageView imageView = getImageView(characterEnum);
+        imageView.setImage(stageController.renderCharacterImage(characterEnum));
+        stageController.resetState(characterEnum);
+        if (stageController.isFlipped(characterEnum)) {
+            imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         }
     }
 
@@ -95,46 +96,29 @@ public class StagePane extends VBox {
         }
     }
 
-    public void changeGenderSelectedImage() {
-        if(characterLeftView.isFocused()) {
+    public void changeSelectedCharacterImageGender() {
+        if (characterLeftView.isFocused()) {
             stageController.changeGender(CharacterEnum.IS_LEFT);
-            if(stageController.isMale(CharacterEnum.IS_LEFT)){
-                changeGenderToMale(characterLeftView);
-            } else {
-                changeGenderToFemale(characterLeftView);
-            }
-
+            switchGenderView(characterLeftView, stageController.isMale(CharacterEnum.IS_LEFT));
         } else if (characterRightView.isFocused()) {
             stageController.changeGender(CharacterEnum.IS_RIGHT);
-            if(stageController.isMale(CharacterEnum.IS_RIGHT)){
-                changeGenderToMale(characterRightView);
-            } else {
-                changeGenderToFemale(characterRightView);
-            }
+            switchGenderView(characterRightView, stageController.isMale(CharacterEnum.IS_RIGHT));
         }
     }
 
-    //default colors of
-    //hair - R:240 G:255 B:0
-    //lips -  R:255 G:0 B:0
-    //ribbon -  R:236 G:180 B:181
-    //skin - R:255 G:232 B:216
-    private void changeGenderToMale(ImageView imageView) {
-        //hair
-        colorChange.changeColor(imageView, 240, 255, 0, 255,255,254);
-        //ribbon
-        colorChange.changeColor(imageView, 236, 180, 181, 255,255,253);
-        //lips
-        colorChange.changeColor(imageView, 255, 0, 0, 255,232,215);
+    private void switchGenderView(ImageView imageView, boolean isMale) {
+        if (isMale) {
+            colorChange.changeColor(imageView, Constants.DEFAULT_WIG_COLOR, Constants.REPLACEMENT_WIG_COLOR, true);
+            colorChange.changeColor(imageView, Constants.LIPS_COLOR, Constants.REPLACEMENT_LIPS_COLOR, true);
+            colorChange.changeColor(imageView, Constants.RIBBON_COLOR, Constants.REPLACEMENT_RIBBON_COLOR, true);
+        } else {
+            colorChange.changeColor(imageView, Constants.REPLACEMENT_WIG_COLOR, Constants.DEFAULT_WIG_COLOR, false);
+            colorChange.changeColor(imageView, Constants.REPLACEMENT_LIPS_COLOR, Constants.LIPS_COLOR, false);
+            colorChange.changeColor(imageView, Constants.REPLACEMENT_RIBBON_COLOR, Constants.RIBBON_COLOR, false);
+        }
     }
 
-    private void changeGenderToFemale(ImageView imageView) {
-        //hair
-        colorChange.changeColor(imageView, 255,255,254, 240, 255, 0);
-        //ribbon
-        colorChange.changeColor(imageView, 255,255,253, 236, 180, 181);
-        //lips
-        colorChange.changeColor(imageView,255,232,215, 255, 0, 0);
+    private ImageView getImageView(CharacterEnum characterEnum) {
+        return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeftView : characterRightView;
     }
-
 }

@@ -9,7 +9,7 @@ public class FileLoaderTest {
     @Test
     public void testCharacterList() {
         try {
-            Assertions.assertFalse(FileLoader.getFileNames(Constants.characterFolder).isEmpty());
+            Assertions.assertFalse(FileLoader.getFileNames(Constants.CHARACTER_FOLDER).isEmpty());
         } catch (IOException ioException) {
             Assertions.fail("Cannot load character images");
         }

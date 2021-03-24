@@ -19,10 +19,10 @@ public class StageController {
     }
 
     public Image renderCharacterImage(String imageFileName) {
-        if (imageFileName.equals(Constants.blankImage)) {
+        if (imageFileName.equals(Constants.BLANK_IMAGE)) {
             return null;
         }
-        String imagePath = String.format("/%s/%s", Constants.characterFolder, imageFileName);
+        String imagePath = String.format("/%s/%s", Constants.CHARACTER_FOLDER, imageFileName);
         return new Image(getClass().getResourceAsStream(imagePath));
     }
 
@@ -38,13 +38,18 @@ public class StageController {
         getCharacter(characterEnum).flipOrientation();
     }
 
-    private Character getCharacter(CharacterEnum characterEnum) {
-        return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeft : characterRight;
-    }
-
     public void changeGender(CharacterEnum characterEnum) {
         getCharacter(characterEnum).changeGender();
     }
 
     public boolean isMale(CharacterEnum characterEnum) { return getCharacter(characterEnum).isMale(); }
+
+    public void resetState(CharacterEnum characterEnum) {
+        Character character = getCharacter(characterEnum);
+        character.setMale(false);
+    }
+
+    private Character getCharacter(CharacterEnum characterEnum) {
+        return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeft : characterRight;
+    }
 }

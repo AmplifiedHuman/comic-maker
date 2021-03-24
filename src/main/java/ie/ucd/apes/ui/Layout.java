@@ -17,8 +17,8 @@ public class Layout extends VBox {
         HBox hbox = new HBox(50);
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        Character characterLeft = new Character(Constants.blankImage, false, true);
-        Character characterRight = new Character(Constants.blankImage, true, true);
+        Character characterLeft = new Character(Constants.BLANK_IMAGE, false, false);
+        Character characterRight = new Character(Constants.BLANK_IMAGE, true, false);
         StageController stageController = new StageController(characterLeft, characterRight);
 
         StagePane stagePane = new StagePane(stageController);

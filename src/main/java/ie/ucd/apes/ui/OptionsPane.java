@@ -18,7 +18,7 @@ public class OptionsPane extends VBox {
     private MenuButton leftButton;
     private MenuButton rightButton;
     private Button flipButton;
-    private StagePane stagePane;
+    private final StagePane stagePane;
     private Button genderButton;
 
     public OptionsPane(StagePane stagePane) {
@@ -26,9 +26,6 @@ public class OptionsPane extends VBox {
         initLeftAndRightButton();
         initFlipButton();
         initGenderButton();
-
-//        Button genderButton = new Button("", new ImageView("/buttons/gender_button.png"));
-//        genderButton.setTooltip(new Tooltip("Switch Gender"));
 
         ToggleButton bubbleButton1 = new ToggleButton("", new ImageView("/buttons/bubble1_button.png"));
         bubbleButton1.setTooltip(new Tooltip("Add Speech Bubble"));
@@ -81,13 +78,13 @@ public class OptionsPane extends VBox {
         genderButton = new Button("", new ImageView("/buttons/gender_button.png"));
         genderButton.setTooltip(new Tooltip("Gender Change"));
         genderButton.setFocusTraversable(false);
-        genderButton.setOnMouseClicked((e) -> stagePane.changeGenderSelectedImage());
+        genderButton.setOnMouseClicked((e) -> stagePane.changeSelectedCharacterImageGender());
     }
 
     private CustomMenuItem loadCharactersMenuItem(CharacterEnum characterEnum) throws IOException {
-        List<String> files = FileLoader.getFileNames(Constants.characterFolder);
+        List<String> files = FileLoader.getFileNames(Constants.CHARACTER_FOLDER);
         Collections.sort(files);
-        files.add(0, Constants.blankImage);
+        files.add(0, Constants.BLANK_IMAGE);
         ListView<String> listView = new ListView<>(FXCollections.observableList(files));
         listView.setCellFactory(param -> new ListCell<>() {
             private final ImageView imageView = new ImageView();
@@ -98,12 +95,12 @@ public class OptionsPane extends VBox {
                 if (empty) {
                     setText(null);
                     setGraphic(null);
-                } else if (name.equals(Constants.blankImage)) {
-                    setText(Constants.blankImage);
+                } else if (name.equals(Constants.BLANK_IMAGE)) {
+                    setText(Constants.BLANK_IMAGE);
                     setGraphic(null);
                 } else {
                     Image iconImage = new Image(getClass()
-                            .getResourceAsStream(String.format("/%s/%s", Constants.characterFolder, name)));
+                            .getResourceAsStream(String.format("/%s/%s", Constants.CHARACTER_FOLDER, name)));
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(100);
                     imageView.setSmooth(true);
