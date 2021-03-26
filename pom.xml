@@ -47,7 +47,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>
                 <configuration>
-                    <mainClass>ie.ucd.apes.App</mainClass>
+                    <mainClass>ie.ucd.apes.Apes</mainClass>
                 </configuration>
             </plugin>
             <plugin>
