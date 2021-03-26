@@ -10,6 +10,7 @@ public class FileLoaderTest {
     @Test
     public void testCharacterList() {
         try {
+            System.out.println("Testing character list loading...");
             System.out.println(FileLoader.getFileNames(Constants.CHARACTER_FOLDER));
         } catch (IOException | URISyntaxException ioException) {
             Assertions.fail("Cannot load character images");
