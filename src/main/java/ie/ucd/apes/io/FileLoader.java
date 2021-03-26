@@ -2,25 +2,46 @@ package ie.ucd.apes.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 
 public class FileLoader {
-    public static List<String> getFileNames(String folderName) throws IOException {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource(folderName);
-        if (url == null) {
-            throw new IOException();
+    public static List<String> getFileNames(String path)
+            throws URISyntaxException, IOException {
+        URL dirURL = FileLoader.class.getClassLoader().getResource(path);
+        // for development build / IDEs
+        if (dirURL != null && dirURL.getProtocol().equals("file")) {
+            String[] array = new File(dirURL.toURI()).list();
+            assert array != null;
+            return Arrays.stream(array).collect(Collectors.toList());
         }
-        String path = url.getPath();
-        File[] files = new File(path).listFiles();
-        List<String> fileNames = new ArrayList<>();
-        if (files != null) {
-            for (File file : files) {
-                fileNames.add(file.getName());
+        assert dirURL != null;
+        List<String> result = new ArrayList<>();
+        // for packaged jar
+        if (dirURL.getProtocol().equals("jar")) {
+            String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!"));
+            JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8));
+            Enumeration<JarEntry> entries = jar.entries();
+            while (entries.hasMoreElements()) {
+                String name = entries.nextElement().getName();
+                if (name.startsWith(path)) {
+                    String entry = name.substring(path.length() + 1);
+                    if (!entry.isEmpty()) {
+                        result.add(entry);
+
+                    }
+                }
             }
         }
-        return fileNames;
+        return result;
     }
 }

@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class OptionsPane extends VBox {
         try {
             leftButton.getItems().add(loadCharactersMenuItem(CharacterEnum.IS_LEFT));
             rightButton.getItems().add(loadCharactersMenuItem(CharacterEnum.IS_RIGHT));
-        } catch (IOException ioException) {
+        } catch (IOException | URISyntaxException ioException) {
             System.out.println("Cannot load characters.");
         }
     }
@@ -81,7 +82,7 @@ public class OptionsPane extends VBox {
         genderButton.setOnMouseClicked((e) -> stagePane.changeSelectedCharacterImageGender());
     }
 
-    private CustomMenuItem loadCharactersMenuItem(CharacterEnum characterEnum) throws IOException {
+    private CustomMenuItem loadCharactersMenuItem(CharacterEnum characterEnum) throws IOException, URISyntaxException {
         List<String> files = FileLoader.getFileNames(Constants.CHARACTER_FOLDER);
         Collections.sort(files);
         files.add(0, Constants.BLANK_IMAGE);
