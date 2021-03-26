@@ -118,6 +118,16 @@ public class StagePane extends VBox {
         }
     }
 
+    public void changeSelectedCharacterImageSkinColor(Color newSkinColor) {
+        if (characterLeftView.isFocused()) {
+            stageController.changeSkinColor(CharacterEnum.IS_LEFT, newSkinColor);
+            colorChange.changeColor(characterLeftView, Constants.DEFAULT_SKIN_COLOR, newSkinColor, false);
+        } else if (characterRightView.isFocused()) {
+            stageController.changeSkinColor(CharacterEnum.IS_RIGHT, newSkinColor);
+            colorChange.changeColor(characterRightView, Constants.DEFAULT_SKIN_COLOR, newSkinColor, false);
+        }
+    }
+
     private ImageView getImageView(CharacterEnum characterEnum) {
         return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeftView : characterRightView;
     }

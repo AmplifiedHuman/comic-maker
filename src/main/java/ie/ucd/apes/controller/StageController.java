@@ -4,6 +4,7 @@ import ie.ucd.apes.entity.Character;
 import ie.ucd.apes.entity.CharacterEnum;
 import ie.ucd.apes.entity.Constants;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class StageController {
     private final Character characterLeft;
@@ -51,5 +52,9 @@ public class StageController {
 
     private Character getCharacter(CharacterEnum characterEnum) {
         return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeft : characterRight;
+    }
+
+    public void changeSkinColor(CharacterEnum characterEnum, Color newSkinColor) {
+        getCharacter(characterEnum).setSkinColor(newSkinColor);
     }
 }
