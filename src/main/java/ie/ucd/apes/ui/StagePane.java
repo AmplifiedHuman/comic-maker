@@ -113,18 +113,24 @@ public class StagePane extends VBox {
             colorChange.changeColor(imageView, Constants.RIBBON_COLOR, Constants.REPLACEMENT_RIBBON_COLOR, true);
         } else {
             colorChange.changeColor(imageView, Constants.REPLACEMENT_WIG_COLOR, Constants.DEFAULT_WIG_COLOR, false);
-            colorChange.changeColor(imageView, Constants.REPLACEMENT_LIPS_COLOR, Constants.LIPS_COLOR, false);
+            colorChange.changeColor(imageView, Constants.REPLACEMENT_LIPS_COLOR, Constants.RED_COLOR_LIPS, false);
             colorChange.changeColor(imageView, Constants.REPLACEMENT_RIBBON_COLOR, Constants.RIBBON_COLOR, false);
         }
     }
 
     public void changeSelectedCharacterImageSkinColor(Color newSkinColor) {
-        if (characterLeftView.isFocused()) {
+        if (characterLeftView.isFocused()){
             stageController.changeSkinColor(CharacterEnum.IS_LEFT, newSkinColor);
             colorChange.changeColor(characterLeftView, Constants.DEFAULT_SKIN_COLOR, newSkinColor, false);
+            if(stageController.isMale(CharacterEnum.IS_LEFT)){
+            colorChange.changeColor(characterLeftView, Constants.LIPS_COLOR, newSkinColor, false);  
+            }
         } else if (characterRightView.isFocused()) {
             stageController.changeSkinColor(CharacterEnum.IS_RIGHT, newSkinColor);
             colorChange.changeColor(characterRightView, Constants.DEFAULT_SKIN_COLOR, newSkinColor, false);
+            if(stageController.isMale(CharacterEnum.IS_RIGHT)){
+            colorChange.changeColor(characterRightView, Constants.REPLACEMENT_LIPS_COLOR, newSkinColor, false); 
+            }
         }
     }
 
