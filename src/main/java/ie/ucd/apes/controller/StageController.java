@@ -43,7 +43,9 @@ public class StageController {
         getCharacter(characterEnum).changeGender();
     }
 
-    public boolean isMale(CharacterEnum characterEnum) { return getCharacter(characterEnum).isMale(); }
+    public boolean isMale(CharacterEnum characterEnum) {
+        return getCharacter(characterEnum).isMale();
+    }
 
     public void resetState(CharacterEnum characterEnum) {
         Character character = getCharacter(characterEnum);

@@ -4,13 +4,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class FileLoaderTest {
     @Test
     public void testCharacterList() {
         try {
-            Assertions.assertFalse(FileLoader.getFileNames(Constants.CHARACTER_FOLDER).isEmpty());
-        } catch (IOException ioException) {
+            System.out.println("Testing character list loading...");
+            System.out.println(FileLoader.getFileNames(Constants.CHARACTER_FOLDER));
+        } catch (IOException | URISyntaxException ioException) {
             Assertions.fail("Cannot load character images");
         }
     }
