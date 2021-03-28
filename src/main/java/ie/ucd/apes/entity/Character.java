@@ -1,19 +1,22 @@
 package ie.ucd.apes.entity;
 
 import javafx.scene.paint.Color;
-import static ie.ucd.apes.entity.Constants.DEFAULT_SKIN_COLOR;
+
+import static ie.ucd.apes.entity.Constants.*;
 
 public class Character {
     private String imageFileName;
     private boolean isFlipped;
     private boolean isMale;
     private Color skinColor;
+    private Color hairColor;
 
     public Character(String imageFileName, boolean isFlipped, boolean isMale) {
         this.imageFileName = imageFileName;
         this.isFlipped = isFlipped;
         this.isMale = isMale;
         skinColor = DEFAULT_SKIN_COLOR;
+        hairColor = DEFAULT_HAIR_COLOR;
     }
 
     public String getImageFileName() {
@@ -52,5 +55,13 @@ public class Character {
 
     public void setSkinColor(Color skinColor) {
         this.skinColor = skinColor;
+    }
+
+    public Color getHairColor() {
+        return hairColor;
+    }
+
+    public void setHairColor(Color hairColor) {
+        this.hairColor = hairColor;
     }
 }

@@ -67,6 +67,8 @@ public class OptionsPane extends VBox {
         leftButton.setTooltip(new Tooltip("Edit Left Side"));
         rightButton = new MenuButton("", new ImageView("/buttons/right_button.png"));
         rightButton.setTooltip(new Tooltip("Edit Right Side"));
+        leftButton.setFocusTraversable(false);
+        rightButton.setFocusTraversable(false);
         try {
             leftButton.getItems().add(loadCharactersMenuItem(CharacterEnum.IS_LEFT));
             rightButton.getItems().add(loadCharactersMenuItem(CharacterEnum.IS_RIGHT));
@@ -79,7 +81,7 @@ public class OptionsPane extends VBox {
         genderButton = new Button("", new ImageView("/buttons/gender_button.png"));
         genderButton.setTooltip(new Tooltip("Gender Change"));
         genderButton.setFocusTraversable(false);
-        genderButton.setOnMouseClicked((e) -> stagePane.changeSelectedCharacterImageGender());
+        genderButton.setOnMouseClicked((e) -> stagePane.changeGender());
     }
 
     private CustomMenuItem loadCharactersMenuItem(CharacterEnum characterEnum) throws IOException, URISyntaxException {
@@ -111,9 +113,9 @@ public class OptionsPane extends VBox {
                 }
             }
         });
+        // update character listener
         listView.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldValue, newValue) -> stagePane.updateCharacterImage(newValue, characterEnum));
-
         return new CustomMenuItem(listView, true);
     }
 }

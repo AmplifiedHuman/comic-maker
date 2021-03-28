@@ -3,7 +3,8 @@ package ie.ucd.apes.ui;
 import ie.ucd.apes.controller.StageController;
 import ie.ucd.apes.entity.CharacterEnum;
 import ie.ucd.apes.entity.Constants;
-import ie.ucd.apes.utils.ColorChange;
+import ie.ucd.apes.entity.PruneLevel;
+import ie.ucd.apes.utils.ColorUtils;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
@@ -14,12 +15,13 @@ import javafx.scene.paint.Color;
 
 public class StagePane extends VBox {
     private final StageController stageController;
-    private final ColorChange colorChange = new ColorChange();
     private ImageView characterLeftView;
     private ImageView characterRightView;
+    private ColorPane colorPane;
 
     public StagePane(StageController stageController) {
         this.stageController = stageController;
+        this.colorPane = null;
         initView();
     }
 
@@ -64,31 +66,56 @@ public class StagePane extends VBox {
         characterLeftView.setFocusTraversable(true);
         characterRightView.setFocusTraversable(true);
 
-        characterLeftView.setOnMouseClicked((e) -> characterLeftView.requestFocus());
-        characterRightView.setOnMouseClicked((e) -> characterRightView.requestFocus());
+        characterLeftView.setOnMouseClicked((e) -> {
+            characterLeftView.requestFocus();
+            colorPane.setSkinColorSelector(stageController.getSkinColor(CharacterEnum.IS_LEFT));
+            colorPane.setHairColorSelector(stageController.getHairColor(CharacterEnum.IS_LEFT));
+        });
+        characterRightView.setOnMouseClicked((e) -> {
+            characterRightView.requestFocus();
+            colorPane.setSkinColorSelector(stageController.getSkinColor(CharacterEnum.IS_RIGHT));
+            colorPane.setHairColorSelector(stageController.getHairColor(CharacterEnum.IS_RIGHT));
+        });
+    }
+
+    // handle all rendering except orientation
+    public void renderCharacterImage(CharacterEnum characterEnum) {
+        if (characterEnum == null) {
+            return;
+        }
+        ImageView imageView = getImageView(characterEnum);
+        imageView.setImage(stageController.renderCharacterImage(characterEnum));
+        if (imageView.getImage() != null) {
+            // render by layers
+            renderGender(imageView, characterEnum);
+            renderSkinColor(imageView, characterEnum);
+            renderHairColor(imageView, characterEnum);
+        }
     }
 
     public void updateCharacterImage(String newImageName, CharacterEnum characterEnum) {
-        stageController.setCharacterImageFileName(newImageName, characterEnum);
-        ImageView imageView = getImageView(characterEnum);
-        imageView.setImage(stageController.renderCharacterImage(characterEnum));
         stageController.resetState(characterEnum);
+        stageController.setCharacterImageFileName(newImageName, characterEnum);
+        renderCharacterImage(characterEnum);
+        ImageView imageView = getImageView(characterEnum);
+        colorPane.setSkinColorSelector(stageController.getSkinColor(characterEnum));
+        imageView.requestFocus();
         if (stageController.isFlipped(characterEnum)) {
             imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         }
     }
 
     public void flipSelectedCharacterImage() {
-        if (characterLeftView.isFocused()) {
-            stageController.flipCharacterOrientation(CharacterEnum.IS_LEFT);
-            flipOrientation(characterLeftView);
-        } else if (characterRightView.isFocused()) {
-            stageController.flipCharacterOrientation(CharacterEnum.IS_RIGHT);
-            flipOrientation(characterRightView);
-        }
+        CharacterEnum characterEnum = getFocusedCharacterEnum();
+        stageController.flipCharacterOrientation(characterEnum);
+        flipImageViewOrientation(getImageView(characterEnum));
     }
 
-    private void flipOrientation(ImageView imageView) {
+    public void setColorPane(ColorPane colorPane) {
+        this.colorPane = colorPane;
+    }
+
+    private void flipImageViewOrientation(ImageView imageView) {
         if (imageView.getNodeOrientation().equals(NodeOrientation.LEFT_TO_RIGHT)) {
             imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         } else {
@@ -96,42 +123,61 @@ public class StagePane extends VBox {
         }
     }
 
-    public void changeSelectedCharacterImageGender() {
+    public void changeGender() {
+        CharacterEnum characterEnum = getFocusedCharacterEnum();
+        if (characterEnum != null) {
+            stageController.changeGender(characterEnum);
+            renderCharacterImage(characterEnum);
+        }
+    }
+
+    private void renderGender(ImageView imageView, CharacterEnum characterEnum) {
+        if (stageController.isMale(characterEnum)) {
+            ColorUtils.changeColor(imageView, Constants.DEFAULT_WIG_COLOR, Constants.REPLACEMENT_WIG_COLOR, PruneLevel.LOW);
+            ColorUtils.changeColor(imageView, Constants.RIBBON_COLOR, Constants.REPLACEMENT_RIBBON_COLOR, PruneLevel.LOW);
+        }
+    }
+
+    public void changeSkinColor(Color newSkinColor) {
+        CharacterEnum characterEnum = getFocusedCharacterEnum();
+        if (characterEnum != null) {
+            stageController.setSkinColor(characterEnum, newSkinColor);
+            renderCharacterImage(characterEnum);
+        }
+    }
+
+    private void renderSkinColor(ImageView imageView, CharacterEnum characterEnum) {
+        Color characterSkinColor = stageController.getSkinColor(characterEnum);
+        ColorUtils.changeColor(imageView, Constants.DEFAULT_SKIN_COLOR, characterSkinColor, PruneLevel.NONE);
+        if (stageController.isMale(characterEnum)) {
+            ColorUtils.changeColor(imageView, Constants.LIPS_COLOR, characterSkinColor, PruneLevel.MEDIUM);
+        }
+    }
+
+    public void changeHairColor(Color newHairColor) {
+        CharacterEnum characterEnum = getFocusedCharacterEnum();
+        if (characterEnum != null) {
+            stageController.setHairColor(characterEnum, newHairColor);
+            renderCharacterImage(characterEnum);
+        }
+    }
+
+    private void renderHairColor(ImageView imageView, CharacterEnum characterEnum) {
+        Color characterHairColor = stageController.getHairColor(characterEnum);
+        ColorUtils.changeColor(imageView, Constants.DEFAULT_HAIR_COLOR, characterHairColor, PruneLevel.LOW);
+        if (!stageController.isMale(characterEnum)) {
+            ColorUtils.changeColor(imageView, Constants.DEFAULT_WIG_COLOR, characterHairColor, PruneLevel.LOW);
+        }
+    }
+
+    private CharacterEnum getFocusedCharacterEnum() {
+        CharacterEnum characterEnum = null;
         if (characterLeftView.isFocused()) {
-            stageController.changeGender(CharacterEnum.IS_LEFT);
-            switchGenderView(characterLeftView, stageController.isMale(CharacterEnum.IS_LEFT));
+            characterEnum = CharacterEnum.IS_LEFT;
         } else if (characterRightView.isFocused()) {
-            stageController.changeGender(CharacterEnum.IS_RIGHT);
-            switchGenderView(characterRightView, stageController.isMale(CharacterEnum.IS_RIGHT));
+            characterEnum = CharacterEnum.IS_RIGHT;
         }
-    }
-
-    private void switchGenderView(ImageView imageView, boolean isMale) {
-        if (isMale) {
-            colorChange.changeColor(imageView, Constants.DEFAULT_WIG_COLOR, Constants.REPLACEMENT_WIG_COLOR, true);
-            colorChange.changeColor(imageView, Constants.LIPS_COLOR, Constants.REPLACEMENT_LIPS_COLOR, true);
-            colorChange.changeColor(imageView, Constants.RIBBON_COLOR, Constants.REPLACEMENT_RIBBON_COLOR, true);
-        } else {
-            colorChange.changeColor(imageView, Constants.REPLACEMENT_WIG_COLOR, Constants.DEFAULT_WIG_COLOR, false);
-            colorChange.changeColor(imageView, Constants.REPLACEMENT_LIPS_COLOR, Constants.RED_COLOR_LIPS, false);
-            colorChange.changeColor(imageView, Constants.REPLACEMENT_RIBBON_COLOR, Constants.RIBBON_COLOR, false);
-        }
-    }
-
-    public void changeSelectedCharacterImageSkinColor(Color newSkinColor) {
-        if (characterLeftView.isFocused()){
-            stageController.changeSkinColor(CharacterEnum.IS_LEFT, newSkinColor);
-            colorChange.changeColor(characterLeftView, Constants.DEFAULT_SKIN_COLOR, newSkinColor, false);
-            if(stageController.isMale(CharacterEnum.IS_LEFT)){
-            colorChange.changeColor(characterLeftView, Constants.LIPS_COLOR, newSkinColor, false);  
-            }
-        } else if (characterRightView.isFocused()) {
-            stageController.changeSkinColor(CharacterEnum.IS_RIGHT, newSkinColor);
-            colorChange.changeColor(characterRightView, Constants.DEFAULT_SKIN_COLOR, newSkinColor, false);
-            if(stageController.isMale(CharacterEnum.IS_RIGHT)){
-            colorChange.changeColor(characterRightView, Constants.REPLACEMENT_LIPS_COLOR, newSkinColor, false); 
-            }
-        }
+        return characterEnum;
     }
 
     private ImageView getImageView(CharacterEnum characterEnum) {

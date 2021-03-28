@@ -20,7 +20,7 @@ public class StageController {
     }
 
     public Image renderCharacterImage(String imageFileName) {
-        if (imageFileName.equals(Constants.BLANK_IMAGE)) {
+        if (imageFileName == null || imageFileName.equals(Constants.BLANK_IMAGE)) {
             return null;
         }
         String imagePath = String.format("/%s/%s", Constants.CHARACTER_FOLDER, imageFileName);
@@ -49,14 +49,29 @@ public class StageController {
 
     public void resetState(CharacterEnum characterEnum) {
         Character character = getCharacter(characterEnum);
+        character.setImageFileName(null);
         character.setMale(false);
+        character.setSkinColor(Constants.DEFAULT_SKIN_COLOR);
+        character.setHairColor(Constants.DEFAULT_HAIR_COLOR);
     }
 
     private Character getCharacter(CharacterEnum characterEnum) {
         return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeft : characterRight;
     }
 
-    public void changeSkinColor(CharacterEnum characterEnum, Color newSkinColor) {
+    public Color getSkinColor(CharacterEnum characterEnum) {
+        return getCharacter(characterEnum).getSkinColor();
+    }
+
+    public void setSkinColor(CharacterEnum characterEnum, Color newSkinColor) {
         getCharacter(characterEnum).setSkinColor(newSkinColor);
+    }
+
+    public Color getHairColor(CharacterEnum characterEnum) {
+        return getCharacter(characterEnum).getHairColor();
+    }
+
+    public void setHairColor(CharacterEnum characterEnum, Color newHairColor) {
+        getCharacter(characterEnum).setHairColor(newHairColor);
     }
 }

@@ -37,7 +37,6 @@ public class FileLoader {
                     String entry = name.substring(path.length() + 1);
                     if (!entry.isEmpty()) {
                         result.add(entry);
-
                     }
                 }
             }

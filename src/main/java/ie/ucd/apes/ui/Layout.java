@@ -22,9 +22,12 @@ public class Layout extends VBox {
         StageController stageController = new StageController(characterLeft, characterRight);
 
         StagePane stagePane = new StagePane(stageController);
+        ColorPane colorPane = new ColorPane(stagePane);
+        OptionsPane optionsPane = new OptionsPane(stagePane);
+        stagePane.setColorPane(colorPane);
         hbox.getChildren().add(stagePane);
-        vbox.getChildren().add(new ColorPane(stagePane));
-        vbox.getChildren().add(new OptionsPane(stagePane));
+        vbox.getChildren().add(colorPane);
+        vbox.getChildren().add(optionsPane);
         HBox.setMargin(vbox, new Insets(0, 30, 0, 0));
         hbox.getChildren().add(vbox);
         this.getChildren().add(hbox);
