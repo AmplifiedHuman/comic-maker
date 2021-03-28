@@ -78,8 +78,8 @@ public class ColorUtils {
                 for (int[] direction : directions) {
                     int offsetX = readX + direction[0] * k;
                     int offsetY = readY + direction[1] * k;
-                    Color offsetColor = pixelReader.getColor(offsetX, offsetY);
                     if (isValidPixel(offsetX, offsetY, maxW, maxH) && !visited[offsetX][offsetY]) {
+                        Color offsetColor = pixelReader.getColor(offsetX, offsetY);
                         if (enablePruning && currentColor.equals(c1) && areColoursSimilar(offsetColor, currentColor)) {
                             visited[offsetX][offsetY] = true;
                             pixelWriter.setColor(offsetX, offsetY, c2);
@@ -99,6 +99,6 @@ public class ColorUtils {
     private static boolean areColoursSimilar(Color c1, Color c2) {
         double euclideanDistance = Math.sqrt(Math.pow(c1.getRed() - c2.getRed(), 2) +
                 Math.pow(c1.getBlue() - c2.getBlue(), 2) + Math.pow(c1.getGreen() - c2.getGreen(), 2));
-        return euclideanDistance <= 0.85;
+        return euclideanDistance <= 0.80;
     }
 }

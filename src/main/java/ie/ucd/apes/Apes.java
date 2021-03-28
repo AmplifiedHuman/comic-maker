@@ -3,6 +3,7 @@ package ie.ucd.apes;
 import ie.ucd.apes.ui.Layout;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ public class Apes {
             stage.setMinHeight(800);
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             stage.setScene(scene);
+            stage.getIcons().add(new Image("/buttons/logo.png"));
             if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE)) {
                 ImageIcon icon = new ImageIcon(getClass().getResource("/buttons/logo.png"));
                 Taskbar.getTaskbar().setIconImage(icon.getImage());

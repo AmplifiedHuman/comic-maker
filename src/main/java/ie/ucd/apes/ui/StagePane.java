@@ -15,8 +15,8 @@ import javafx.scene.paint.Color;
 
 public class StagePane extends VBox {
     private final StageController stageController;
-    private ImageView characterLeftView;
-    private ImageView characterRightView;
+    private CharacterImage characterLeftView;
+    private CharacterImage characterRightView;
     private ColorPane colorPane;
 
     public StagePane(StageController stageController) {
@@ -30,7 +30,7 @@ public class StagePane extends VBox {
         DialogueBox labelL, labelR;
         this.getChildren().add(new NarrativeBar("Some sample text for the narrative bar."));
         tiles.setMaxWidth(600);
-        tiles.setHgap(20);
+        tiles.setHgap(15);
 
         // init labels
         labelL = new DialogueBox("Dialogue text of character on the left");
@@ -100,7 +100,7 @@ public class StagePane extends VBox {
         ImageView imageView = getImageView(characterEnum);
         colorPane.setSkinColorSelector(stageController.getSkinColor(characterEnum));
         colorPane.setHairColorSelector(stageController.getHairColor(characterEnum));
-        imageView.requestFocus();
+        getCharacterImage(characterEnum).requestFocus();
         if (stageController.isFlipped(characterEnum)) {
             imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         }
@@ -108,8 +108,10 @@ public class StagePane extends VBox {
 
     public void flipSelectedCharacterImage() {
         CharacterEnum characterEnum = getFocusedCharacterEnum();
-        stageController.flipCharacterOrientation(characterEnum);
-        flipImageViewOrientation(getImageView(characterEnum));
+        if (characterEnum != null) {
+            stageController.flipCharacterOrientation(characterEnum);
+            flipImageViewOrientation(getImageView(characterEnum));
+        }
     }
 
     public void setColorPane(ColorPane colorPane) {
@@ -181,7 +183,13 @@ public class StagePane extends VBox {
         return characterEnum;
     }
 
+    private CharacterImage getCharacterImage(CharacterEnum characterEnum) {
+        return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeftView :
+                characterRightView;
+    }
+
     private ImageView getImageView(CharacterEnum characterEnum) {
-        return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeftView : characterRightView;
+        return characterEnum.equals(CharacterEnum.IS_LEFT) ? characterLeftView.getImageView() :
+                characterRightView.getImageView();
     }
 }
