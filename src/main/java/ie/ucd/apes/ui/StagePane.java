@@ -99,6 +99,7 @@ public class StagePane extends VBox {
         renderCharacterImage(characterEnum);
         ImageView imageView = getImageView(characterEnum);
         colorPane.setSkinColorSelector(stageController.getSkinColor(characterEnum));
+        colorPane.setHairColorSelector(stageController.getHairColor(characterEnum));
         imageView.requestFocus();
         if (stageController.isFlipped(characterEnum)) {
             imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
