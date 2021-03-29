@@ -3,14 +3,14 @@
 ## Quick start
 
 ### Requirements
+
 - Java 13+ (13, 14, 15)
 
 JavaFX is bundle in the JAR, so it does not need to be linked.
+
 ```bash
 java -jar apes.jar
 ```
-
-> The JavaFX library is not included in the JAR so please link it using `--module-path`.
 
 ## Sprints
 
