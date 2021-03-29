@@ -1,5 +1,5 @@
 package ie.ucd.apes.entity;
 
-public enum CharacterEnum {
+public enum Selection {
     IS_LEFT, IS_RIGHT
 }

@@ -1,7 +1,7 @@
 package ie.ucd.apes.ui;
 
-import ie.ucd.apes.entity.CharacterEnum;
 import ie.ucd.apes.entity.Constants;
+import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.io.FileLoader;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
@@ -16,20 +16,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class OptionsPane extends VBox {
+    private final StagePane stagePane;
     private MenuButton leftButton;
     private MenuButton rightButton;
     private Button flipButton;
-    private final StagePane stagePane;
     private Button genderButton;
+    private Button speechButton;
 
     public OptionsPane(StagePane stagePane) {
         this.stagePane = stagePane;
         initLeftAndRightButton();
         initFlipButton();
         initGenderButton();
+        initSpeechButton();
 
-        ToggleButton bubbleButton1 = new ToggleButton("", new ImageView("/buttons/bubble1_button.png"));
-        bubbleButton1.setTooltip(new Tooltip("Add Speech Bubble"));
         ToggleButton bubbleButton2 = new ToggleButton("", new ImageView("/buttons/bubble2_button.png"));
         bubbleButton2.setTooltip(new Tooltip("Add Thought Bubble"));
 
@@ -44,7 +44,7 @@ public class OptionsPane extends VBox {
         optionsPane.add(rightButton, 1, 0, 1, 1);
         optionsPane.add(flipButton, 0, 1, 1, 1);
         optionsPane.add(genderButton, 1, 1, 1, 1);
-        optionsPane.add(bubbleButton1, 0, 2, 1, 1);
+        optionsPane.add(speechButton, 0, 2, 1, 1);
         optionsPane.add(textButton1, 1, 2, 1, 1);
         optionsPane.add(bubbleButton2, 0, 3, 1, 1);
         optionsPane.add(textButton2, 1, 3, 1, 1);
@@ -53,6 +53,13 @@ public class OptionsPane extends VBox {
         optionsPane.setVgap(5);
 
         this.getChildren().add(optionsPane);
+    }
+
+    private void initSpeechButton() {
+        speechButton = new Button("", new ImageView("/buttons/bubble1_button.png"));
+        speechButton.setTooltip(new Tooltip("Add Speech Bubble"));
+        speechButton.setFocusTraversable(false);
+        speechButton.setOnMouseClicked((e) -> stagePane.toggleFocusedDialogue());
     }
 
     private void initFlipButton() {
@@ -70,8 +77,8 @@ public class OptionsPane extends VBox {
         leftButton.setFocusTraversable(false);
         rightButton.setFocusTraversable(false);
         try {
-            leftButton.getItems().add(loadCharactersMenuItem(CharacterEnum.IS_LEFT));
-            rightButton.getItems().add(loadCharactersMenuItem(CharacterEnum.IS_RIGHT));
+            leftButton.getItems().add(loadCharactersMenuItem(Selection.IS_LEFT));
+            rightButton.getItems().add(loadCharactersMenuItem(Selection.IS_RIGHT));
         } catch (IOException | URISyntaxException ioException) {
             System.out.println("Cannot load characters.");
         }
@@ -84,7 +91,7 @@ public class OptionsPane extends VBox {
         genderButton.setOnMouseClicked((e) -> stagePane.changeGender());
     }
 
-    private CustomMenuItem loadCharactersMenuItem(CharacterEnum characterEnum) throws IOException, URISyntaxException {
+    private CustomMenuItem loadCharactersMenuItem(Selection selection) throws IOException, URISyntaxException {
         List<String> files = FileLoader.getFileNames(Constants.CHARACTER_FOLDER);
         Collections.sort(files);
         files.add(0, Constants.BLANK_IMAGE);
@@ -115,7 +122,7 @@ public class OptionsPane extends VBox {
         });
         // update character listener
         listView.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldValue, newValue) -> stagePane.updateCharacterImage(newValue, characterEnum));
+                (observableValue, oldValue, newValue) -> stagePane.updateCharacterImage(newValue, selection));
         return new CustomMenuItem(listView, true);
     }
 }
