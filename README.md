@@ -3,16 +3,11 @@
 ## Quick start
 
 ### Requirements
-
 - Java 13+ (13, 14, 15)
-- JavaFX 15+ (15, 16)
 
-For each sprint, JAR releases are stored in the `/releases` folder and the respective JAR is labelled
-as `apes-sprint_number.jar`, where sprint_number is the current sprint number. For example, in sprint 2 the packaged jar
-will be labelled as `apes-2.jar`.
-
+JavaFX is bundle in the JAR, so it does not need to be linked.
 ```bash
-java --module-path JAVAFX16_LIB_PATH --add-modules javafx.controls -jar ./releases/apes-2.jar
+java -jar apes.jar
 ```
 
 > The JavaFX library is not included in the JAR so please link it using `--module-path`.
