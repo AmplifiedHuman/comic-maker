@@ -2,6 +2,7 @@ package ie.ucd.apes.entity;
 
 import ie.ucd.apes.utils.ColorUtils;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 
 public class Constants {
     public static final String CHARACTER_FOLDER = "characters";

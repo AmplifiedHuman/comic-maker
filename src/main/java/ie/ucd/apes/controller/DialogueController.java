@@ -1,6 +1,7 @@
 package ie.ucd.apes.controller;
 
 import ie.ucd.apes.entity.Dialogue;
+import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
 
 public class DialogueController {
@@ -27,6 +28,14 @@ public class DialogueController {
 
     public String getDialogueText(Selection selection) {
         return getDialogue(selection).getText();
+    }
+
+    public DialogueType getDialogueType(Selection selection) {
+        return getDialogue(selection).getDiagolueType();
+    }
+
+    public void setDialogueType(Selection selection, DialogueType dialogueType) {
+        getDialogue(selection).setDiagolueType(dialogueType);
     }
 
     private Dialogue getDialogue(Selection selection) {

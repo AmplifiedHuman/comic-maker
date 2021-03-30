@@ -3,6 +3,7 @@ package ie.ucd.apes.ui;
 import ie.ucd.apes.controller.CharacterController;
 import ie.ucd.apes.controller.DialogueController;
 import ie.ucd.apes.entity.Constants;
+import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.PruneLevel;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.utils.ColorUtils;
@@ -43,7 +44,7 @@ public class StagePane extends VBox {
         tiles.add(leftDialogueBox, 0, 0);
         tiles.add(rightDialogueBox, 1, 0);
         GridPane.setValignment(leftDialogueBox, VPos.BOTTOM);
-        GridPane.setValignment(leftDialogueBox, VPos.BOTTOM);
+        GridPane.setValignment(rightDialogueBox, VPos.BOTTOM);
         GridPane.setHalignment(leftDialogueBox, HPos.CENTER);
         GridPane.setHalignment(rightDialogueBox, HPos.CENTER);
 
@@ -67,12 +68,23 @@ public class StagePane extends VBox {
         rightDialogueBox.setOnMouseClicked((e) -> showSpeechPopup(Selection.IS_RIGHT));
     }
 
-    public void toggleFocusedDialogue() {
+    public void toggleFocusedDialogue(DialogueType dialogueType) {
         Selection selection = getFocusedDialogueSelection();
         if (selection != null) {
-            dialogueController.toggleDialogue(selection);
             DialogueBox dialogueBox = getDialogueBox(selection);
+            if (dialogueType.equals(dialogueController.getDialogueType(selection))) {
+                dialogueController.toggleDialogue(selection);
+            } else {
+                // different dialogue type than current type, only toggle if it's not visible
+                if (!dialogueController.isVisible(selection)) {
+                    dialogueController.toggleDialogue(selection);
+                }
+                // change type
+                dialogueController.setDialogueType(selection, dialogueType);
+            }
+            dialogueBox.setDialogueStyle(dialogueType);
             dialogueBox.setVisible(dialogueController.isVisible(selection));
+            dialogueBox.setManaged(dialogueController.isVisible(selection));
         }
     }
 

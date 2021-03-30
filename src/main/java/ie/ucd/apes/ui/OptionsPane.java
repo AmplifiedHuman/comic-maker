@@ -1,6 +1,7 @@
 package ie.ucd.apes.ui;
 
 import ie.ucd.apes.entity.Constants;
+import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.io.FileLoader;
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ public class OptionsPane extends VBox {
     private Button flipButton;
     private Button genderButton;
     private Button speechButton;
+    private Button thoughtButton;
 
     public OptionsPane(StagePane stagePane) {
         this.stagePane = stagePane;
@@ -29,9 +31,7 @@ public class OptionsPane extends VBox {
         initFlipButton();
         initGenderButton();
         initSpeechButton();
-
-        ToggleButton bubbleButton2 = new ToggleButton("", new ImageView("/buttons/bubble2_button.png"));
-        bubbleButton2.setTooltip(new Tooltip("Add Thought Bubble"));
+        initThoughtButton();
 
         Button textButton1 = new Button("", new ImageView("/buttons/text1_button.png"));
         textButton1.setTooltip(new Tooltip("Add Text Above"));
@@ -46,7 +46,7 @@ public class OptionsPane extends VBox {
         optionsPane.add(genderButton, 1, 1, 1, 1);
         optionsPane.add(speechButton, 0, 2, 1, 1);
         optionsPane.add(textButton1, 1, 2, 1, 1);
-        optionsPane.add(bubbleButton2, 0, 3, 1, 1);
+        optionsPane.add(thoughtButton, 0, 3, 1, 1);
         optionsPane.add(textButton2, 1, 3, 1, 1);
 
         optionsPane.setHgap(5);
@@ -55,11 +55,18 @@ public class OptionsPane extends VBox {
         this.getChildren().add(optionsPane);
     }
 
+    private void initThoughtButton() {
+        thoughtButton = new Button("", new ImageView("/buttons/bubble2_button.png"));
+        thoughtButton.setTooltip(new Tooltip("Add Thought Bubble"));
+        thoughtButton.setFocusTraversable(false);
+        thoughtButton.setOnMouseClicked((e) -> stagePane.toggleFocusedDialogue(DialogueType.THOUGHT));
+    }
+
     private void initSpeechButton() {
         speechButton = new Button("", new ImageView("/buttons/bubble1_button.png"));
         speechButton.setTooltip(new Tooltip("Add Speech Bubble"));
         speechButton.setFocusTraversable(false);
-        speechButton.setOnMouseClicked((e) -> stagePane.toggleFocusedDialogue());
+        speechButton.setOnMouseClicked((e) -> stagePane.toggleFocusedDialogue(DialogueType.SPEECH));
     }
 
     private void initFlipButton() {
