@@ -82,7 +82,7 @@ public class StagePane extends VBox {
                 // change type
                 dialogueController.setDialogueType(selection, dialogueType);
             }
-            dialogueBox.setDialogueStyle(dialogueType);
+            dialogueBox.setDialogueStyle(selection, dialogueType);
             dialogueBox.setVisible(dialogueController.isVisible(selection));
             dialogueBox.setManaged(dialogueController.isVisible(selection));
         }
