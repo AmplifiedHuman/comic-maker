@@ -5,12 +5,15 @@ import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.io.FileLoader;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -35,8 +38,10 @@ public class OptionsPane extends VBox {
 
         Button textButton1 = new Button("", new ImageView("/buttons/text1_button.png"));
         textButton1.setTooltip(new Tooltip("Add Text Above"));
+        textButton1.setMinWidth(80);
         Button textButton2 = new Button("", new ImageView("/buttons/text2_button.png"));
         textButton2.setTooltip(new Tooltip("Add Text Below"));
+        textButton2.setMinWidth(80);
 
         GridPane optionsPane = new GridPane();
 
@@ -53,6 +58,7 @@ public class OptionsPane extends VBox {
         optionsPane.setVgap(5);
 
         this.getChildren().add(optionsPane);
+
     }
 
     private void initThoughtButton() {
@@ -60,6 +66,7 @@ public class OptionsPane extends VBox {
         thoughtButton.setTooltip(new Tooltip("Add Thought Bubble"));
         thoughtButton.setFocusTraversable(false);
         thoughtButton.setOnMouseClicked((e) -> stagePane.toggleFocusedDialogue(DialogueType.THOUGHT));
+        thoughtButton.setMinWidth(80);
     }
 
     private void initSpeechButton() {
@@ -67,6 +74,7 @@ public class OptionsPane extends VBox {
         speechButton.setTooltip(new Tooltip("Add Speech Bubble"));
         speechButton.setFocusTraversable(false);
         speechButton.setOnMouseClicked((e) -> stagePane.toggleFocusedDialogue(DialogueType.SPEECH));
+        speechButton.setMinWidth(80);
     }
 
     private void initFlipButton() {
@@ -74,6 +82,7 @@ public class OptionsPane extends VBox {
         flipButton.setTooltip(new Tooltip("Mirror Image"));
         flipButton.setFocusTraversable(false);
         flipButton.setOnMouseClicked((e) -> stagePane.flipSelectedCharacterImage());
+        flipButton.setMinWidth(80);
     }
 
     private void initLeftAndRightButton() {
@@ -89,6 +98,8 @@ public class OptionsPane extends VBox {
         } catch (IOException | URISyntaxException ioException) {
             System.out.println("Cannot load characters.");
         }
+        leftButton.setMaxWidth(80);
+        rightButton.setMaxWidth(80);
     }
 
     private void initGenderButton() {
@@ -96,6 +107,7 @@ public class OptionsPane extends VBox {
         genderButton.setTooltip(new Tooltip("Gender Change"));
         genderButton.setFocusTraversable(false);
         genderButton.setOnMouseClicked((e) -> stagePane.changeGender());
+        genderButton.setMinWidth(80);
     }
 
     private CustomMenuItem loadCharactersMenuItem(Selection selection) throws IOException, URISyntaxException {

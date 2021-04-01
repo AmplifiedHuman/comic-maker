@@ -10,7 +10,10 @@ public class ColorSelector extends VBox {
 
     public ColorSelector(Color defaultColor, String labelName) {
         colorPicker = new ColorPicker(defaultColor);
+        colorPicker.setMinWidth(170);
         Label colorPickerLabel = new Label();
+        colorPickerLabel.setTextFill(Color.WHITE);
+        colorPickerLabel.getStyleClass().add("color-label");
         colorPickerLabel.setText(labelName);
         colorPickerLabel.setLabelFor(colorPicker);
         colorPicker.getCustomColors().add(defaultColor);

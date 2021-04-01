@@ -7,9 +7,8 @@ import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.Dialogue;
 import ie.ucd.apes.entity.DialogueType;
 import javafx.geometry.Insets;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 
 public class Layout extends VBox {
@@ -34,8 +33,9 @@ public class Layout extends VBox {
         hbox.getChildren().add(stagePane);
         vbox.getChildren().add(colorPane);
         vbox.getChildren().add(optionsPane);
-        HBox.setMargin(vbox, new Insets(0, 30, 0, 0));
+        HBox.setMargin(vbox, new Insets(0, 50, 0, 0));
         hbox.getChildren().add(vbox);
+        this.setBackground(new Background(new BackgroundFill(Color.web("3C3F41"), CornerRadii.EMPTY, Insets.EMPTY)));
         this.getChildren().add(hbox);
 //        this.getChildren().add(new ScrollingPane());
     }

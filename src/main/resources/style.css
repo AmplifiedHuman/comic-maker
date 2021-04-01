@@ -22,3 +22,7 @@
     -fx-background-insets: 0, 1;
     -fx-padding: 20 60 120 60;
 }
+
+.color-label {
+    -fx-font-weight: bold;
+}
