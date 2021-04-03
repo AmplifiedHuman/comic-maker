@@ -101,8 +101,11 @@ public class StagePane extends VBox {
         result.ifPresent(text -> setNarrativeText(text, selection));
     }
 
-    private void setNarrativeText(String text,Selection selection){
+    private void setNarrativeText(String text, Selection selection){
         NarrativeBar narrativeBar = getNarrativeBar(selection);
+        if(text.isBlank()){
+            text = "CLICK HERE TO EDIT TEXT";
+        }
         narrativeBarController.setNarrativeText(selection, text);
         narrativeBar.setText(text);
     }
