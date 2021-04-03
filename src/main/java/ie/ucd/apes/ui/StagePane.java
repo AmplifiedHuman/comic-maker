@@ -2,6 +2,7 @@ package ie.ucd.apes.ui;
 
 import ie.ucd.apes.controller.CharacterController;
 import ie.ucd.apes.controller.DialogueController;
+import ie.ucd.apes.controller.NarrativeBarController;
 import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.PruneLevel;
@@ -22,23 +23,30 @@ import java.util.Optional;
 public class StagePane extends VBox {
     private final CharacterController characterController;
     private final DialogueController dialogueController;
+    private final NarrativeBarController narrativeBarController;
     private CharacterImage characterLeftView;
     private CharacterImage characterRightView;
     private DialogueBox leftDialogueBox;
     private DialogueBox rightDialogueBox;
     private ColorPane colorPane;
+    private NarrativeBar narrativeBar;
+    private NarrativeBar narrativeBarBottom;
 
-    public StagePane(CharacterController characterController, DialogueController dialogueController) {
+    public StagePane(CharacterController characterController, DialogueController dialogueController,NarrativeBarController narrativeBarController) {
         this.characterController = characterController;
         this.dialogueController = dialogueController;
+        this.narrativeBarController = narrativeBarController;
         this.colorPane = null;
         initView();
     }
-
+     
     private void initView() {
         GridPane tiles = new GridPane();
         tiles.setMaxWidth(600);
         tiles.setHgap(15);
+
+        initNarrativeBar(Selection.IS_TOP);
+        tiles.add(narrativeBar,0,0);
 
         initDialogues();
         tiles.add(leftDialogueBox, 0, 0);
@@ -58,6 +66,45 @@ public class StagePane extends VBox {
         this.getChildren().add(tiles);
         HBox.setHgrow(this, Priority.ALWAYS);
     }
+
+    
+    private void initNarrativeBar(Selection selection){
+        narrativeBar = new NarrativeBar(narrativeBarController.getNarrativeText(selection));
+        narrativeBar.setVisible(narrativeBarController.isVisible(selection));
+        narrativeBar.setOnMouseClicked((e) -> showNarrativeBarPopUp(selection));
+    }
+
+    //have to look at what this class is for and if it is necessary
+    public void toggleNarrativeBar(Selection selection){
+        narrativeBar.setNarrativeStyle();
+        narrativeBar.setVisible(narrativeBarController.isVisible(selection));
+        narrativeBar.setManaged(narrativeBarController.isVisible(selection));
+    }
+
+    
+    private void showNarrativeBarPopUp(Selection selection) {
+        TextInputDialog popup = new TextInputDialog(narrativeBarController.getNarrativeText(selection));
+        popup.setTitle("Narrative Bar");
+        if(selection.equals(Selection.IS_TOP)){
+            popup.setHeaderText("Enter text for the top bar");
+        }else{
+            popup.setHeaderText("Please enter text for the bottom bar");
+        }
+        Optional<String> result = popup.showAndWait();
+        result.ifPresent(text -> setNarrativeText(text, selection));
+    }
+
+    private void setNarrativeText(String text,Selection selection){
+        NarrativeBar narrativeBar = getNarrativeBar(selection);
+        narrativeBarController.setNarrativeText(selection, text);
+        narrativeBar.setText(text);
+    }
+    //currently narrativeBarBottom is just a placeholder
+    private NarrativeBar getNarrativeBar(Selection selection){
+        return selection.equals(Selection.IS_TOP) ? narrativeBar : narrativeBarBottom;
+    }
+
+
 
     private void initDialogues() {
         leftDialogueBox = new DialogueBox(dialogueController.getDialogueText(Selection.IS_LEFT));
@@ -120,6 +167,8 @@ public class StagePane extends VBox {
         return selection.equals(Selection.IS_LEFT) ? leftDialogueBox :
                 rightDialogueBox;
     }
+
+    
 
     private void initCharacters() {
         characterLeftView = new CharacterImage(characterController.renderCharacterImage(Selection.IS_LEFT));
@@ -260,4 +309,6 @@ public class StagePane extends VBox {
         return selection.equals(Selection.IS_LEFT) ? characterLeftView.getImageView() :
                 characterRightView.getImageView();
     }
+
+
 }

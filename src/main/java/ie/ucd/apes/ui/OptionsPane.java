@@ -27,6 +27,7 @@ public class OptionsPane extends VBox {
     private Button genderButton;
     private Button speechButton;
     private Button thoughtButton;
+    private Button textButton1;  //TopText
 
     public OptionsPane(StagePane stagePane) {
         this.stagePane = stagePane;
@@ -35,10 +36,9 @@ public class OptionsPane extends VBox {
         initGenderButton();
         initSpeechButton();
         initThoughtButton();
+        initTextButton1();
 
-        Button textButton1 = new Button("", new ImageView("/buttons/text1_button.png"));
-        textButton1.setTooltip(new Tooltip("Add Text Above"));
-        textButton1.setMinWidth(80);
+        
         Button textButton2 = new Button("", new ImageView("/buttons/text2_button.png"));
         textButton2.setTooltip(new Tooltip("Add Text Below"));
         textButton2.setMinWidth(80);
@@ -58,7 +58,13 @@ public class OptionsPane extends VBox {
         optionsPane.setVgap(5);
 
         this.getChildren().add(optionsPane);
+    }
 
+    private void initTextButton1(){
+        textButton1 = new Button("", new ImageView("/buttons/text1_button.png"));
+        textButton1.setTooltip(new Tooltip("Add Text Above"));
+        textButton1.setMinWidth(80);
+        textButton1.setOnMouseClicked((e) -> stagePane.toggleNarrativeBar(Selection.IS_TOP));
     }
 
     private void initThoughtButton() {
