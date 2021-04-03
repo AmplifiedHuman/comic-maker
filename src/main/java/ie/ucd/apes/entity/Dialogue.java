@@ -27,11 +27,11 @@ public class Dialogue {
         isVisible = visible;
     }
 
-    public DialogueType getDiagolueType() {
+    public DialogueType getDialogueType() {
         return dialogueType;
     }
 
-    public void setDiagolueType(DialogueType dialogueType) {
+    public void setDialogueType(DialogueType dialogueType) {
         this.dialogueType = dialogueType;
     }
 }

@@ -31,11 +31,11 @@ public class DialogueController {
     }
 
     public DialogueType getDialogueType(Selection selection) {
-        return getDialogue(selection).getDiagolueType();
+        return getDialogue(selection).getDialogueType();
     }
 
     public void setDialogueType(Selection selection, DialogueType dialogueType) {
-        getDialogue(selection).setDiagolueType(dialogueType);
+        getDialogue(selection).setDialogueType(dialogueType);
     }
 
     private Dialogue getDialogue(Selection selection) {

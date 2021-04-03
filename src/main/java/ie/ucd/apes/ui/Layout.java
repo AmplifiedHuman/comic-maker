@@ -20,9 +20,9 @@ public class Layout extends VBox {
         HBox hbox = new HBox(50);
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        Narrative Top = new Narrative("", false);
-        Narrative Bottom = new Narrative("", false);
-        NarrativeBarController narrativeBarController= new NarrativeBarController(Top, Bottom);
+        Narrative narrativeTop = new Narrative("CLICK HERE TO EDIT TEXT", false);
+        Narrative narrativeBottom = new Narrative("CLICK HERE TO EDIT TEXT", false);
+        NarrativeBarController narrativeBarController = new NarrativeBarController(narrativeTop, narrativeBottom);
         
         Character characterLeft = new Character(Constants.BLANK_IMAGE, false, false);
         Character characterRight = new Character(Constants.BLANK_IMAGE, true, false);
@@ -34,7 +34,7 @@ public class Layout extends VBox {
    
 
 
-        StagePane stagePane = new StagePane(characterController, dialogueController,narrativeBarController);
+        StagePane stagePane = new StagePane(characterController, dialogueController, narrativeBarController);
         ColorPane colorPane = new ColorPane(stagePane);
         OptionsPane optionsPane = new OptionsPane(stagePane);
         stagePane.setColorPane(colorPane);

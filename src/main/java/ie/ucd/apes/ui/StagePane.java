@@ -29,10 +29,10 @@ public class StagePane extends VBox {
     private DialogueBox leftDialogueBox;
     private DialogueBox rightDialogueBox;
     private ColorPane colorPane;
-    private NarrativeBar narrativeBar;
+    private NarrativeBar narrativeBarTop;
     private NarrativeBar narrativeBarBottom;
 
-    public StagePane(CharacterController characterController, DialogueController dialogueController,NarrativeBarController narrativeBarController) {
+    public StagePane(CharacterController characterController, DialogueController dialogueController, NarrativeBarController narrativeBarController) {
         this.characterController = characterController;
         this.dialogueController = dialogueController;
         this.narrativeBarController = narrativeBarController;
@@ -45,12 +45,13 @@ public class StagePane extends VBox {
         tiles.setMaxWidth(600);
         tiles.setHgap(15);
 
-        initNarrativeBar(Selection.IS_TOP);
-        tiles.add(narrativeBar,0,0);
+        initNarrativeBars();
+        tiles.add(narrativeBarTop,0,0, 2, 1);
+        tiles.add(narrativeBarBottom,0,3, 2, 1);
 
         initDialogues();
-        tiles.add(leftDialogueBox, 0, 0);
-        tiles.add(rightDialogueBox, 1, 0);
+        tiles.add(leftDialogueBox, 0, 1);
+        tiles.add(rightDialogueBox, 1, 1);
         GridPane.setValignment(leftDialogueBox, VPos.BOTTOM);
         GridPane.setValignment(rightDialogueBox, VPos.BOTTOM);
         GridPane.setHalignment(leftDialogueBox, HPos.CENTER);
@@ -58,8 +59,8 @@ public class StagePane extends VBox {
 
         // character models
         initCharacters();
-        tiles.add(characterLeftView, 0, 1);
-        tiles.add(characterRightView, 1, 1);
+        tiles.add(characterLeftView, 0, 2);
+        tiles.add(characterRightView, 1, 2);
 
         // background
         tiles.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -67,20 +68,26 @@ public class StagePane extends VBox {
         HBox.setHgrow(this, Priority.ALWAYS);
     }
 
-    
-    private void initNarrativeBar(Selection selection){
-        narrativeBar = new NarrativeBar(narrativeBarController.getNarrativeText(selection));
-        narrativeBar.setVisible(narrativeBarController.isVisible(selection));
-        narrativeBar.setOnMouseClicked((e) -> showNarrativeBarPopUp(selection));
+    private void initNarrativeBars() {
+        narrativeBarTop = new NarrativeBar(narrativeBarController.getNarrativeText(Selection.IS_TOP));
+        narrativeBarBottom = new NarrativeBar(narrativeBarController.getNarrativeText(Selection.IS_BOTTOM));
+        narrativeBarTop.setVisible(narrativeBarController.isVisible(Selection.IS_TOP));
+        narrativeBarBottom.setVisible(narrativeBarController.isVisible(Selection.IS_BOTTOM));
+        narrativeBarTop.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_TOP));
+        narrativeBarBottom.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_BOTTOM));
     }
 
-    //have to look at what this class is for and if it is necessary
-    public void toggleNarrativeBar(Selection selection){
-        narrativeBar.setNarrativeStyle();
-        narrativeBar.setVisible(narrativeBarController.isVisible(selection));
-        narrativeBar.setManaged(narrativeBarController.isVisible(selection));
+    public void toggleNarrativeBar(Selection selection) {
+        if (selection.equals(Selection.IS_TOP)) {
+            narrativeBarController.toggleNarrative(selection);
+            narrativeBarTop.setVisible(narrativeBarController.isVisible(selection));
+            narrativeBarTop.setManaged(narrativeBarController.isVisible(selection));
+        }   else {
+            narrativeBarController.toggleNarrative(selection);
+            narrativeBarBottom.setVisible(narrativeBarController.isVisible(selection));
+            narrativeBarBottom.setManaged(narrativeBarController.isVisible(selection));
+        }
     }
-
     
     private void showNarrativeBarPopUp(Selection selection) {
         TextInputDialog popup = new TextInputDialog(narrativeBarController.getNarrativeText(selection));
@@ -101,7 +108,7 @@ public class StagePane extends VBox {
     }
     //currently narrativeBarBottom is just a placeholder
     private NarrativeBar getNarrativeBar(Selection selection){
-        return selection.equals(Selection.IS_TOP) ? narrativeBar : narrativeBarBottom;
+        return selection.equals(Selection.IS_TOP) ? narrativeBarTop : narrativeBarBottom;
     }
 
 

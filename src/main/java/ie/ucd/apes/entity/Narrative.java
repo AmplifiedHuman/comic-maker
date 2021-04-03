@@ -4,7 +4,7 @@ public class Narrative {
     private String text;
     private boolean isVisible;
 
-    public Narrative(String text,boolean isVisible){
+    public Narrative(String text, boolean isVisible) {
         this.text = text;
         this.isVisible = isVisible;
     }
@@ -21,7 +21,7 @@ public class Narrative {
         return isVisible;
     }
 
-    public void setVisible(boolean isVisible) {
-        this.isVisible = isVisible;
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }
