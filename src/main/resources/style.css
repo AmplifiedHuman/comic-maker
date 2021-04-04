@@ -27,6 +27,10 @@
     -fx-font-weight: bold;
 }
 
+.background {
+    -fx-background-color: #3C3F41;
+}
+
 .narrative-bar {
     -fx-alignment: center;
     -fx-font-size: large;
