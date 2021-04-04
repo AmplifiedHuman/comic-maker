@@ -72,7 +72,9 @@ public class StagePane extends VBox {
         narrativeBarTop = new NarrativeBar(narrativeBarController.getNarrativeText(Selection.IS_TOP));
         narrativeBarBottom = new NarrativeBar(narrativeBarController.getNarrativeText(Selection.IS_BOTTOM));
         narrativeBarTop.setVisible(narrativeBarController.isVisible(Selection.IS_TOP));
+        narrativeBarTop.setManaged(narrativeBarController.isVisible(Selection.IS_TOP));
         narrativeBarBottom.setVisible(narrativeBarController.isVisible(Selection.IS_BOTTOM));
+        narrativeBarBottom.setManaged(narrativeBarController.isVisible(Selection.IS_BOTTOM));
         narrativeBarTop.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_TOP));
         narrativeBarBottom.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_BOTTOM));
     }
