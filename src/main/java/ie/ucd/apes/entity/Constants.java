@@ -2,7 +2,6 @@ package ie.ucd.apes.entity;
 
 import ie.ucd.apes.utils.ColorUtils;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
 
 public class Constants {
     public static final String CHARACTER_FOLDER = "characters";
@@ -10,7 +9,7 @@ public class Constants {
     // colors
     public static final Color DEFAULT_WIG_COLOR = ColorUtils.generateColor(240, 255, 0);
     public static final Color DEFAULT_HAIR_COLOR = ColorUtils.generateColor(249, 255, 0);
-    public static final Color DEFAULT_SKIN_COLOR = ColorUtils.generateColor(255,232,216);
+    public static final Color DEFAULT_SKIN_COLOR = ColorUtils.generateColor(255, 232, 216);
     public static final Color RIBBON_COLOR = ColorUtils.generateColor(236, 180, 181);
     public static final Color LIPS_COLOR = ColorUtils.generateColor(255, 0, 0);
 

@@ -12,6 +12,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.VPos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -32,22 +33,23 @@ public class StagePane extends VBox {
     private NarrativeBar narrativeBarTop;
     private NarrativeBar narrativeBarBottom;
 
-    public StagePane(CharacterController characterController, DialogueController dialogueController, NarrativeBarController narrativeBarController) {
+    public StagePane(CharacterController characterController, DialogueController dialogueController,
+                     NarrativeBarController narrativeBarController) {
         this.characterController = characterController;
         this.dialogueController = dialogueController;
         this.narrativeBarController = narrativeBarController;
         this.colorPane = null;
         initView();
     }
-     
+
     private void initView() {
         GridPane tiles = new GridPane();
         tiles.setMaxWidth(600);
         tiles.setHgap(15);
 
         initNarrativeBars();
-        tiles.add(narrativeBarTop,0,0, 2, 1);
-        tiles.add(narrativeBarBottom,0,3, 2, 1);
+        tiles.add(narrativeBarTop, 0, 0, 2, 1);
+        tiles.add(narrativeBarBottom, 0, 3, 2, 1);
 
         initDialogues();
         tiles.add(leftDialogueBox, 0, 1);
@@ -71,8 +73,10 @@ public class StagePane extends VBox {
     private void initNarrativeBars() {
         narrativeBarTop = new NarrativeBar(narrativeBarController.getNarrativeText(Selection.IS_TOP));
         narrativeBarBottom = new NarrativeBar(narrativeBarController.getNarrativeText(Selection.IS_BOTTOM));
-        narrativeBarTop.setVisible(narrativeBarController.isVisible(Selection.IS_TOP));
-        narrativeBarBottom.setVisible(narrativeBarController.isVisible(Selection.IS_BOTTOM));
+        narrativeBarTop.setVisible(false);
+        narrativeBarBottom.setVisible(false);
+        narrativeBarTop.setManaged(narrativeBarController.isVisible(Selection.IS_TOP));
+        narrativeBarBottom.setManaged(narrativeBarController.isVisible(Selection.IS_BOTTOM));
         narrativeBarTop.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_TOP));
         narrativeBarBottom.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_BOTTOM));
     }
@@ -82,47 +86,51 @@ public class StagePane extends VBox {
             narrativeBarController.toggleNarrative(selection);
             narrativeBarTop.setVisible(narrativeBarController.isVisible(selection));
             narrativeBarTop.setManaged(narrativeBarController.isVisible(selection));
-        }   else {
+        } else {
             narrativeBarController.toggleNarrative(selection);
             narrativeBarBottom.setVisible(narrativeBarController.isVisible(selection));
             narrativeBarBottom.setManaged(narrativeBarController.isVisible(selection));
         }
     }
-    
+
     private void showNarrativeBarPopUp(Selection selection) {
         TextInputDialog popup = new TextInputDialog(narrativeBarController.getNarrativeText(selection));
         popup.setTitle("Narrative Bar");
-        if(selection.equals(Selection.IS_TOP)){
+        if (selection.equals(Selection.IS_TOP)) {
             popup.setHeaderText("Enter text for the top bar");
-        }else{
+        } else {
             popup.setHeaderText("Please enter text for the bottom bar");
         }
         Optional<String> result = popup.showAndWait();
-        result.ifPresent(text -> setNarrativeText(text, selection));
+        if (result.isPresent()) {
+            if (result.get().length() < 200) {
+                result.ifPresent(text -> setNarrativeText(text, selection));
+            } else {
+                showWarningAlert("Narrative");
+            }
+        }
     }
 
-    private void setNarrativeText(String text, Selection selection){
+    private void setNarrativeText(String text, Selection selection) {
         NarrativeBar narrativeBar = getNarrativeBar(selection);
-        if(text.isBlank()){
+        if (text.isBlank()) {
             text = "CLICK HERE TO EDIT TEXT";
         }
         narrativeBarController.setNarrativeText(selection, text);
         narrativeBar.setText(text);
     }
-    //currently narrativeBarBottom is just a placeholder
-    private NarrativeBar getNarrativeBar(Selection selection){
+
+    private NarrativeBar getNarrativeBar(Selection selection) {
         return selection.equals(Selection.IS_TOP) ? narrativeBarTop : narrativeBarBottom;
     }
-
-
 
     private void initDialogues() {
         leftDialogueBox = new DialogueBox(dialogueController.getDialogueText(Selection.IS_LEFT));
         rightDialogueBox = new DialogueBox(dialogueController.getDialogueText(Selection.IS_RIGHT));
         leftDialogueBox.setVisible(dialogueController.isVisible(Selection.IS_LEFT));
         rightDialogueBox.setVisible(dialogueController.isVisible(Selection.IS_RIGHT));
-        leftDialogueBox.setOnMouseClicked((e) -> showSpeechPopup(Selection.IS_LEFT));
-        rightDialogueBox.setOnMouseClicked((e) -> showSpeechPopup(Selection.IS_RIGHT));
+        leftDialogueBox.setOnMouseClicked((e) -> showDialoguePopup(Selection.IS_LEFT));
+        rightDialogueBox.setOnMouseClicked((e) -> showDialoguePopup(Selection.IS_RIGHT));
     }
 
     public void toggleFocusedDialogue(DialogueType dialogueType) {
@@ -155,7 +163,7 @@ public class StagePane extends VBox {
         return selection;
     }
 
-    private void showSpeechPopup(Selection selection) {
+    private void showDialoguePopup(Selection selection) {
         TextInputDialog popup = new TextInputDialog(dialogueController.getDialogueText(selection));
         popup.setTitle("Speech Dialogue");
         if (selection.equals(Selection.IS_LEFT)) {
@@ -164,7 +172,13 @@ public class StagePane extends VBox {
             popup.setHeaderText("Please enter the speech text for the right character");
         }
         Optional<String> result = popup.showAndWait();
-        result.ifPresent(text -> setDialogueText(text, selection));
+        if (result.isPresent()) {
+            if (result.get().length() < 200) {
+                result.ifPresent(text -> setDialogueText(text, selection));
+            } else {
+                showWarningAlert("Dialogue");
+            }
+        }
     }
 
     private void setDialogueText(String text, Selection selection) {
@@ -178,7 +192,13 @@ public class StagePane extends VBox {
                 rightDialogueBox;
     }
 
-    
+    private void showWarningAlert(String type) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(String.format("%s Text Limit Exceeded", type));
+        alert.setHeaderText(String.format("%s Text Limit Exceeded", type));
+        alert.setContentText(String.format("%s text box cannot exceed 200 characters", type));
+        alert.showAndWait();
+    }
 
     private void initCharacters() {
         characterLeftView = new CharacterImage(characterController.renderCharacterImage(Selection.IS_LEFT));
@@ -319,6 +339,4 @@ public class StagePane extends VBox {
         return selection.equals(Selection.IS_LEFT) ? characterLeftView.getImageView() :
                 characterRightView.getImageView();
     }
-
-
 }

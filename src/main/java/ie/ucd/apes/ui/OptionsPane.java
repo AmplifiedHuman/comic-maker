@@ -5,15 +5,12 @@ import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.io.FileLoader;
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -27,8 +24,8 @@ public class OptionsPane extends VBox {
     private Button genderButton;
     private Button speechButton;
     private Button thoughtButton;
-    private Button textButton1;  //TopText
-    private Button textButton2;  //BottomText
+    private Button topNarrativeButton;
+    private Button bottomNarrativeButton;
 
     public OptionsPane(StagePane stagePane) {
         this.stagePane = stagePane;
@@ -37,7 +34,7 @@ public class OptionsPane extends VBox {
         initGenderButton();
         initSpeechButton();
         initThoughtButton();
-        initTextButtons();
+        initNarrativeButtons();
 
         GridPane optionsPane = new GridPane();
 
@@ -46,9 +43,9 @@ public class OptionsPane extends VBox {
         optionsPane.add(flipButton, 0, 1, 1, 1);
         optionsPane.add(genderButton, 1, 1, 1, 1);
         optionsPane.add(speechButton, 0, 2, 1, 1);
-        optionsPane.add(textButton1, 1, 2, 1, 1);
+        optionsPane.add(topNarrativeButton, 1, 2, 1, 1);
         optionsPane.add(thoughtButton, 0, 3, 1, 1);
-        optionsPane.add(textButton2, 1, 3, 1, 1);
+        optionsPane.add(bottomNarrativeButton, 1, 3, 1, 1);
 
         optionsPane.setHgap(5);
         optionsPane.setVgap(5);
@@ -56,16 +53,16 @@ public class OptionsPane extends VBox {
         this.getChildren().add(optionsPane);
     }
 
-    private void initTextButtons(){
-        textButton1 = new Button("", new ImageView("/buttons/text1_button.png"));
-        textButton1.setTooltip(new Tooltip("Add Text Above"));
-        textButton1.setMinWidth(80);
-        textButton1.setOnMouseClicked((e) -> stagePane.toggleNarrativeBar(Selection.IS_TOP));
+    private void initNarrativeButtons() {
+        topNarrativeButton = new Button("", new ImageView("/buttons/text1_button.png"));
+        topNarrativeButton.setTooltip(new Tooltip("Add Text Above"));
+        topNarrativeButton.setMinWidth(80);
+        topNarrativeButton.setOnMouseClicked((e) -> stagePane.toggleNarrativeBar(Selection.IS_TOP));
 
-        textButton2 = new Button("", new ImageView("/buttons/text2_button.png"));
-        textButton2.setTooltip(new Tooltip("Add Text Below"));
-        textButton2.setMinWidth(80);
-        textButton2.setOnMouseClicked((e) -> stagePane.toggleNarrativeBar(Selection.IS_BOTTOM));
+        bottomNarrativeButton = new Button("", new ImageView("/buttons/text2_button.png"));
+        bottomNarrativeButton.setTooltip(new Tooltip("Add Text Below"));
+        bottomNarrativeButton.setMinWidth(80);
+        bottomNarrativeButton.setOnMouseClicked((e) -> stagePane.toggleNarrativeBar(Selection.IS_BOTTOM));
     }
 
     private void initThoughtButton() {

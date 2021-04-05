@@ -31,8 +31,6 @@ public class Layout extends VBox {
         Dialogue dialogueLeft = new Dialogue("", false, DialogueType.SPEECH);
         Dialogue dialogueRight = new Dialogue("", false, DialogueType.SPEECH);
         DialogueController dialogueController = new DialogueController(dialogueLeft, dialogueRight);
-   
-
 
         StagePane stagePane = new StagePane(characterController, dialogueController, narrativeBarController);
         ColorPane colorPane = new ColorPane(stagePane);
