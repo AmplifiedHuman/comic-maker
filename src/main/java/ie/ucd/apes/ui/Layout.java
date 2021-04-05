@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 public class Layout extends VBox {
     public Layout() {
         this.getChildren().add(new TopMenuBar());
+        this.getStyleClass().add("background");
         VBox vbox = new VBox(16);
         HBox hbox = new HBox(50);
         HBox.setHgrow(this, Priority.ALWAYS);
@@ -41,7 +42,6 @@ public class Layout extends VBox {
         vbox.getChildren().add(optionsPane);
         HBox.setMargin(vbox, new Insets(0, 50, 0, 0));
         hbox.getChildren().add(vbox);
-        this.setBackground(new Background(new BackgroundFill(Color.web("3C3F41"), CornerRadii.EMPTY, Insets.EMPTY)));
         this.getChildren().add(hbox);
 //        this.getChildren().add(new ScrollingPane());
     }
