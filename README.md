@@ -44,6 +44,33 @@ In addition to this week's requirement, we have also completed the stories from 
 skin color changing are all supported**. More documentation details will be included in the next sprint, but the
 features are working in our current release.
 
+### Sprint 3 - Changing Gender, Skin Color and Hair Color
+
+For sprint 3, we completed the gender changing requirement by removing the wig, ribbon and lipstick from default female
+characters. Our initial colour changing algorithm is not perfect, since some artifacts still remain after we changed
+from one colour to another due to **anti-aliasing**. After multiple changes to our algorithm, it currently works almost
+perfectly by using BFS and a threshold. Essentially, our algorithm works by doing BFS on the target colour, and it tries
+to propagate and find all similar coloured pixels, effectively removing the anti-aliased edges. To prevent duplicate
+work, we used a boolean array to check if a pixel has been visited before. A threshold is a nice optimisation since it
+prevents the accidental removal of black coloured edges.
+
+Next, our skin colour changing algorithm works very similarly but for male characters, the lips also need to be coloured
+to match the skin colour. After some experimenting, we decided to go with a _re-rendering_ approach, where a fresh copy
+of the image is modified for each render (changes to gender, hair colour, so on).
+
+Some extra bonuses we added include a custom colour in the color selector which is the default color of the hair/skin to
+let the user reset the skin/hair colour. Besides, when a user clicks on a character, the colour changer changes its
+current colour to match the character's skin and hair colour.
+
+![Sprint 3](readme-resources/sprint3.png)
+
+> Note that, to achieve the mentioned features, we created additional entities so that it would be easier to serialize
+> the characters in later sprints.
+
+In addition to this week's requirement, we have also completed the stories from sprint 4 so **speech & thought bubble
+, narrative bars are all supported**. More documentation details will be included in the next sprint, but the features
+are working in our current release.
+
 ## Team Members
 
 - Chee Guan Tee (Jason) - [@AmplifiedHuman](https://github.com/AmplifiedHuman)
