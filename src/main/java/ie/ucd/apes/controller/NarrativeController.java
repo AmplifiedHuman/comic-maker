@@ -1,15 +1,13 @@
 package ie.ucd.apes.controller;
 
-import ie.ucd.apes.entity.Dialogue;
-import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Narrative;
 import ie.ucd.apes.entity.Selection;
 
-public class NarrativeBarController {
+public class NarrativeController {
     private final Narrative narrativeTop;
     private final Narrative narrativeBottom;
 
-    public NarrativeBarController(Narrative narrativeTop, Narrative narrativeBottom) {
+    public NarrativeController(Narrative narrativeTop, Narrative narrativeBottom) {
         this.narrativeTop = narrativeTop;
         this.narrativeBottom = narrativeBottom;
     }
@@ -31,7 +29,7 @@ public class NarrativeBarController {
         return getNarrative(selection).getText();
     }
 
-    private Narrative getNarrative(Selection selection) {
+    public Narrative getNarrative(Selection selection) {
         return selection.equals(Selection.IS_TOP) ? narrativeTop : narrativeBottom;
     }
 }

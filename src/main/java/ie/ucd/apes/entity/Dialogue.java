@@ -1,6 +1,6 @@
 package ie.ucd.apes.entity;
 
-public class Dialogue {
+public class Dialogue implements Cloneable {
     private String text;
     private boolean isVisible;
     private DialogueType dialogueType;
@@ -33,5 +33,10 @@ public class Dialogue {
 
     public void setDialogueType(DialogueType dialogueType) {
         this.dialogueType = dialogueType;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -2,9 +2,14 @@ package ie.ucd.apes.ui;
 
 import ie.ucd.apes.controller.CharacterController;
 import ie.ucd.apes.controller.DialogueController;
-import ie.ucd.apes.controller.NarrativeBarController;
+import ie.ucd.apes.controller.NarrativeController;
+import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.entity.Character;
 import ie.ucd.apes.entity.*;
+import ie.ucd.apes.ui.stage.CharacterView;
+import ie.ucd.apes.ui.stage.DialogueView;
+import ie.ucd.apes.ui.stage.NarrativeView;
+import ie.ucd.apes.ui.stage.StageView;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -21,22 +26,29 @@ public class Layout extends VBox {
 
         Narrative narrativeTop = new Narrative("CLICK HERE TO EDIT TEXT", false);
         Narrative narrativeBottom = new Narrative("CLICK HERE TO EDIT TEXT", false);
-        NarrativeBarController narrativeBarController = new NarrativeBarController(narrativeTop, narrativeBottom);
+        NarrativeController narrativeController = new NarrativeController(narrativeTop, narrativeBottom);
+        NarrativeView narrativeView = new NarrativeView(narrativeController);
 
         Character characterLeft = new Character(Constants.BLANK_IMAGE, false, false);
         Character characterRight = new Character(Constants.BLANK_IMAGE, true, false);
         CharacterController characterController = new CharacterController(characterLeft, characterRight);
+        CharacterView characterView = new CharacterView(characterController);
 
         Dialogue dialogueLeft = new Dialogue("", false, DialogueType.SPEECH);
         Dialogue dialogueRight = new Dialogue("", false, DialogueType.SPEECH);
         DialogueController dialogueController = new DialogueController(dialogueLeft, dialogueRight);
+        DialogueView dialogueView = new DialogueView(dialogueController, characterView);
 
         ScrollingPane scrollingPane = new ScrollingPane();
-        StagePane stagePane = new StagePane(characterController, dialogueController, narrativeBarController, scrollingPane);
-        ColorPane colorPane = new ColorPane(stagePane);
-        OptionsPane optionsPane = new OptionsPane(stagePane);
-        stagePane.setColorPane(colorPane);
-        hbox.getChildren().add(stagePane);
+        PanelController panelController = new PanelController(characterController, dialogueController,
+                narrativeController);
+        StageView stageView = new StageView(characterView, dialogueView, narrativeView,
+                panelController, scrollingPane);
+        ColorPane colorPane = new ColorPane(characterView);
+        characterView.setColorPane(colorPane);
+        OptionsPane optionsPane = new OptionsPane(stageView, characterView, dialogueView, narrativeView);
+
+        hbox.getChildren().add(stageView);
         vbox.getChildren().add(colorPane);
         vbox.getChildren().add(optionsPane);
         HBox.setMargin(vbox, new Insets(0, 50, 0, 0));

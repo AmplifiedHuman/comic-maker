@@ -1,6 +1,6 @@
 package ie.ucd.apes.entity;
 
-public class Narrative {
+public class Narrative implements Cloneable {
     private String text;
     private boolean isVisible;
 
@@ -23,5 +23,10 @@ public class Narrative {
 
     public void setVisible(boolean visible) {
         isVisible = visible;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -55,7 +55,7 @@ public class CharacterController {
         character.setHairColor(Constants.DEFAULT_HAIR_COLOR);
     }
 
-    private Character getCharacter(Selection selection) {
+    public Character getCharacter(Selection selection) {
         return selection.equals(Selection.IS_LEFT) ? characterLeft : characterRight;
     }
 

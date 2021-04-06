@@ -38,7 +38,7 @@ public class DialogueController {
         getDialogue(selection).setDialogueType(dialogueType);
     }
 
-    private Dialogue getDialogue(Selection selection) {
+    public Dialogue getDialogue(Selection selection) {
         return selection.equals(Selection.IS_LEFT) ? dialogueLeft : dialogueRight;
     }
 }

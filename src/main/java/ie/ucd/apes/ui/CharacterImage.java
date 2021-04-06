@@ -17,6 +17,10 @@ public class CharacterImage extends HBox {
         this.getStyleClass().add("characterImage");
     }
 
+    public void setImage(Image image) {
+        imageView.setImage(image);
+    }
+
     public ImageView getImageView() {
         return imageView;
     }

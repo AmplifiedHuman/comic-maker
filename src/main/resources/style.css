@@ -38,3 +38,7 @@
     -fx-font-family: "Comic Sans MS";
     -fx-padding: 20 20 20 20;
 }
+
+.captured-scene:focused {
+    -fx-effect: dropshadow(gaussian, #7EA3D5, 5, 0.75, 0, 0);
+}

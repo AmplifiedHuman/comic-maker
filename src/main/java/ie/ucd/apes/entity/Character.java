@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 import static ie.ucd.apes.entity.Constants.*;
 
-public class Character {
+public class Character implements Cloneable {
     private String imageFileName;
     private boolean isFlipped;
     private boolean isMale;
@@ -63,5 +63,10 @@ public class Character {
 
     public void setHairColor(Color hairColor) {
         this.hairColor = hairColor;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

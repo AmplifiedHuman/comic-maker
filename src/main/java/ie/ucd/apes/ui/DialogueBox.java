@@ -5,7 +5,13 @@ import ie.ucd.apes.entity.Selection;
 import javafx.scene.control.Label;
 
 public class DialogueBox extends Label {
+    public DialogueBox() {
+        super();
+        setWrapText(true);
+    }
+
     public DialogueBox(String text) {
+        super();
         setText(text);
         setWrapText(true);
     }
