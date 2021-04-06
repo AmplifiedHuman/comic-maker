@@ -15,7 +15,7 @@ public class DialogueBox extends Label {
             getStyleClass().clear();
             getStyleClass().add("speech-box");
         } else if (dialogueType.equals(DialogueType.THOUGHT)) {
-            if(selection.equals(Selection.IS_LEFT)) {
+            if (selection.equals(Selection.IS_LEFT)) {
                 getStyleClass().clear();
                 getStyleClass().add("thought-box-left");
             } else {

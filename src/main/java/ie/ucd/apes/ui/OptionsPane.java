@@ -26,6 +26,7 @@ public class OptionsPane extends VBox {
     private Button thoughtButton;
     private Button topNarrativeButton;
     private Button bottomNarrativeButton;
+    private Button saveButton;
 
     public OptionsPane(StagePane stagePane) {
         this.stagePane = stagePane;
@@ -35,6 +36,7 @@ public class OptionsPane extends VBox {
         initSpeechButton();
         initThoughtButton();
         initNarrativeButtons();
+        initSaveButton();
 
         GridPane optionsPane = new GridPane();
 
@@ -46,11 +48,19 @@ public class OptionsPane extends VBox {
         optionsPane.add(topNarrativeButton, 1, 2, 1, 1);
         optionsPane.add(thoughtButton, 0, 3, 1, 1);
         optionsPane.add(bottomNarrativeButton, 1, 3, 1, 1);
+        optionsPane.add(saveButton, 0, 4, 1, 1);
 
         optionsPane.setHgap(5);
         optionsPane.setVgap(5);
 
         this.getChildren().add(optionsPane);
+    }
+
+    private void initSaveButton() {
+        saveButton = new Button("", new ImageView("/buttons/text1_button.png"));
+        saveButton.setTooltip(new Tooltip("Save Scene"));
+        saveButton.setMinWidth(82);
+        saveButton.setOnMouseClicked((e) -> stagePane.saveToScrollingPane());
     }
 
     private void initNarrativeButtons() {
