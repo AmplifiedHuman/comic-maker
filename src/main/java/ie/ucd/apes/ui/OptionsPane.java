@@ -36,6 +36,7 @@ public class OptionsPane extends VBox {
     private Button topNarrativeButton;
     private Button bottomNarrativeButton;
     private Button saveButton;
+    private Button deleteButton;
 
     public OptionsPane(CharacterView characterView, DialogueView dialogueView,
                        NarrativeView narrativeView, ScrollingPane scrollingPane) {
@@ -50,6 +51,7 @@ public class OptionsPane extends VBox {
         initThoughtButton();
         initNarrativeButtons();
         initSaveButton();
+        initDeleteButton();
 
         GridPane optionsPane = new GridPane();
 
@@ -62,6 +64,7 @@ public class OptionsPane extends VBox {
         optionsPane.add(thoughtButton, 0, 3, 1, 1);
         optionsPane.add(bottomNarrativeButton, 1, 3, 1, 1);
         optionsPane.add(saveButton, 0, 4, 1, 1);
+        optionsPane.add(deleteButton, 1, 4, 1, 1);
 
         optionsPane.setHgap(5);
         optionsPane.setVgap(5);
@@ -75,22 +78,29 @@ public class OptionsPane extends VBox {
     }
 
     private void initSaveButton() {
-        saveButton = new Button("", new ImageView("/buttons/text1_button.png"));
+        saveButton = new Button("", new ImageView("/buttons/save_button.png"));
         saveButton.setTooltip(new Tooltip("Save Scene"));
         saveButton.setMinWidth(82);
         saveButton.setOnMouseClicked((e) -> scrollingPane.saveToScrollingPane());
     }
 
+    private void initDeleteButton() {
+        deleteButton = new Button("", new ImageView("/buttons/delete_button.png"));
+        deleteButton.setTooltip(new Tooltip("Delete Scene"));
+        deleteButton.setMinWidth(82);
+        //deleteButton.setOnMouseClicked((e) -> scrollingPane.saveToScrollingPane());
+    }
+
     private void initNarrativeButtons() {
         topNarrativeButton = new Button("", new ImageView("/buttons/text1_button.png"));
         topNarrativeButton.setTooltip(new Tooltip("Add Text Above"));
-        topNarrativeButton.setMinWidth(80);
+        topNarrativeButton.setMinWidth(82);
         topNarrativeButton.setOnMouseClicked((e) -> narrativeView.toggleNarrativeBar(Selection.IS_TOP));
         topNarrativeButton.setFocusTraversable(false);
 
         bottomNarrativeButton = new Button("", new ImageView("/buttons/text2_button.png"));
         bottomNarrativeButton.setTooltip(new Tooltip("Add Text Below"));
-        bottomNarrativeButton.setMinWidth(80);
+        bottomNarrativeButton.setMinWidth(82);
         bottomNarrativeButton.setOnMouseClicked((e) -> narrativeView.toggleNarrativeBar(Selection.IS_BOTTOM));
         bottomNarrativeButton.setFocusTraversable(false);
     }
