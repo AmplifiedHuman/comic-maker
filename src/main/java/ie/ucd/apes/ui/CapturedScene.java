@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 public class CapturedScene extends HBox {
     private final int position;
@@ -14,7 +15,8 @@ public class CapturedScene extends HBox {
         this.position = position;
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(200);
-        this.getChildren().add(imageView);
+        getChildren().add(imageView);
+        HBox.setHgrow(imageView, Priority.NEVER);
         getStyleClass().add("captured-scene");
         setFocusTraversable(true);
         setMargin(this, new Insets(10, 10, 10, 10));
@@ -22,6 +24,10 @@ public class CapturedScene extends HBox {
 
     public void setImage(Image image) {
         imageView.setImage(image);
+    }
+
+    public Image getImage() {
+        return imageView.getImage();
     }
 
     public int getPosition() {

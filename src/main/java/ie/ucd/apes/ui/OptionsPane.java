@@ -7,7 +7,6 @@ import ie.ucd.apes.io.FileLoader;
 import ie.ucd.apes.ui.stage.CharacterView;
 import ie.ucd.apes.ui.stage.DialogueView;
 import ie.ucd.apes.ui.stage.NarrativeView;
-import ie.ucd.apes.ui.stage.StageView;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;

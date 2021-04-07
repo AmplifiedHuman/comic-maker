@@ -3,7 +3,10 @@ package ie.ucd.apes.ui;
 
 import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.ui.stage.StageView;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;

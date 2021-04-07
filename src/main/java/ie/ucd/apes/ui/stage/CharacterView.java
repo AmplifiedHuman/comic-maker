@@ -111,6 +111,10 @@ public class CharacterView {
         });
     }
 
+    public String getCharacterImageLink(Selection selection) {
+        return characterController.getCharacterImageLink(selection);
+    }
+
     public CharacterImage getCharacterImage(Selection selection) {
         return selection.equals(Selection.IS_LEFT) ? characterLeftView :
                 characterRightView;

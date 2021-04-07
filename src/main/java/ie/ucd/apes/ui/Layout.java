@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Box;
 
 
 public class Layout extends VBox {
@@ -46,8 +47,12 @@ public class Layout extends VBox {
         ColorPane colorPane = new ColorPane(characterView);
         characterView.setColorPane(colorPane);
         OptionsPane optionsPane = new OptionsPane(characterView, dialogueView, narrativeView, scrollingPane);
+        stageView.setOptionsPane(optionsPane);
 
+        HBox spacer = new HBox();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
         hbox.getChildren().add(stageView);
+        hbox.getChildren().add(spacer);
         vbox.getChildren().add(colorPane);
         vbox.getChildren().add(optionsPane);
         HBox.setMargin(vbox, new Insets(0, 50, 0, 0));

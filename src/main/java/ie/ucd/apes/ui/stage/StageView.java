@@ -3,6 +3,7 @@ package ie.ucd.apes.ui.stage;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.DialogueBox;
 import ie.ucd.apes.ui.NarrativeBar;
+import ie.ucd.apes.ui.OptionsPane;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -16,6 +17,7 @@ public class StageView extends VBox {
     private final CharacterView characterView;
     private final DialogueView dialogueView;
     private final NarrativeView narrativeView;
+    private OptionsPane optionsPane;
 
     public StageView(CharacterView characterView, DialogueView dialogueView, NarrativeView narrativeView) {
         this.characterView = characterView;
@@ -50,12 +52,18 @@ public class StageView extends VBox {
         // background
         tiles.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         this.getChildren().add(tiles);
-        HBox.setHgrow(this, Priority.ALWAYS);
+        HBox.setHgrow(tiles, Priority.NEVER);
         VBox.setVgrow(this, Priority.NEVER);
+    }
+
+    public void setOptionsPane(OptionsPane optionsPane) {
+        this.optionsPane = optionsPane;
     }
 
     public void render() {
         characterView.renderCharacters();
+        optionsPane.updateSelection(characterView.getCharacterImageLink(Selection.IS_LEFT),
+                characterView.getCharacterImageLink(Selection.IS_RIGHT));
         dialogueView.renderDialogues();
         narrativeView.renderNarrativeBars();
     }

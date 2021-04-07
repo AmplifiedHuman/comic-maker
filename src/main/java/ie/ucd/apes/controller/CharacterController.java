@@ -55,6 +55,11 @@ public class CharacterController {
         character.setHairColor(Constants.DEFAULT_HAIR_COLOR);
     }
 
+    public String getCharacterImageLink(Selection selection) {
+        return selection.equals(Selection.IS_LEFT) ? getCharacter(Selection.IS_LEFT).getImageFileName() :
+                getCharacter(Selection.IS_RIGHT).getImageFileName();
+    }
+
     public Character getCharacter(Selection selection) {
         return selection.equals(Selection.IS_LEFT) ? characterLeft : characterRight;
     }
