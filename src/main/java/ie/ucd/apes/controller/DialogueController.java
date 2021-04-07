@@ -5,8 +5,8 @@ import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
 
 public class DialogueController {
-    private final Dialogue dialogueLeft;
-    private final Dialogue dialogueRight;
+    private Dialogue dialogueLeft;
+    private Dialogue dialogueRight;
 
     public DialogueController(Dialogue dialogueLeft, Dialogue dialogueRight) {
         this.dialogueLeft = dialogueLeft;
@@ -40,5 +40,18 @@ public class DialogueController {
 
     public Dialogue getDialogue(Selection selection) {
         return selection.equals(Selection.IS_LEFT) ? dialogueLeft : dialogueRight;
+    }
+
+    public void setDialogue(Selection selection, Dialogue dialogue) {
+        if (selection.equals(Selection.IS_LEFT)) {
+            dialogueLeft = dialogue;
+        } else {
+            dialogueRight = dialogue;
+        }
+    }
+
+    public void reset() {
+        dialogueLeft = new Dialogue("", false, DialogueType.SPEECH);
+        dialogueRight = new Dialogue("", false, DialogueType.SPEECH);
     }
 }

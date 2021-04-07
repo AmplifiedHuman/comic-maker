@@ -21,12 +21,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class OptionsPane extends VBox {
-    private final StageView stageView;
     private final CharacterView characterView;
     private final DialogueView dialogueView;
     private final NarrativeView narrativeView;
+    private final ScrollingPane scrollingPane;
     private MenuButton leftButton;
     private MenuButton rightButton;
+    private ListView<String> leftListView;
+    private ListView<String> rightListView;
     private Button flipButton;
     private Button genderButton;
     private Button speechButton;
@@ -35,12 +37,12 @@ public class OptionsPane extends VBox {
     private Button bottomNarrativeButton;
     private Button saveButton;
 
-    public OptionsPane(StageView stageView, CharacterView characterView, DialogueView dialogueView,
-                       NarrativeView narrativeView) {
-        this.stageView = stageView;
+    public OptionsPane(CharacterView characterView, DialogueView dialogueView,
+                       NarrativeView narrativeView, ScrollingPane scrollingPane) {
         this.characterView = characterView;
         this.dialogueView = dialogueView;
         this.narrativeView = narrativeView;
+        this.scrollingPane = scrollingPane;
         initLeftAndRightButton();
         initFlipButton();
         initGenderButton();
@@ -67,11 +69,16 @@ public class OptionsPane extends VBox {
         this.getChildren().add(optionsPane);
     }
 
+    public void updateSelection(String leftImage, String rightImage) {
+        leftListView.getSelectionModel().select(leftImage);
+        rightListView.getSelectionModel().select(rightImage);
+    }
+
     private void initSaveButton() {
         saveButton = new Button("", new ImageView("/buttons/text1_button.png"));
         saveButton.setTooltip(new Tooltip("Save Scene"));
         saveButton.setMinWidth(82);
-        saveButton.setOnMouseClicked((e) -> stageView.saveToScrollingPane());
+        saveButton.setOnMouseClicked((e) -> scrollingPane.saveToScrollingPane());
     }
 
     private void initNarrativeButtons() {
@@ -169,6 +176,11 @@ public class OptionsPane extends VBox {
         // update character listener
         listView.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldValue, newValue) -> characterView.updateCharacterImage(newValue, selection));
+        if (selection.equals(Selection.IS_LEFT)) {
+            leftListView = listView;
+        } else {
+            rightListView = listView;
+        }
         return new CustomMenuItem(listView, true);
     }
 }

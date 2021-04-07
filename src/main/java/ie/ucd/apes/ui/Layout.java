@@ -24,8 +24,8 @@ public class Layout extends VBox {
         HBox hbox = new HBox(50);
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        Narrative narrativeTop = new Narrative("CLICK HERE TO EDIT TEXT", false);
-        Narrative narrativeBottom = new Narrative("CLICK HERE TO EDIT TEXT", false);
+        Narrative narrativeTop = new Narrative("CLICK HERE TO EDIT TOP TEXT", false);
+        Narrative narrativeBottom = new Narrative("CLICK HERE TO EDIT BOTTOM TEXT", false);
         NarrativeController narrativeController = new NarrativeController(narrativeTop, narrativeBottom);
         NarrativeView narrativeView = new NarrativeView(narrativeController);
 
@@ -39,14 +39,13 @@ public class Layout extends VBox {
         DialogueController dialogueController = new DialogueController(dialogueLeft, dialogueRight);
         DialogueView dialogueView = new DialogueView(dialogueController, characterView);
 
-        ScrollingPane scrollingPane = new ScrollingPane();
         PanelController panelController = new PanelController(characterController, dialogueController,
                 narrativeController);
-        StageView stageView = new StageView(characterView, dialogueView, narrativeView,
-                panelController, scrollingPane);
+        StageView stageView = new StageView(characterView, dialogueView, narrativeView);
+        ScrollingPane scrollingPane = new ScrollingPane(panelController, stageView);
         ColorPane colorPane = new ColorPane(characterView);
         characterView.setColorPane(colorPane);
-        OptionsPane optionsPane = new OptionsPane(stageView, characterView, dialogueView, narrativeView);
+        OptionsPane optionsPane = new OptionsPane(characterView, dialogueView, narrativeView, scrollingPane);
 
         hbox.getChildren().add(stageView);
         vbox.getChildren().add(colorPane);

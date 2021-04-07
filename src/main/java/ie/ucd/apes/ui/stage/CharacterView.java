@@ -92,6 +92,25 @@ public class CharacterView {
         return getFocusedCharacterSelection() == selection;
     }
 
+    public void renderCharacters() {
+        renderCharacterImage(Selection.IS_LEFT);
+        renderCharacterImage(Selection.IS_RIGHT);
+        characterLeftView.setFocusTraversable(true);
+        characterRightView.setFocusTraversable(true);
+
+        characterLeftView.setOnMouseClicked((e) -> {
+            characterLeftView.requestFocus();
+            colorPane.setSkinColorSelector(characterController.getSkinColor(Selection.IS_LEFT));
+            colorPane.setHairColorSelector(characterController.getHairColor(Selection.IS_LEFT));
+        });
+
+        characterRightView.setOnMouseClicked((e) -> {
+            characterRightView.requestFocus();
+            colorPane.setSkinColorSelector(characterController.getSkinColor(Selection.IS_RIGHT));
+            colorPane.setHairColorSelector(characterController.getHairColor(Selection.IS_RIGHT));
+        });
+    }
+
     public CharacterImage getCharacterImage(Selection selection) {
         return selection.equals(Selection.IS_LEFT) ? characterLeftView :
                 characterRightView;
@@ -118,25 +137,6 @@ public class CharacterView {
             selection = Selection.IS_RIGHT;
         }
         return selection;
-    }
-
-    private void renderCharacters() {
-        renderCharacterImage(Selection.IS_LEFT);
-        renderCharacterImage(Selection.IS_RIGHT);
-        characterLeftView.setFocusTraversable(true);
-        characterRightView.setFocusTraversable(true);
-
-        characterLeftView.setOnMouseClicked((e) -> {
-            characterLeftView.requestFocus();
-            colorPane.setSkinColorSelector(characterController.getSkinColor(Selection.IS_LEFT));
-            colorPane.setHairColorSelector(characterController.getHairColor(Selection.IS_LEFT));
-        });
-
-        characterRightView.setOnMouseClicked((e) -> {
-            characterRightView.requestFocus();
-            colorPane.setSkinColorSelector(characterController.getSkinColor(Selection.IS_RIGHT));
-            colorPane.setHairColorSelector(characterController.getHairColor(Selection.IS_RIGHT));
-        });
     }
 
     private void renderGender(ImageView imageView, Selection selection) {

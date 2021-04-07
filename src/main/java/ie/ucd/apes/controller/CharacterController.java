@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class CharacterController {
-    private final Character characterLeft;
-    private final Character characterRight;
+    private Character characterLeft;
+    private Character characterRight;
 
     public CharacterController(Character characterLeft, Character characterRight) {
         this.characterLeft = characterLeft;
@@ -73,5 +73,18 @@ public class CharacterController {
 
     public void setHairColor(Selection selection, Color newHairColor) {
         getCharacter(selection).setHairColor(newHairColor);
+    }
+
+    public void setCharacter(Selection selection, Character character) {
+        if (selection.equals(Selection.IS_LEFT)) {
+            characterLeft = character;
+        } else {
+            characterRight = character;
+        }
+    }
+
+    public void reset() {
+        characterLeft = new Character(Constants.BLANK_IMAGE, false, false);
+        characterRight = new Character(Constants.BLANK_IMAGE, true, false);
     }
 }

@@ -1,5 +1,7 @@
 package ie.ucd.apes.entity;
 
+import java.util.UUID;
+
 public class PanelState {
     private Character characterLeft;
     private Character characterRight;
@@ -7,8 +9,11 @@ public class PanelState {
     private Dialogue dialogueRight;
     private Narrative narrativeTop;
     private Narrative narrativeBottom;
+    private final String panelId;
+    private int panelPosition;
 
     public PanelState() {
+        panelId = UUID.randomUUID().toString();
     }
 
     public Character getCharacterLeft() {
@@ -57,5 +62,17 @@ public class PanelState {
 
     public void setNarrativeBottom(Narrative narrativeBottom) {
         this.narrativeBottom = narrativeBottom;
+    }
+
+    public int getPanelPosition() {
+        return panelPosition;
+    }
+
+    public void setPanelPosition(int panelPosition) {
+        this.panelPosition = panelPosition;
+    }
+
+    public String getPanelId() {
+        return panelId;
     }
 }

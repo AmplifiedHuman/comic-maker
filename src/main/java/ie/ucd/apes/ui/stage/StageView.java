@@ -1,10 +1,8 @@
 package ie.ucd.apes.ui.stage;
 
-import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.DialogueBox;
 import ie.ucd.apes.ui.NarrativeBar;
-import ie.ucd.apes.ui.ScrollingPane;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -18,17 +16,11 @@ public class StageView extends VBox {
     private final CharacterView characterView;
     private final DialogueView dialogueView;
     private final NarrativeView narrativeView;
-    private final PanelController panelController;
-    private final ScrollingPane scrollingPane;
 
-    public StageView(CharacterView characterView, DialogueView dialogueView,
-                     NarrativeView narrativeView, PanelController panelController,
-                     ScrollingPane scrollingPane) {
+    public StageView(CharacterView characterView, DialogueView dialogueView, NarrativeView narrativeView) {
         this.characterView = characterView;
         this.dialogueView = dialogueView;
         this.narrativeView = narrativeView;
-        this.scrollingPane = scrollingPane;
-        this.panelController = panelController;
         initView();
     }
 
@@ -62,12 +54,13 @@ public class StageView extends VBox {
         VBox.setVgrow(this, Priority.NEVER);
     }
 
-    public void saveToScrollingPane() {
-        scrollingPane.addScene(takeScreenshot());
-        panelController.savePanel();
+    public void render() {
+        characterView.renderCharacters();
+        dialogueView.renderDialogues();
+        narrativeView.renderNarrativeBars();
     }
 
-    private WritableImage takeScreenshot() {
+    public WritableImage takeScreenshot() {
         return snapshot(new SnapshotParameters(), null);
     }
 }

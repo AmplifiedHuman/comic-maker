@@ -34,6 +34,15 @@ public class NarrativeView {
         }
     }
 
+    public void renderNarrativeBars() {
+        narrativeBarTop.setText(narrativeController.getNarrativeText(Selection.IS_TOP));
+        narrativeBarBottom.setText(narrativeController.getNarrativeText(Selection.IS_BOTTOM));
+        narrativeBarTop.setVisible(narrativeController.isVisible(Selection.IS_TOP));
+        narrativeBarBottom.setVisible(narrativeController.isVisible(Selection.IS_BOTTOM));
+        narrativeBarTop.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_TOP));
+        narrativeBarBottom.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_BOTTOM));
+    }
+
     private void showNarrativeBarPopUp(Selection selection) {
         TextInputDialog popup = new TextInputDialog(narrativeController.getNarrativeText(selection));
         popup.setTitle("Narrative Bar");
@@ -59,14 +68,5 @@ public class NarrativeView {
         }
         narrativeController.setNarrativeText(selection, text);
         narrativeBar.setText(text);
-    }
-
-    private void renderNarrativeBars() {
-        narrativeBarTop.setText(narrativeController.getNarrativeText(Selection.IS_TOP));
-        narrativeBarBottom.setText(narrativeController.getNarrativeText(Selection.IS_BOTTOM));
-        narrativeBarTop.setVisible(narrativeController.isVisible(Selection.IS_TOP));
-        narrativeBarBottom.setVisible(narrativeController.isVisible(Selection.IS_BOTTOM));
-        narrativeBarTop.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_TOP));
-        narrativeBarBottom.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_BOTTOM));
     }
 }

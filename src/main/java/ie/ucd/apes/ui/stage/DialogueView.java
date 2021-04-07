@@ -46,6 +46,17 @@ public class DialogueView {
         }
     }
 
+    public void renderDialogues() {
+        leftDialogueBox.setText(dialogueController.getDialogueText(Selection.IS_LEFT));
+        rightDialogueBox.setText(dialogueController.getDialogueText(Selection.IS_RIGHT));
+        leftDialogueBox.setDialogueStyle(Selection.IS_LEFT, dialogueController.getDialogueType(Selection.IS_LEFT));
+        rightDialogueBox.setDialogueStyle(Selection.IS_RIGHT, dialogueController.getDialogueType(Selection.IS_RIGHT));
+        leftDialogueBox.setVisible(dialogueController.isVisible(Selection.IS_LEFT));
+        rightDialogueBox.setVisible(dialogueController.isVisible(Selection.IS_RIGHT));
+        leftDialogueBox.setOnMouseClicked((e) -> showDialoguePopup(Selection.IS_LEFT));
+        rightDialogueBox.setOnMouseClicked((e) -> showDialoguePopup(Selection.IS_RIGHT));
+    }
+
     private Selection getFocusedDialogueSelection() {
         Selection selection = null;
         if (characterView.isFocused(Selection.IS_LEFT)) {
@@ -82,16 +93,5 @@ public class DialogueView {
                 showWarningAlert();
             }
         }
-    }
-
-    private void renderDialogues() {
-        leftDialogueBox.setText(dialogueController.getDialogueText(Selection.IS_LEFT));
-        rightDialogueBox.setText(dialogueController.getDialogueText(Selection.IS_RIGHT));
-        leftDialogueBox.setDialogueStyle(Selection.IS_LEFT, dialogueController.getDialogueType(Selection.IS_LEFT));
-        rightDialogueBox.setDialogueStyle(Selection.IS_RIGHT, dialogueController.getDialogueType(Selection.IS_RIGHT));
-        leftDialogueBox.setVisible(dialogueController.isVisible(Selection.IS_LEFT));
-        rightDialogueBox.setVisible(dialogueController.isVisible(Selection.IS_RIGHT));
-        leftDialogueBox.setOnMouseClicked((e) -> showDialoguePopup(Selection.IS_LEFT));
-        rightDialogueBox.setOnMouseClicked((e) -> showDialoguePopup(Selection.IS_RIGHT));
     }
 }
