@@ -38,6 +38,8 @@ public class ScrollingPane extends ScrollPane {
         VBox.setVgrow(this, Priority.ALWAYS);
         container = new HBox();
         setContent(container);
+        getStyleClass().clear();
+        getStyleClass().add("scroll-pane");
     }
 
     public void saveToScrollingPane() {
