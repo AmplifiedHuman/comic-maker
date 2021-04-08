@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ public class ScrollingPane extends ScrollPane {
     public ScrollingPane(PanelController panelController, StageView stageView) {
         this.panelController = panelController;
         this.stageView = stageView;
-        orderingMap = new HashMap<>();
+        orderingMap = new LinkedHashMap<>();
         setPrefWidth(800);
         setPrefHeight(200);
         setMinHeight(200);
@@ -51,6 +51,34 @@ public class ScrollingPane extends ScrollPane {
             panelController.saveAndResetPanel(position);
         }
         stageView.render();
+    }
+
+    public void deleteFromScrollingPane() {
+        if(alertDelete()){
+            if(orderingMap.size() > 0 && orderingMap.get(panelController.getCurrentId()) != null){
+                CapturedScene scene = (CapturedScene) container.getChildren().get(orderingMap.get(panelController.getCurrentId()));
+                orderingMap.remove(panelController.getCurrentId());
+                container.getChildren().remove(scene);
+                panelController.saveAndResetPanel(container.getChildren().size()-1);
+                updateScenePositions();
+                stageView.render();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error");
+                alert.setHeaderText("Illegal Action!");
+                alert.setContentText("There is nothing to delete.");
+
+                alert.showAndWait();
+            }
+        }
+    }
+
+    private void updateScenePositions() {
+        int i = 0;
+        for(Map.Entry<String,Integer> entry : orderingMap.entrySet()){
+            entry.setValue(i);
+            i++;
+        }
     }
 
     private void update(Image image, int position) {
@@ -88,5 +116,16 @@ public class ScrollingPane extends ScrollPane {
         alert.getButtonTypes().setAll(save, discard);
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == save;
+    }
+
+    public boolean alertDelete() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Scene");
+        alert.setContentText("Are you sure you want to delete this scene?");
+        ButtonType delete = new ButtonType("DELETE", ButtonBar.ButtonData.YES);
+        ButtonType keep = new ButtonType("Keep", ButtonBar.ButtonData.NO);
+        alert.getButtonTypes().setAll(delete, keep);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == delete;
     }
 }
