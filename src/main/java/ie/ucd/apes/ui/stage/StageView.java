@@ -17,7 +17,6 @@ public class StageView extends VBox {
     private final CharacterView characterView;
     private final DialogueView dialogueView;
     private final NarrativeView narrativeView;
-    private OptionsPane optionsPane;
 
     public StageView(CharacterView characterView, DialogueView dialogueView, NarrativeView narrativeView) {
         this.characterView = characterView;
@@ -56,14 +55,8 @@ public class StageView extends VBox {
         VBox.setVgrow(this, Priority.NEVER);
     }
 
-    public void setOptionsPane(OptionsPane optionsPane) {
-        this.optionsPane = optionsPane;
-    }
-
     public void render() {
         characterView.renderCharacters();
-        optionsPane.updateSelection(characterView.getCharacterImageLink(Selection.IS_LEFT),
-                characterView.getCharacterImageLink(Selection.IS_RIGHT));
         dialogueView.renderDialogues();
         narrativeView.renderNarrativeBars();
     }

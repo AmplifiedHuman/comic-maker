@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class OptionsPane extends VBox {
     private final CharacterView characterView;
@@ -26,8 +27,6 @@ public class OptionsPane extends VBox {
     private final ScrollingPane scrollingPane;
     private MenuButton leftButton;
     private MenuButton rightButton;
-    private ListView<String> leftListView;
-    private ListView<String> rightListView;
     private Button flipButton;
     private Button genderButton;
     private Button speechButton;
@@ -69,11 +68,6 @@ public class OptionsPane extends VBox {
         optionsPane.setVgap(5);
 
         this.getChildren().add(optionsPane);
-    }
-
-    public void updateSelection(String leftImage, String rightImage) {
-        leftListView.getSelectionModel().select(leftImage);
-        rightListView.getSelectionModel().select(rightImage);
     }
 
     private void initSaveButton() {
@@ -171,8 +165,8 @@ public class OptionsPane extends VBox {
                     setText(Constants.BLANK_IMAGE);
                     setGraphic(null);
                 } else {
-                    Image iconImage = new Image(getClass()
-                            .getResourceAsStream(String.format("/%s/%s", Constants.CHARACTER_FOLDER, name)));
+                    Image iconImage = new Image(Objects.requireNonNull(getClass()
+                            .getResourceAsStream(String.format("/%s/%s", Constants.CHARACTER_FOLDER, name))));
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(100);
                     imageView.setSmooth(true);
@@ -185,11 +179,6 @@ public class OptionsPane extends VBox {
         // update character listener
         listView.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldValue, newValue) -> characterView.updateCharacterImage(newValue, selection));
-        if (selection.equals(Selection.IS_LEFT)) {
-            leftListView = listView;
-        } else {
-            rightListView = listView;
-        }
         return new CustomMenuItem(listView, true);
     }
 }
