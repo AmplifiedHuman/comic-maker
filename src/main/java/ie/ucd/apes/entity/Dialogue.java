@@ -1,5 +1,7 @@
 package ie.ucd.apes.entity;
 
+import java.util.Objects;
+
 public class Dialogue implements Cloneable {
     private String text;
     private boolean isVisible;
@@ -38,5 +40,19 @@ public class Dialogue implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dialogue dialogue = (Dialogue) o;
+        return isVisible == dialogue.isVisible && text.equals(dialogue.text) && dialogueType == dialogue.dialogueType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text, isVisible, dialogueType);
     }
 }

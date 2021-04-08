@@ -2,6 +2,8 @@ package ie.ucd.apes.entity;
 
 import javafx.scene.paint.Color;
 
+import java.util.Objects;
+
 import static ie.ucd.apes.entity.Constants.*;
 
 public class Character implements Cloneable {
@@ -68,5 +70,18 @@ public class Character implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Character character = (Character) o;
+        return isFlipped == character.isFlipped && isMale == character.isMale && imageFileName.equals(character.imageFileName) && skinColor.equals(character.skinColor) && hairColor.equals(character.hairColor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imageFileName, isFlipped, isMale, skinColor, hairColor);
     }
 }

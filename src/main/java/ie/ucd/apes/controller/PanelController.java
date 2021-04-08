@@ -32,6 +32,16 @@ public class PanelController {
         return currentState.getPanelId();
     }
 
+    public boolean isEdited() {
+        if(isCurrentStateNew()) {
+            return true;
+        }
+        PanelState originalPanel = panelStateIdMap.get(currentState.getPanelId());
+        return !characterController.getCharacter(Selection.IS_LEFT).equals(originalPanel.getCharacterLeft()) || !characterController.getCharacter(Selection.IS_RIGHT).equals(originalPanel.getCharacterRight()) ||
+                !dialogueController.getDialogue(Selection.IS_LEFT).equals(originalPanel.getDialogueLeft()) || !dialogueController.getDialogue(Selection.IS_RIGHT).equals(originalPanel.getDialogueRight()) ||
+                !narrativeController.getNarrative(Selection.IS_TOP).equals(originalPanel.getNarrativeTop()) || !narrativeController.getNarrative(Selection.IS_BOTTOM).equals(originalPanel.getNarrativeBottom());
+    }
+
     public void loadPanel(int position) {
         try {
             currentState = panelStatePositionMap.get(position);
