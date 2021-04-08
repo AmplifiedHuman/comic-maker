@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ public class ScrollingPane extends ScrollPane {
     public ScrollingPane(PanelController panelController, StageView stageView) {
         this.panelController = panelController;
         this.stageView = stageView;
-        orderingMap = new LinkedHashMap<>();
+        orderingMap = new HashMap<>();
         setPrefWidth(800);
         setPrefHeight(200);
         setMinHeight(200);
