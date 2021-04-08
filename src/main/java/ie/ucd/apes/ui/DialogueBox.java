@@ -10,12 +10,6 @@ public class DialogueBox extends Label {
         setWrapText(true);
     }
 
-    public DialogueBox(String text) {
-        super();
-        setText(text);
-        setWrapText(true);
-    }
-
     public void setDialogueStyle(Selection selection, DialogueType dialogueType) {
         if (dialogueType.equals(DialogueType.SPEECH)) {
             getStyleClass().clear();

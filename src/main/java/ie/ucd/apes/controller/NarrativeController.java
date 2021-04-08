@@ -1,5 +1,6 @@
 package ie.ucd.apes.controller;
 
+import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.Narrative;
 import ie.ucd.apes.entity.Selection;
 
@@ -41,8 +42,13 @@ public class NarrativeController {
         }
     }
 
+    public boolean isDefaultState() {
+        return narrativeTop.equals(Constants.DEFAULT_TOP_NARRATIVE)
+                && narrativeBottom.equals(Constants.DEFAULT_BOTTOM_NARRATIVE);
+    }
+
     public void reset() {
-        narrativeTop = new Narrative("CLICK HERE TO EDIT TOP TEXT", false);
-        narrativeBottom = new Narrative("CLICK HERE TO EDIT BOTTOM TEXT", false);
+        narrativeTop = new Narrative(Constants.DEFAULT_TOP_NARRATIVE);
+        narrativeBottom = new Narrative(Constants.DEFAULT_BOTTOM_NARRATIVE);
     }
 }

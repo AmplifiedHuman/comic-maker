@@ -24,18 +24,18 @@ public class Layout extends VBox {
         HBox hbox = new HBox(50);
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        Narrative narrativeTop = new Narrative("CLICK HERE TO EDIT TOP TEXT", false);
-        Narrative narrativeBottom = new Narrative("CLICK HERE TO EDIT BOTTOM TEXT", false);
+        Narrative narrativeTop = new Narrative(Constants.DEFAULT_TOP_NARRATIVE);
+        Narrative narrativeBottom = new Narrative(Constants.DEFAULT_BOTTOM_NARRATIVE);
         NarrativeController narrativeController = new NarrativeController(narrativeTop, narrativeBottom);
         NarrativeView narrativeView = new NarrativeView(narrativeController);
 
-        Character characterLeft = new Character(Constants.BLANK_IMAGE, false, false);
-        Character characterRight = new Character(Constants.BLANK_IMAGE, true, false);
+        Character characterLeft = new Character(Constants.DEFAULT_LEFT_CHARACTER);
+        Character characterRight = new Character(Constants.DEFAULT_RIGHT_CHARACTER);
         CharacterController characterController = new CharacterController(characterLeft, characterRight);
         CharacterView characterView = new CharacterView(characterController);
 
-        Dialogue dialogueLeft = new Dialogue("", false, DialogueType.SPEECH);
-        Dialogue dialogueRight = new Dialogue("", false, DialogueType.SPEECH);
+        Dialogue dialogueLeft = new Dialogue(Constants.DEFAULT_DIALOGUE);
+        Dialogue dialogueRight = new Dialogue(Constants.DEFAULT_DIALOGUE);
         DialogueController dialogueController = new DialogueController(dialogueLeft, dialogueRight);
         DialogueView dialogueView = new DialogueView(dialogueController, characterView);
 

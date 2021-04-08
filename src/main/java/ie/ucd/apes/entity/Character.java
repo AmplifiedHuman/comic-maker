@@ -4,9 +4,10 @@ import javafx.scene.paint.Color;
 
 import java.util.Objects;
 
-import static ie.ucd.apes.entity.Constants.*;
+import static ie.ucd.apes.entity.Constants.DEFAULT_HAIR_COLOR;
+import static ie.ucd.apes.entity.Constants.DEFAULT_SKIN_COLOR;
 
-public class Character implements Cloneable {
+public class Character {
     private String imageFileName;
     private boolean isFlipped;
     private boolean isMale;
@@ -19,6 +20,14 @@ public class Character implements Cloneable {
         this.isMale = isMale;
         skinColor = DEFAULT_SKIN_COLOR;
         hairColor = DEFAULT_HAIR_COLOR;
+    }
+
+    public Character(Character copy) {
+        this.imageFileName = copy.imageFileName;
+        this.isFlipped = copy.isFlipped;
+        this.isMale = copy.isMale;
+        this.skinColor = copy.skinColor;
+        this.hairColor = copy.hairColor;
     }
 
     public String getImageFileName() {
@@ -49,7 +58,9 @@ public class Character implements Cloneable {
         isFlipped = !isFlipped;
     }
 
-    public void changeGender() { isMale = !isMale; }
+    public void changeGender() {
+        isMale = !isMale;
+    }
 
     public Color getSkinColor() {
         return skinColor;
@@ -65,11 +76,6 @@ public class Character implements Cloneable {
 
     public void setHairColor(Color hairColor) {
         this.hairColor = hairColor;
-    }
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 
     @Override

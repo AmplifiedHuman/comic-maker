@@ -2,7 +2,6 @@ package ie.ucd.apes.ui;
 
 
 import ie.ucd.apes.controller.PanelController;
-import ie.ucd.apes.entity.PanelState;
 import ie.ucd.apes.ui.stage.StageView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -43,41 +42,60 @@ public class ScrollingPane extends ScrollPane {
 
     public void saveToScrollingPane() {
         if (panelController.isCurrentStateNew()) {
-            save(stageView.takeScreenshot());
-            panelController.saveAndResetPanel(container.getChildren().size() - 1);
+            save(stageView.takeScreenshot(), panelController.getCurrentId());
+            panelController.save(container.getChildren().size() - 1);
         } else {
             int position = orderingMap.getOrDefault(panelController.getCurrentId(), -1);
             update(stageView.takeScreenshot(), position);
-            panelController.saveAndResetPanel(position);
+            panelController.save(position);
         }
+        panelController.reset();
         stageView.render();
     }
 
     public void deleteFromScrollingPane() {
-        if(alertDelete()){
-            if(orderingMap.size() > 0 && orderingMap.get(panelController.getCurrentId()) != null){
-                CapturedScene scene = (CapturedScene) container.getChildren().get(orderingMap.get(panelController.getCurrentId()));
-                orderingMap.remove(panelController.getCurrentId());
-                container.getChildren().remove(scene);
-                panelController.saveAndResetPanel(container.getChildren().size()-1);
-                updateScenePositions();
+        if (alertDelete()) {
+            String currentId = panelController.getCurrentId();
+            if (orderingMap.size() > 0 && orderingMap.containsKey(currentId)) {
+                int targetPosition = orderingMap.get(currentId);
+                orderingMap.remove(currentId);
+                container.getChildren().remove(targetPosition);
+                updateScenePositions(targetPosition);
+                panelController.delete(targetPosition, currentId);
+                // load next closest pane
+                if (orderingMap.isEmpty()) {
+                    // if empty then just reset pane
+                    panelController.reset();
+                    stageView.render();
+                } else if (targetPosition >= orderingMap.size()) {
+                    // previous last item was deleted, so load current last
+                    loadData(orderingMap.size() - 1);
+                    container.getChildren().get(orderingMap.size() - 1).requestFocus();
+                } else {
+                    // load new pane at current position
+                    loadData(targetPosition);
+                    container.getChildren().get(targetPosition).requestFocus();
+                }
+            } else if (!orderingMap.containsKey(currentId)) {
+                panelController.reset();
                 stageView.render();
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Error");
                 alert.setHeaderText("Illegal Action!");
-                alert.setContentText("There is nothing to delete.");
-
+                alert.setContentText("Cannot delete from empty scroll pane");
                 alert.showAndWait();
             }
         }
     }
 
-    private void updateScenePositions() {
-        int i = 0;
-        for(Map.Entry<String,Integer> entry : orderingMap.entrySet()){
-            entry.setValue(i);
-            i++;
+    private void updateScenePositions(int targetPosition) {
+        // update entries that come after currentPosition
+        for (Map.Entry<String, Integer> entry : orderingMap.entrySet()) {
+            int currentPosition = entry.getValue();
+            if (currentPosition > targetPosition) {
+                entry.setValue(currentPosition - 1);
+            }
         }
     }
 
@@ -87,16 +105,14 @@ public class ScrollingPane extends ScrollPane {
     }
 
     // frontend changes
-    private void save(Image image) {
-        CapturedScene scene = new CapturedScene(image, container.getChildren().size());
+    private void save(Image image, String id) {
+        CapturedScene scene = new CapturedScene(image);
         scene.setOnMouseClicked((e) -> {
-            if(panelController.isEdited()){
-                if (alertSave()) {
-                    saveToScrollingPane();
-                }
+            if (panelController.isEdited() && !panelController.isDefaultState() && alertSave()) {
+                saveToScrollingPane();
             }
             scene.requestFocus();
-            loadData(scene.getPosition());
+            loadData(orderingMap.get(id));
         });
         orderingMap.put(panelController.getCurrentId(), container.getChildren().size());
         container.getChildren().add(scene);
@@ -121,8 +137,13 @@ public class ScrollingPane extends ScrollPane {
     public boolean alertDelete() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Scene");
-        alert.setContentText("Are you sure you want to delete this scene?");
-        ButtonType delete = new ButtonType("DELETE", ButtonBar.ButtonData.YES);
+        if (panelController.isCurrentStateNew()) {
+            alert.setContentText("Are you sure you want to clear this scene?");
+        } else {
+            alert.setContentText("Are you sure you want to delete this scene?");
+        }
+        String message = panelController.isCurrentStateNew() ? "Clear" : "Delete";
+        ButtonType delete = new ButtonType(message, ButtonBar.ButtonData.YES);
         ButtonType keep = new ButtonType("Keep", ButtonBar.ButtonData.NO);
         alert.getButtonTypes().setAll(delete, keep);
         Optional<ButtonType> result = alert.showAndWait();

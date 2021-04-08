@@ -1,5 +1,6 @@
 package ie.ucd.apes.controller;
 
+import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.Dialogue;
 import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
@@ -50,8 +51,13 @@ public class DialogueController {
         }
     }
 
+    public boolean isDefaultState() {
+        return dialogueLeft.equals(Constants.DEFAULT_DIALOGUE)
+                && dialogueRight.equals(Constants.DEFAULT_DIALOGUE);
+    }
+
     public void reset() {
-        dialogueLeft = new Dialogue("", false, DialogueType.SPEECH);
-        dialogueRight = new Dialogue("", false, DialogueType.SPEECH);
+        dialogueLeft = new Dialogue(Constants.DEFAULT_DIALOGUE);
+        dialogueRight = new Dialogue(Constants.DEFAULT_DIALOGUE);
     }
 }

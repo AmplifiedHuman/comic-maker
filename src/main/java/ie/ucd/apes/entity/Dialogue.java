@@ -2,7 +2,7 @@ package ie.ucd.apes.entity;
 
 import java.util.Objects;
 
-public class Dialogue implements Cloneable {
+public class Dialogue {
     private String text;
     private boolean isVisible;
     private DialogueType dialogueType;
@@ -11,6 +11,12 @@ public class Dialogue implements Cloneable {
         this.text = text;
         this.isVisible = isVisible;
         this.dialogueType = dialogueType;
+    }
+
+    public Dialogue(Dialogue copy) {
+        this.text = copy.text;
+        this.isVisible = copy.isVisible;
+        this.dialogueType = copy.dialogueType;
     }
 
     public String getText() {
@@ -36,12 +42,6 @@ public class Dialogue implements Cloneable {
     public void setDialogueType(DialogueType dialogueType) {
         this.dialogueType = dialogueType;
     }
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
 
     @Override
     public boolean equals(Object o) {

@@ -7,12 +7,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
 public class CapturedScene extends HBox {
-    private final int position;
     private final ImageView imageView;
 
-    public CapturedScene(Image image, int position) {
+    public CapturedScene(Image image) {
         imageView = new ImageView(image);
-        this.position = position;
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(200);
         getChildren().add(imageView);
@@ -28,9 +26,5 @@ public class CapturedScene extends HBox {
 
     public Image getImage() {
         return imageView.getImage();
-    }
-
-    public int getPosition() {
-        return position;
     }
 }

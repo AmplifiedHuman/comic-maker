@@ -6,6 +6,8 @@ import ie.ucd.apes.entity.Selection;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.util.Objects;
+
 public class CharacterController {
     private Character characterLeft;
     private Character characterRight;
@@ -24,7 +26,7 @@ public class CharacterController {
             return null;
         }
         String imagePath = String.format("/%s/%s", Constants.CHARACTER_FOLDER, imageFileName);
-        return new Image(getClass().getResourceAsStream(imagePath));
+        return new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
     }
 
     public Image renderCharacterImage(Selection selection) {
@@ -55,11 +57,6 @@ public class CharacterController {
         character.setHairColor(Constants.DEFAULT_HAIR_COLOR);
     }
 
-    public String getCharacterImageLink(Selection selection) {
-        return selection.equals(Selection.IS_LEFT) ? getCharacter(Selection.IS_LEFT).getImageFileName() :
-                getCharacter(Selection.IS_RIGHT).getImageFileName();
-    }
-
     public Character getCharacter(Selection selection) {
         return selection.equals(Selection.IS_LEFT) ? characterLeft : characterRight;
     }
@@ -88,8 +85,13 @@ public class CharacterController {
         }
     }
 
+    public boolean isDefaultState() {
+        return characterLeft.equals(Constants.DEFAULT_LEFT_CHARACTER)
+                && characterRight.equals(Constants.DEFAULT_RIGHT_CHARACTER);
+    }
+
     public void reset() {
-        characterLeft = new Character(Constants.BLANK_IMAGE, false, false);
-        characterRight = new Character(Constants.BLANK_IMAGE, true, false);
+        characterLeft = new Character(Constants.DEFAULT_LEFT_CHARACTER);
+        characterRight = new Character(Constants.DEFAULT_RIGHT_CHARACTER);
     }
 }

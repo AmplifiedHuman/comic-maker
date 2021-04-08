@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class Apes {
     public static void main(String[] args) {
@@ -24,11 +25,11 @@ public class Apes {
             var scene = new Scene(new Layout(), 900, 900);
             stage.setMinWidth(900);
             stage.setMinHeight(900);
-            scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
             stage.setScene(scene);
             stage.getIcons().add(new Image("/buttons/logo.png"));
             if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE)) {
-                ImageIcon icon = new ImageIcon(getClass().getResource("/buttons/logo.png"));
+                ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/buttons/logo.png")));
                 Taskbar.getTaskbar().setIconImage(icon.getImage());
             }
             stage.show();

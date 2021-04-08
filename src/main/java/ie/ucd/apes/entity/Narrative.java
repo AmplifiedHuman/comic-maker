@@ -2,13 +2,18 @@ package ie.ucd.apes.entity;
 
 import java.util.Objects;
 
-public class Narrative implements Cloneable {
+public class Narrative {
     private String text;
     private boolean isVisible;
 
     public Narrative(String text, boolean isVisible) {
         this.text = text;
         this.isVisible = isVisible;
+    }
+
+    public Narrative(Narrative copy) {
+        this.text = copy.text;
+        this.isVisible = copy.isVisible;
     }
 
     public String getText() {
@@ -25,11 +30,6 @@ public class Narrative implements Cloneable {
 
     public void setVisible(boolean visible) {
         isVisible = visible;
-    }
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 
     @Override
