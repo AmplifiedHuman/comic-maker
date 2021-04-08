@@ -87,7 +87,7 @@ public class OptionsPane extends VBox {
         deleteButton = new Button("", new ImageView("/buttons/delete_button.png"));
         deleteButton.setTooltip(new Tooltip("Delete Scene"));
         deleteButton.setMinWidth(82);
-        //deleteButton.setOnMouseClicked((e) -> scrollingPane.saveToScrollingPane());
+        deleteButton.setOnMouseClicked((e) -> scrollingPane.deleteFromScrollingPane());
     }
 
     private void initNarrativeButtons() {
