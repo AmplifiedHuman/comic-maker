@@ -111,10 +111,6 @@ public class CharacterView {
         });
     }
 
-    public String getCharacterImageLink(Selection selection) {
-        return characterController.getCharacterImageLink(selection);
-    }
-
     public CharacterImage getCharacterImage(Selection selection) {
         return selection.equals(Selection.IS_LEFT) ? characterLeftView :
                 characterRightView;
@@ -161,6 +157,8 @@ public class CharacterView {
     private void renderOrientation(ImageView imageView, Selection selection) {
         if (characterController.isFlipped(selection)) {
             imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        } else {
+            imageView.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
         }
     }
 
