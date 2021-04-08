@@ -1,5 +1,7 @@
 package ie.ucd.apes.entity;
 
+import java.util.Objects;
+
 public class Narrative implements Cloneable {
     private String text;
     private boolean isVisible;
@@ -28,5 +30,18 @@ public class Narrative implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Narrative narrative = (Narrative) o;
+        return isVisible == narrative.isVisible && text.equals(narrative.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text, isVisible);
     }
 }

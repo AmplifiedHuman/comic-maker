@@ -2,6 +2,7 @@ package ie.ucd.apes.ui;
 
 
 import ie.ucd.apes.controller.PanelController;
+import ie.ucd.apes.entity.PanelState;
 import ie.ucd.apes.ui.stage.StageView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -89,8 +90,10 @@ public class ScrollingPane extends ScrollPane {
     private void save(Image image) {
         CapturedScene scene = new CapturedScene(image, container.getChildren().size());
         scene.setOnMouseClicked((e) -> {
-            if (alertSave()) {
-                saveToScrollingPane();
+            if(panelController.isEdited()){
+                if (alertSave()) {
+                    saveToScrollingPane();
+                }
             }
             scene.requestFocus();
             loadData(scene.getPosition());
