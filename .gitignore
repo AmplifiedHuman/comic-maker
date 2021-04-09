@@ -175,3 +175,4 @@ local.properties
 # End of https://www.toptal.com/developers/gitignore/api/eclipse
 .classpath
 .vscode/settings.json
+.project
