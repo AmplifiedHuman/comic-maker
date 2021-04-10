@@ -22,9 +22,9 @@ public class Apes {
 
         @Override
         public void start(Stage stage) {
-            var scene = new Scene(new Layout(), 900, 900);
+            var scene = new Scene(new Layout(), 900, 750);
             stage.setMinWidth(900);
-            stage.setMinHeight(900);
+            stage.setMinHeight(800);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
             stage.setScene(scene);
             stage.getIcons().add(new Image("/buttons/logo.png"));
