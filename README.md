@@ -67,8 +67,28 @@ current colour to match the character's skin and hair colour.
 > Note that, to achieve the mentioned features, we created additional entities so that it would be easier to serialize
 > the characters in later sprints.
 
-In addition to this week's requirement, we have also completed the stories from sprint 4 so **speech & thought bubble
-, narrative bars are all supported**. More documentation details will be included in the next sprint, but the features
+In addition to this week's requirement, we have also completed the stories from sprint 4 so **speech & thought bubble ,
+narrative bars are all supported**. More documentation details will be included in the next sprint, but the features are
+working in our current release.
+
+### Sprint 4 - Adding Dialogue Boxes
+
+We completed the dialogue boxes for the respective characters by our version work slightly different. After consulting
+Prof. Tony about our decision, he agreed via email this approach is indeed fine. We feel that the user should be able to
+remove the thought/speech bubbles as they wish (ie reset to initial state without speech bubbles at all). So, we
+proposed an alternative approach:
+When the speech bubble setting is clicked, instead of prompting the user first, we add a empty speech bubble to the
+character, and the user can click on that empty speech bubble to enter their desired text in a popup window. So, our
+speech bubble setting will act as a hide/show button for the speech bubbles.
+
+Some extra bonuses we added include a warning which limits the number of characters to 100 to ensure that our
+application works and displays correctly. Besides, when say a speech bubble already enabled for a character, clicking on
+the thought bubble button directly switches the speech bubble style.
+
+![Sprint 4](readme-resources/sprint4.png)
+
+In addition to this week's requirement, we have also completed the stories from sprint 6 so **saving, navigating /
+deletion of panels are all supported**. More documentation details will be included in the next sprint, but the features
 are working in our current release.
 
 ## Team Members
