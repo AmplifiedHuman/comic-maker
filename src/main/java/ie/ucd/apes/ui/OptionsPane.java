@@ -8,9 +8,11 @@ import ie.ucd.apes.ui.stage.CharacterView;
 import ie.ucd.apes.ui.stage.DialogueView;
 import ie.ucd.apes.ui.stage.NarrativeView;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -179,6 +181,19 @@ public class OptionsPane extends VBox {
         // update character listener
         listView.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldValue, newValue) -> characterView.updateCharacterImage(newValue, selection));
-        return new CustomMenuItem(listView, true);
+        FilteredList<String> filteredData = new FilteredList<>(listView.getItems(), s -> true);
+        TextField filterInput = new TextField();
+        filterInput.textProperty().addListener(obs -> {
+            String filter = filterInput.getText();
+            if (filter == null || filter.length() == 0) {
+                filteredData.setPredicate(s -> true);
+            } else {
+                filteredData.setPredicate(s -> s.contains(filter));
+            }
+        });
+        listView.setItems(filteredData);
+        BorderPane content = new BorderPane(listView);
+        content.setTop(filterInput);
+        return new CustomMenuItem(content, true);
     }
 }
