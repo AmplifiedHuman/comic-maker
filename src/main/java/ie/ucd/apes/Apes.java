@@ -1,5 +1,6 @@
 package ie.ucd.apes;
 
+import ie.ucd.apes.ui.HelpBox;
 import ie.ucd.apes.ui.Layout;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -33,6 +34,7 @@ public class Apes {
                 Taskbar.getTaskbar().setIconImage(icon.getImage());
             }
             stage.show();
+            new HelpBox();
         }
 
     }
