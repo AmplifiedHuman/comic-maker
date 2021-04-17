@@ -5,7 +5,9 @@ import ie.ucd.apes.controller.DialogueController;
 import ie.ucd.apes.controller.NarrativeController;
 import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.entity.Character;
-import ie.ucd.apes.entity.*;
+import ie.ucd.apes.entity.Constants;
+import ie.ucd.apes.entity.Dialogue;
+import ie.ucd.apes.entity.Narrative;
 import ie.ucd.apes.ui.stage.CharacterView;
 import ie.ucd.apes.ui.stage.DialogueView;
 import ie.ucd.apes.ui.stage.NarrativeView;
@@ -14,11 +16,11 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 public class Layout extends VBox {
-    public Layout() {
-        this.getChildren().add(new TopMenuBar());
+    public Layout(Stage stage) {
         this.getStyleClass().add("background");
         VBox vbox = new VBox(16);
         HBox hbox = new HBox(50);
@@ -47,6 +49,8 @@ public class Layout extends VBox {
         characterView.setColorPane(colorPane);
         OptionsPane optionsPane = new OptionsPane(characterView, dialogueView, narrativeView, scrollingPane);
 
+        TopMenuBar topMenuBar = new TopMenuBar(stage, scrollingPane);
+
         HBox spacer = new HBox();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         hbox.getChildren().add(stageView);
@@ -55,6 +59,7 @@ public class Layout extends VBox {
         vbox.getChildren().add(optionsPane);
         HBox.setMargin(vbox, new Insets(0, 50, 0, 0));
         hbox.getChildren().add(vbox);
+        this.getChildren().add(topMenuBar);
         this.getChildren().add(hbox);
         this.getChildren().add(scrollingPane);
     }

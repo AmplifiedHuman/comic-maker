@@ -1,5 +1,5 @@
 import ie.ucd.apes.entity.Constants;
-import ie.ucd.apes.io.FileLoader;
+import ie.ucd.apes.io.FileIO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ public class FileLoaderTest {
     public void testCharacterList() {
         try {
             System.out.println("Testing character list loading...");
-            System.out.println(FileLoader.getFileNames(Constants.CHARACTER_FOLDER));
+            System.out.println(FileIO.getFileNames(Constants.CHARACTER_FOLDER));
         } catch (IOException | URISyntaxException ioException) {
             Assertions.fail("Cannot load character images");
         }

@@ -1,19 +1,47 @@
 package ie.ucd.apes.ui;
 
+import ie.ucd.apes.io.FileIO;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
 
 public class TopMenuBar extends MenuBar {
-    public TopMenuBar() {
-        Menu menu1 = new Menu("File");
-        menu1.getItems().add(new MenuItem("Save"));
-        menu1.getItems().add(new MenuItem("Export"));
+    private final Stage stage;
+    private final ScrollingPane scrollingPane;
+    private Menu fileMenu;
+    private Menu helpMenu;
 
+    public TopMenuBar(Stage stage, ScrollingPane scrollingPane) {
+        this.stage = stage;
+        this.scrollingPane = scrollingPane;
+        initFileMenu();
+        initHelpMenu();
+        this.getMenus().addAll(fileMenu, helpMenu);
+    }
+
+    private void initFileMenu() {
+        fileMenu = new Menu("File");
+        MenuItem gifMenuItem = new MenuItem("Export As GIF");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("GIF (*.gif)", "*.gif"));
+        gifMenuItem.setOnAction(actionEvent -> {
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+                FileIO.exportGIF(file, scrollingPane.getImages());
+            }
+        });
+        fileMenu.getItems().addAll(new MenuItem("Save As XML"), gifMenuItem);
+    }
+
+    private void initHelpMenu() {
         Label helpLabel = new Label("Help");
         helpLabel.setOnMouseClicked(e -> new HelpBox());
-        Menu helpMenu = new Menu("", helpLabel);
-        this.getMenus().addAll(menu1, helpMenu);
+        helpMenu = new Menu("", helpLabel);
     }
 }

@@ -3,7 +3,7 @@ package ie.ucd.apes.ui;
 import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
-import ie.ucd.apes.io.FileLoader;
+import ie.ucd.apes.io.FileIO;
 import ie.ucd.apes.ui.stage.CharacterView;
 import ie.ucd.apes.ui.stage.DialogueView;
 import ie.ucd.apes.ui.stage.NarrativeView;
@@ -150,7 +150,7 @@ public class OptionsPane extends VBox {
     }
 
     private CustomMenuItem loadCharactersMenuItem(Selection selection) throws IOException, URISyntaxException {
-        List<String> files = FileLoader.getFileNames(Constants.CHARACTER_FOLDER);
+        List<String> files = FileIO.getFileNames(Constants.CHARACTER_FOLDER);
         Collections.sort(files);
         files.add(0, Constants.BLANK_IMAGE);
         ListView<String> listView = new ListView<>(FXCollections.observableList(files));

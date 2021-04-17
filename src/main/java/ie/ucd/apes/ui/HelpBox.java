@@ -7,7 +7,7 @@ public class HelpBox extends Alert {
         super(AlertType.INFORMATION);
         setTitle("How To Use");
         setHeaderText("Help");
-        getDialogPane().setMinWidth(900);
+        getDialogPane().setMinWidth(950);
         setResizable(true);
         setContentText("1.\tYou can first select a character by clicking the left or right button.\n" +
                 "2.\tTo flip character, first click on the character and then click the flip button.\n" +

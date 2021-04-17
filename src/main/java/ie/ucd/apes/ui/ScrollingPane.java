@@ -3,6 +3,8 @@ package ie.ucd.apes.ui;
 
 import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.ui.stage.StageView;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -12,9 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.awt.image.BufferedImage;
+import java.util.*;
 
 public class ScrollingPane extends ScrollPane {
     private final HBox container;
@@ -53,6 +54,15 @@ public class ScrollingPane extends ScrollPane {
         }
         panelController.reset();
         stageView.render();
+    }
+
+    public List<BufferedImage> getImages() {
+        List<BufferedImage> images = new ArrayList<>();
+        for (Node n : container.getChildren()) {
+            CapturedScene capturedScene = (CapturedScene) n;
+            images.add(SwingFXUtils.fromFXImage(capturedScene.getImage(), null));
+        }
+        return images;
     }
 
     public void deleteFromScrollingPane() {
