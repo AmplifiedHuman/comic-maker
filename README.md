@@ -77,7 +77,7 @@ We completed the dialogue boxes for the respective characters by our version wor
 Prof. Tony about our decision, he agreed via email this approach is indeed fine. We feel that the user should be able to
 remove the thought/speech bubbles as they wish (ie reset to initial state without speech bubbles at all). So, we
 proposed an alternative approach:
-When the speech bubble setting is clicked, instead of prompting the user first, we add a empty speech bubble to the
+When the speech bubble setting is clicked, instead of prompting the user first, we add an empty speech bubble to the
 character, and the user can click on that empty speech bubble to enter their desired text in a popup window. So, our
 speech bubble setting will act as a hide/show button for the speech bubbles.
 
@@ -90,6 +90,26 @@ the thought bubble button directly switches the speech bubble style.
 In addition to this week's requirement, we have also completed the stories from sprint 6 so **saving, navigating /
 deletion of panels are all supported**. More documentation details will be included in the next sprint, but the features
 are working in our current release.
+
+### Sprint 5 - Adding Narrative Bars
+
+For this sprint we added top and bottom narrative bars, which works similarly to the dialogue boxes but in this case,
+the user does not need to click on a specific character before clicking the top/bottom narrative button. We also broke down
+and refactored some larger classes into smaller classes so that they're easier to work with.
+
+![Sprint 5](readme-resources/sprint5.png)
+
+Some extra features/bonuses we included:
+
+- A warning text box is also displayed when the number of characters exceed 100 characters.
+- We added a Help popup which first displays when the application is launched. It is also accessible from the top menu
+  bar.
+- We added a search bar for the character selection list view so that the user can easily search for the character poses
+  they need.
+- Export as GIF is now supported and can be accessed through, `File -> Export As GIF`. The delay between different
+  frames is set to 1s.
+
+![Sprint 5 Extra](readme-resources/sprint5_extra.gif)
 
 ## Team Members
 
