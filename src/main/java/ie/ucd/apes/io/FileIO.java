@@ -52,7 +52,7 @@ public class FileIO {
     public static void exportGIF(File file, List<BufferedImage> images) {
         try {
             ImageOutputStream output = new FileImageOutputStream(file);
-            GifSequenceWriter writer = new GifSequenceWriter(output, images.get(0).getType(), 1000, false);
+            GifSequenceWriter writer = new GifSequenceWriter(output, images.get(0).getType(), 1000, true);
             writer.writeToSequence(images.get(0));
             for (int i = 1; i < images.size(); i++) {
                 writer.writeToSequence(images.get(i));
