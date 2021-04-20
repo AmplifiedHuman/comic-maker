@@ -27,36 +27,38 @@ public class StageView extends VBox {
 
     private void initView() {
         GridPane tiles = new GridPane();
-        tiles.setMinWidth(600);
-        tiles.setMaxWidth(600);
-        tiles.setHgap(15);
-        tiles.setMinHeight(530);
-        tiles.setMaxHeight(530);
+        setAlignment(Pos.CENTER_LEFT);
+        setMinWidth(600);
+        setMaxWidth(600);
+        tiles.setHgap(49);
+        setMinHeight(550);
+        setMaxHeight(550);
 
         NarrativeBar narrativeBarTop = narrativeView.getNarrativeBar(Selection.IS_TOP);
         NarrativeBar narrativeBarBottom = narrativeView.getNarrativeBar(Selection.IS_BOTTOM);
-        tiles.add(narrativeBarTop, 0, 0, 2, 1);
-        tiles.add(narrativeBarBottom, 0, 3, 2, 1);
+        tiles.add(narrativeBarTop, 0, 0, 3, 1);
+        tiles.add(narrativeBarBottom, 0, 3, 3, 1);
 
         DialogueBox leftDialogueBox = dialogueView.getDialogueBox(Selection.IS_LEFT);
         DialogueBox rightDialogueBox = dialogueView.getDialogueBox(Selection.IS_RIGHT);
-        leftDialogueBox.setMinHeight(140);
-        rightDialogueBox.setMinHeight(140);
         tiles.add(leftDialogueBox, 0, 1);
-        tiles.add(rightDialogueBox, 1, 1);
+        tiles.add(rightDialogueBox, 2, 1);
         GridPane.setValignment(leftDialogueBox, VPos.BOTTOM);
         GridPane.setValignment(rightDialogueBox, VPos.BOTTOM);
         GridPane.setHalignment(leftDialogueBox, HPos.CENTER);
         GridPane.setHalignment(rightDialogueBox, HPos.CENTER);
 
         // character models
+        HBox box = new HBox();
+        HBox.setHgrow(box, Priority.ALWAYS);
         tiles.add(characterView.getCharacterImage(Selection.IS_LEFT), 0, 2);
-        tiles.add(characterView.getCharacterImage(Selection.IS_RIGHT), 1, 2);
+        tiles.add(box, 1, 2);
+        tiles.add(characterView.getCharacterImage(Selection.IS_RIGHT), 2, 2);
 
         // background
         tiles.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         this.getChildren().add(tiles);
-        HBox.setHgrow(tiles, Priority.NEVER);
         VBox.setVgrow(this, Priority.NEVER);
     }
 
