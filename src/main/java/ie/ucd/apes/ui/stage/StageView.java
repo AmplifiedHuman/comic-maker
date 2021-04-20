@@ -32,15 +32,15 @@ public class StageView extends VBox {
 
         NarrativeBar narrativeBarTop = narrativeView.getNarrativeBar(Selection.IS_TOP);
         NarrativeBar narrativeBarBottom = narrativeView.getNarrativeBar(Selection.IS_BOTTOM);
-        narrativeBarBottom.setMinHeight(80);
-        narrativeBarTop.setMinHeight(80);
+        narrativeBarBottom.setMinHeight(100);
+        narrativeBarTop.setMinHeight(100);
         tiles.add(narrativeBarTop, 0, 0, 2, 1);
         tiles.add(narrativeBarBottom, 0, 3, 2, 1);
 
         DialogueBox leftDialogueBox = dialogueView.getDialogueBox(Selection.IS_LEFT);
         DialogueBox rightDialogueBox = dialogueView.getDialogueBox(Selection.IS_RIGHT);
-        leftDialogueBox.setMinHeight(130);
-        rightDialogueBox.setMinHeight(130);
+        leftDialogueBox.setMinHeight(140);
+        rightDialogueBox.setMinHeight(140);
         tiles.add(leftDialogueBox, 0, 1);
         tiles.add(rightDialogueBox, 1, 1);
         GridPane.setValignment(leftDialogueBox, VPos.BOTTOM);
