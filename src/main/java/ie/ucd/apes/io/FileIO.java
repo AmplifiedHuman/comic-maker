@@ -63,8 +63,8 @@ public class FileIO {
             for (int i = 1; i < images.size(); i++) {
                 writer.writeToSequence(images.get(i));
             }
-            FileInputStream inputstream = new FileInputStream("src/main/resources/end_screen.png");
-            Image img = new Image(inputstream, 600, 530, false, false);
+            FileInputStream inputStream = new FileInputStream("src/main/resources/end_screen.png");
+            Image img = new Image(inputStream, 600, 550, false, false);
             BufferedImage endScreen = SwingFXUtils.fromFXImage(img, null);
             writer.writeToSequence(endScreen);
             writer.close();

@@ -6,6 +6,7 @@ import ie.ucd.apes.ui.DialogueBox;
 import ie.ucd.apes.ui.NarrativeBar;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
