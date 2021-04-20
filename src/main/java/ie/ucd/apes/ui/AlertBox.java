@@ -7,7 +7,7 @@ public class AlertBox extends Alert {
         super(AlertType.WARNING);
         setTitle(String.format("%s Text Limit Exceeded", type));
         setHeaderText(String.format("%s Text Limit Exceeded", type));
-        setContentText(String.format("%s text box cannot exceed 100 characters", type));
+        setContentText(String.format("%s text box cannot exceed 80 characters", type));
         showAndWait();
     }
 }

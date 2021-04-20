@@ -4,8 +4,11 @@ import ie.ucd.apes.utils.GifSequenceWriter;
 
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -18,6 +21,9 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 public class FileIO {
     public static List<String> getFileNames(String path)
@@ -57,6 +63,12 @@ public class FileIO {
             for (int i = 1; i < images.size(); i++) {
                 writer.writeToSequence(images.get(i));
             }
+            FileInputStream inputstream = new FileInputStream("src/main/resources/end_screen.png");
+            Image img = new Image(inputstream, 600, 530, false, false);
+            BufferedImage endScreen = SwingFXUtils.fromFXImage(img, null);
+            writer.writeToSequence(endScreen);
+            writer.close();
+            output.close();
         } catch (IOException e) {
             System.out.println("Cannot export GIF");
             e.printStackTrace();

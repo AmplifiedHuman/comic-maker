@@ -53,7 +53,7 @@ public class NarrativeView {
         }
         Optional<String> result = popup.showAndWait();
         if (result.isPresent()) {
-            if (result.get().length() < 100) {
+            if (result.get().length() < 80) {
                 result.ifPresent(text -> setNarrativeText(text, selection));
             } else {
                 new AlertBox("Narrative");

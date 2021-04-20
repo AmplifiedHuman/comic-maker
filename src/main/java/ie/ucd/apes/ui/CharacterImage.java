@@ -11,8 +11,8 @@ public class CharacterImage extends HBox {
     public CharacterImage(Image image) {
         imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
-        imageView.setFitHeight(300);
-        imageView.setFitWidth(300);
+        imageView.setFitHeight(250);
+        imageView.setFitWidth(250);
         this.getChildren().add(imageView);
         this.getStyleClass().add("characterImage");
     }

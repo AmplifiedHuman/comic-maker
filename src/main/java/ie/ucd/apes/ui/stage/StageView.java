@@ -27,13 +27,14 @@ public class StageView extends VBox {
 
     private void initView() {
         GridPane tiles = new GridPane();
+        tiles.setMinWidth(600);
         tiles.setMaxWidth(600);
         tiles.setHgap(15);
+        tiles.setMinHeight(530);
+        tiles.setMaxHeight(530);
 
         NarrativeBar narrativeBarTop = narrativeView.getNarrativeBar(Selection.IS_TOP);
         NarrativeBar narrativeBarBottom = narrativeView.getNarrativeBar(Selection.IS_BOTTOM);
-        narrativeBarBottom.setMinHeight(100);
-        narrativeBarTop.setMinHeight(100);
         tiles.add(narrativeBarTop, 0, 0, 2, 1);
         tiles.add(narrativeBarBottom, 0, 3, 2, 1);
 
