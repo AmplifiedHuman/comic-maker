@@ -8,7 +8,6 @@ import java.util.*;
 
 public class ColorUtils {
     private static final Map<String, Color> hexToColorMap = new HashMap<>();
-    private static final Map<Color, String> colorToHexMap = new HashMap<>();
     private static final int[][] directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {-1, 1}, {-1, -1}, {-1, 1}};
 
     public static Color generateColor(int r, int g, int b) {
@@ -115,30 +114,59 @@ public class ColorUtils {
         return in.length() == 1 ? "0" + in : in;
     }
 
-    public static String getColorNameOrHex(Color c) {
-        if (colorToHexMap.isEmpty()) {
-            initColourMap();
-        }
-        return colorToHexMap.getOrDefault(c, toHexString(c));
-    }
-
     public static Color getColorFromHexOrColorName(String colorString) {
         if (hexToColorMap.isEmpty()) {
-            initColourMap();
+            initHexToColorMap();
         }
         return hexToColorMap.getOrDefault(colorString.toLowerCase(), toFXColor(colorString));
     }
 
-    private static void initColourMap() {
-        colorToHexMap.put(Color.web("#964B00"), "brown");
+    private static void initHexToColorMap() {
         hexToColorMap.put("brown", toFXColor("#964B00"));
-        colorToHexMap.put(Color.BLUE, "blue");
         hexToColorMap.put("blue", Color.BLUE);
-        colorToHexMap.put(Color.PINK, "pink");
         hexToColorMap.put("pink", Color.PINK);
-        colorToHexMap.put(Color.BLACK, "black");
         hexToColorMap.put("white", toFXColor("#F5FFFA"));
-        colorToHexMap.put(toFXColor("#F5FFFA"), "white");
-        // TODO: add more colours
+        hexToColorMap.put("cyan", Color.CYAN);
+        hexToColorMap.put("gray", Color.GRAY);
+        hexToColorMap.put("grey", Color.GRAY);
+        hexToColorMap.put("green", Color.GREEN);
+        hexToColorMap.put("orange", Color.ORANGE);
+        hexToColorMap.put("magenta", Color.MAGENTA);
+        hexToColorMap.put("red", Color.RED);
+        hexToColorMap.put("yellow", Color.YELLOW);
+        hexToColorMap.put("dark gray", Color.DARKGRAY);
+        hexToColorMap.put("dark grey", Color.DARKGREY);
+        hexToColorMap.put("light gray", Color.LIGHTGRAY);
+        hexToColorMap.put("light grey", Color.LIGHTGREY);
+        hexToColorMap.put("gold", toFXColor("#FFD700"));
+        hexToColorMap.put("olive", toFXColor("#FFE4B5"));
+        hexToColorMap.put("violet", toFXColor("#EE82EE"));
+        hexToColorMap.put("silver", toFXColor("#C0C0C0"));
+        hexToColorMap.put("slate", toFXColor("#778899"));
+        hexToColorMap.put("dark slate", toFXColor("#2F4F4F"));
+        hexToColorMap.put("purple", toFXColor("#800080"));
+        hexToColorMap.put("plum", toFXColor("#DDA0DD"));
+        hexToColorMap.put("lavender", toFXColor("#E6E6FA"));
+        hexToColorMap.put("crimson", toFXColor("#DC143C"));
+        hexToColorMap.put("brick red", toFXColor("#B22222"));
+        hexToColorMap.put("maroon", toFXColor("#800000"));
+        hexToColorMap.put("lime green", toFXColor("#32CD32"));
+        hexToColorMap.put("forest green", toFXColor("#228B22"));
+        hexToColorMap.put("sea green", toFXColor("#8FBC8F"));
+        hexToColorMap.put("khaki", toFXColor("#F0E68C"));
+        hexToColorMap.put("aquamarine", toFXColor("#7FFFD4"));
+        hexToColorMap.put("lemon chiffon", toFXColor("#FFFACD"));
+        hexToColorMap.put("light yellow", toFXColor("#FFFFCC"));
+        hexToColorMap.put("light pink", toFXColor("#FFB6C1"));
+        hexToColorMap.put("hot pink", toFXColor("#FF69B4"));
+        hexToColorMap.put("dark yellow", toFXColor("#CCCC00"));
+        hexToColorMap.put("indigo", toFXColor("#4B0082"));
+        hexToColorMap.put("coral", toFXColor("#FF7F50"));
+        hexToColorMap.put("chocolate", toFXColor("#D2691E"));
+        hexToColorMap.put("tomato", toFXColor("#FF6347"));
+        hexToColorMap.put("dark orange", toFXColor("#FF8C00"));
+        hexToColorMap.put("blond", toFXColor("#FAF0BE"));
+        hexToColorMap.put("black", Color.BLACK);
+        hexToColorMap.put("bald", Color.WHITE);
     }
 }

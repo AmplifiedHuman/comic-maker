@@ -16,12 +16,6 @@ public class ColorTest {
     }
 
     @Test
-    public void testGetColorNameOrHex() {
-        Assertions.assertEquals("blue", ColorUtils.getColorNameOrHex(Color.BLUE));
-        Assertions.assertEquals("#FFE8D8", ColorUtils.getColorNameOrHex(Constants.DEFAULT_SKIN_COLOR));
-    }
-
-    @Test
     public void testGetColorFromHexOrColorName() {
         Assertions.assertEquals(Color.PINK, ColorUtils.getColorFromHexOrColorName("pink"));
         Assertions.assertEquals(Color.web("#FFE8D8"), ColorUtils.getColorFromHexOrColorName("#FFE8D8"));

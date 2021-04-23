@@ -1,6 +1,7 @@
 package ie.ucd.apes.ui;
 
 import ie.ucd.apes.controller.PanelController;
+import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.io.FileIO;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
@@ -65,7 +66,8 @@ public class TopMenuBar extends MenuBar {
         importXMLMenuItem.setOnAction(actionEvent -> {
             File file = importXMLFileChooser.showOpenDialog(stage);
             if (file != null) {
-                panelController.importFromComicWrapper(Objects.requireNonNull(FileIO.importXML(file)));
+                ComicWrapper wrapper = FileIO.importXML(file);
+                panelController.importFromComicWrapper(Objects.requireNonNull(wrapper));
             }
         });
         // add to menu
