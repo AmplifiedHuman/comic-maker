@@ -21,6 +21,6 @@ public class LipsAdapter extends XmlAdapter<String, Color> {
         if (lipsColor.equals(Constants.DEFAULT_SKIN_COLOR)) {
             return "default";
         }
-        return ColorUtils.getColorNameOrHex(lipsColor);
+        return ColorUtils.toHexString(lipsColor);
     }
 }

@@ -100,7 +100,7 @@ public class PanelController {
         narrativeController.reset();
     }
 
-    public void swapStates (int position1, int position2){
+    public void swapStates(int position1, int position2) {
         String position1Id = panelStates.get(position1).getPanelId();
         String position2Id = panelStates.get(position2).getPanelId();
 
@@ -145,8 +145,10 @@ public class PanelController {
             characterController.setCharacter(Selection.IS_RIGHT, panelWrapper.getRight().getCharacter());
             dialogueController.setDialogue(Selection.IS_LEFT, panelWrapper.getLeft().getDialogue());
             dialogueController.setDialogue(Selection.IS_RIGHT, panelWrapper.getRight().getDialogue());
-            narrativeController.setNarrative(Selection.IS_TOP, panelWrapper.getAbove());
-            narrativeController.setNarrative(Selection.IS_BOTTOM, panelWrapper.getBelow());
+            narrativeController.setNarrative(Selection.IS_TOP, panelWrapper.getAbove() == null ?
+                    new Narrative(Constants.DEFAULT_TOP_NARRATIVE) : panelWrapper.getAbove());
+            narrativeController.setNarrative(Selection.IS_BOTTOM, panelWrapper.getBelow() == null ?
+                    new Narrative(Constants.DEFAULT_BOTTOM_NARRATIVE) : panelWrapper.getBelow());
             stageView.render();
             scrollingPane.saveToScrollingPane();
         }

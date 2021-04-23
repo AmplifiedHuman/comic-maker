@@ -21,6 +21,6 @@ public class HairAdapter extends XmlAdapter<String, Color> {
         if (skinColor.equals(Constants.DEFAULT_HAIR_COLOR)) {
             return "default";
         }
-        return ColorUtils.getColorNameOrHex(skinColor);
+        return ColorUtils.toHexString(skinColor);
     }
 }
