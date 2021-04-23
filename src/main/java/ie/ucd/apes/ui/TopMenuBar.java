@@ -1,21 +1,25 @@
 package ie.ucd.apes.ui;
 
+import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.io.FileIO;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Objects;
 
 public class TopMenuBar extends MenuBar {
     private final Stage stage;
     private final ScrollingPane scrollingPane;
+    private final PanelController panelController;
     private Menu fileMenu;
     private Menu helpMenu;
 
-    public TopMenuBar(Stage stage, ScrollingPane scrollingPane) {
+    public TopMenuBar(Stage stage, ScrollingPane scrollingPane, PanelController panelController) {
         this.stage = stage;
         this.scrollingPane = scrollingPane;
+        this.panelController = panelController;
         initFileMenu();
         initHelpMenu();
         this.getMenus().addAll(fileMenu, helpMenu);
@@ -23,6 +27,7 @@ public class TopMenuBar extends MenuBar {
 
     private void initFileMenu() {
         fileMenu = new Menu("File");
+        // export as GIF
         MenuItem gifMenuItem = new MenuItem("Export As GIF");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save");
@@ -41,7 +46,30 @@ public class TopMenuBar extends MenuBar {
                 alert.showAndWait();
             }
         });
-        fileMenu.getItems().addAll(new MenuItem("Save As XML"), gifMenuItem);
+        // export as XML
+        MenuItem xmlMenuItem = new MenuItem("Export As XML");
+        FileChooser xmlFileChooser = new FileChooser();
+        xmlFileChooser.setTitle("Save");
+        xmlFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML (*.xml)", "*.xml"));
+        xmlMenuItem.setOnAction(actionEvent -> {
+            File file = xmlFileChooser.showSaveDialog(stage);
+            if (file != null) {
+                FileIO.exportXML(file, panelController.exportToComicWrapper());
+            }
+        });
+        // import xml
+        MenuItem importXMLMenuItem = new MenuItem("Import XML");
+        FileChooser importXMLFileChooser = new FileChooser();
+        xmlFileChooser.setTitle("Import XML");
+        xmlFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML (*.xml)", "*.xml"));
+        importXMLMenuItem.setOnAction(actionEvent -> {
+            File file = importXMLFileChooser.showOpenDialog(stage);
+            if (file != null) {
+                panelController.importFromComicWrapper(Objects.requireNonNull(FileIO.importXML(file)));
+            }
+        });
+        // add to menu
+        fileMenu.getItems().addAll(xmlMenuItem, importXMLMenuItem, gifMenuItem);
     }
 
     private void initHelpMenu() {

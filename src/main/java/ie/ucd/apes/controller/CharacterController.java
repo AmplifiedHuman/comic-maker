@@ -34,7 +34,7 @@ public class CharacterController {
     }
 
     public boolean isFlipped(Selection selection) {
-        return getCharacter(selection).isFlipped();
+        return getCharacter(selection).getIsFlipped();
     }
 
     public void flipCharacterOrientation(Selection selection) {
@@ -46,13 +46,13 @@ public class CharacterController {
     }
 
     public boolean isMale(Selection selection) {
-        return getCharacter(selection).isMale();
+        return getCharacter(selection).getIsMale();
     }
 
     public void resetState(Selection selection) {
         Character character = getCharacter(selection);
         character.setImageFileName(null);
-        character.setMale(false);
+        character.setIsMale(false);
         character.setSkinColor(Constants.DEFAULT_SKIN_COLOR);
         character.setHairColor(Constants.DEFAULT_HAIR_COLOR);
     }

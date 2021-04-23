@@ -6,6 +6,10 @@ public class Narrative {
     private String text;
     private boolean isVisible;
 
+    public Narrative() {
+        this("", false);
+    }
+
     public Narrative(String text, boolean isVisible) {
         this.text = text;
         this.isVisible = isVisible;

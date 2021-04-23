@@ -4,16 +4,24 @@ import ie.ucd.apes.entity.PruneLevel;
 import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class ColorUtils {
+    private static final Map<String, Color> hexToColorMap = new HashMap<>();
+    private static final Map<Color, String> colorToHexMap = new HashMap<>();
     private static final int[][] directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {-1, 1}, {-1, -1}, {-1, 1}};
 
     public static Color generateColor(int r, int g, int b) {
         return new Color(r / 255.0, g / 255.0, b / 255.0, 1.0);
+    }
+
+    public static String toHexString(Color c) {
+        return String.format("#%s%s%s", formatColorValue(c.getRed()),
+                formatColorValue(c.getGreen()), formatColorValue(c.getBlue())).toUpperCase();
+    }
+
+    public static Color toFXColor(String hexString) {
+        return Color.web(hexString);
     }
 
     public static void changeColor(ImageView imageView, Color c1, Color c2, PruneLevel pruneLevel) {
@@ -100,5 +108,37 @@ public class ColorUtils {
         double euclideanDistance = Math.sqrt(Math.pow(c1.getRed() - c2.getRed(), 2) +
                 Math.pow(c1.getBlue() - c2.getBlue(), 2) + Math.pow(c1.getGreen() - c2.getGreen(), 2));
         return euclideanDistance <= 0.80;
+    }
+
+    private static String formatColorValue(double val) {
+        String in = Integer.toHexString((int) Math.round(val * 255));
+        return in.length() == 1 ? "0" + in : in;
+    }
+
+    public static String getColorNameOrHex(Color c) {
+        if (colorToHexMap.isEmpty()) {
+            initColourMap();
+        }
+        return colorToHexMap.getOrDefault(c, toHexString(c));
+    }
+
+    public static Color getColorFromHexOrColorName(String colorString) {
+        if (hexToColorMap.isEmpty()) {
+            initColourMap();
+        }
+        return hexToColorMap.getOrDefault(colorString.toLowerCase(), toFXColor(colorString));
+    }
+
+    private static void initColourMap() {
+        colorToHexMap.put(Color.web("#964B00"), "brown");
+        hexToColorMap.put("brown", toFXColor("#964B00"));
+        colorToHexMap.put(Color.BLUE, "blue");
+        hexToColorMap.put("blue", Color.BLUE);
+        colorToHexMap.put(Color.PINK, "pink");
+        hexToColorMap.put("pink", Color.PINK);
+        colorToHexMap.put(Color.BLACK, "black");
+        hexToColorMap.put("white", toFXColor("#F5FFFA"));
+        colorToHexMap.put(toFXColor("#F5FFFA"), "white");
+        // TODO: add more colours
     }
 }

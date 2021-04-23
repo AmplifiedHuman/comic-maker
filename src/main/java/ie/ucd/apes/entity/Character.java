@@ -1,18 +1,37 @@
 package ie.ucd.apes.entity;
 
+import ie.ucd.apes.adapters.character.*;
 import javafx.scene.paint.Color;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Objects;
 
-import static ie.ucd.apes.entity.Constants.DEFAULT_HAIR_COLOR;
-import static ie.ucd.apes.entity.Constants.DEFAULT_SKIN_COLOR;
+import static ie.ucd.apes.entity.Constants.*;
 
+@XmlRootElement(name = "figure")
+@XmlType(propOrder = {"name", "isMale", "skinColor", "hairColor", "lipsColor", "imageFileName", "isFlipped"})
 public class Character {
     private String imageFileName;
-    private boolean isFlipped;
-    private boolean isMale;
+    private Boolean isFlipped;
+    private Boolean isMale;
     private Color skinColor;
     private Color hairColor;
+    private Color lipsColor;
+
+    private String name;
+
+    public Character() {
+        imageFileName = null;
+        isFlipped = null;
+        isMale = null;
+        skinColor = null;
+        hairColor = null;
+        name = null;
+        lipsColor = null;
+    }
 
     public Character(String imageFileName, boolean isFlipped, boolean isMale) {
         this.imageFileName = imageFileName;
@@ -20,6 +39,12 @@ public class Character {
         this.isMale = isMale;
         skinColor = DEFAULT_SKIN_COLOR;
         hairColor = DEFAULT_HAIR_COLOR;
+        name = "";
+        if (isMale) {
+            lipsColor = DEFAULT_SKIN_COLOR;
+        } else {
+            lipsColor = LIPS_COLOR;
+        }
     }
 
     public Character(Character copy) {
@@ -28,30 +53,43 @@ public class Character {
         this.isMale = copy.isMale;
         this.skinColor = copy.skinColor;
         this.hairColor = copy.hairColor;
+        this.name = copy.name;
+        this.lipsColor = copy.lipsColor;
     }
 
     public String getImageFileName() {
         return imageFileName;
     }
 
+    @XmlElement(name = "pose", nillable = true)
+    @XmlJavaTypeAdapter(PosingAdapter.class)
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
     }
 
-    public boolean isFlipped() {
+    public Boolean getIsFlipped() {
         return isFlipped;
     }
 
-    public void setFlipped(boolean flipped) {
+    @XmlElement(name = "facing", required = true)
+    @XmlJavaTypeAdapter(FacingAdapter.class)
+    public void setIsFlipped(Boolean flipped) {
         isFlipped = flipped;
     }
 
-    public boolean isMale() {
+    public Boolean getIsMale() {
         return isMale;
     }
 
-    public void setMale(boolean male) {
-        isMale = male;
+    @XmlElement(name = "appearance", required = true)
+    @XmlJavaTypeAdapter(AppearanceAdapter.class)
+    public void setIsMale(Boolean male) {
+        this.isMale = male;
+        if (isMale) {
+            lipsColor = skinColor;
+        } else {
+            lipsColor = LIPS_COLOR;
+        }
     }
 
     public void flipOrientation() {
@@ -60,22 +98,53 @@ public class Character {
 
     public void changeGender() {
         isMale = !isMale;
+        if (isMale) {
+            lipsColor = skinColor;
+        } else {
+            lipsColor = LIPS_COLOR;
+        }
     }
 
     public Color getSkinColor() {
         return skinColor;
     }
 
+    @XmlElement(name = "skin", required = true)
+    @XmlJavaTypeAdapter(SkinAdapter.class)
     public void setSkinColor(Color skinColor) {
         this.skinColor = skinColor;
+        if (isMale) {
+            lipsColor = skinColor;
+        }
     }
 
     public Color getHairColor() {
         return hairColor;
     }
 
+    @XmlElement(name = "hair", required = true)
+    @XmlJavaTypeAdapter(HairAdapter.class)
     public void setHairColor(Color hairColor) {
         this.hairColor = hairColor;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @XmlElement
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Color getLipsColor() {
+        return lipsColor;
+    }
+
+    @XmlElement(name = "lips", required = true)
+    @XmlJavaTypeAdapter(LipsAdapter.class)
+    public void setLipsColor(Color lipsColor) {
+        this.lipsColor = lipsColor;
     }
 
     @Override

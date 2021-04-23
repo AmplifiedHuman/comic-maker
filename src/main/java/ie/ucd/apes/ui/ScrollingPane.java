@@ -37,6 +37,7 @@ public class ScrollingPane extends ScrollPane {
         container = new HBox();
         setContent(container);
         getStyleClass().clear();
+        setFocusTraversable(true);
         getStyleClass().add("scroll-pane");
     }
 
@@ -203,5 +204,10 @@ public class ScrollingPane extends ScrollPane {
         alert.getButtonTypes().setAll(delete, keep);
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == delete;
+    }
+
+    public void resetAllState() {
+        container.getChildren().clear();
+        orderingMap.clear();
     }
 }

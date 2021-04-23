@@ -41,15 +41,16 @@ public class Layout extends VBox {
         DialogueController dialogueController = new DialogueController(dialogueLeft, dialogueRight);
         DialogueView dialogueView = new DialogueView(dialogueController, characterView);
 
-        PanelController panelController = new PanelController(characterController, dialogueController,
-                narrativeController);
         StageView stageView = new StageView(characterView, dialogueView, narrativeView);
+        PanelController panelController = new PanelController(characterController, dialogueController,
+                narrativeController, stageView);
         ScrollingPane scrollingPane = new ScrollingPane(panelController, stageView);
+        panelController.setScrollingPane(scrollingPane);
         ColorPane colorPane = new ColorPane(characterView);
         characterView.setColorPane(colorPane);
         OptionsPane optionsPane = new OptionsPane(characterView, dialogueView, narrativeView, scrollingPane);
 
-        TopMenuBar topMenuBar = new TopMenuBar(stage, scrollingPane);
+        TopMenuBar topMenuBar = new TopMenuBar(stage, scrollingPane, panelController);
 
         HBox spacer = new HBox();
         HBox.setHgrow(spacer, Priority.ALWAYS);

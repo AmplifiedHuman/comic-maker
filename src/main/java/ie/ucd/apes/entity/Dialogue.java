@@ -1,11 +1,22 @@
 package ie.ucd.apes.entity;
 
+import ie.ucd.apes.adapters.dialogue.DialogueTypeAdapter;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Objects;
 
+@XmlRootElement(name = "balloon")
 public class Dialogue {
     private String text;
     private boolean isVisible;
     private DialogueType dialogueType;
+
+    public Dialogue() {
+        this("", false, DialogueType.SPEECH);
+    }
 
     public Dialogue(String text, boolean isVisible, DialogueType dialogueType) {
         this.text = text;
@@ -23,6 +34,7 @@ public class Dialogue {
         return text;
     }
 
+    @XmlElement(name = "content")
     public void setText(String text) {
         this.text = text;
     }
@@ -39,6 +51,8 @@ public class Dialogue {
         return dialogueType;
     }
 
+    @XmlAttribute(name = "status")
+    @XmlJavaTypeAdapter(DialogueTypeAdapter.class)
     public void setDialogueType(DialogueType dialogueType) {
         this.dialogueType = dialogueType;
     }

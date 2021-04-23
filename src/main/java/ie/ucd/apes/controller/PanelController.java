@@ -2,6 +2,11 @@ package ie.ucd.apes.controller;
 
 import ie.ucd.apes.entity.Character;
 import ie.ucd.apes.entity.*;
+import ie.ucd.apes.entity.xml.CharacterWrapper;
+import ie.ucd.apes.entity.xml.ComicWrapper;
+import ie.ucd.apes.entity.xml.PanelWrapper;
+import ie.ucd.apes.ui.ScrollingPane;
+import ie.ucd.apes.ui.stage.StageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,15 +17,18 @@ public class PanelController {
     private final CharacterController characterController;
     private final DialogueController dialogueController;
     private final NarrativeController narrativeController;
+    private final StageView stageView;
     private final Map<String, PanelState> panelStateIdMap;
     private final List<PanelState> panelStates;
     private PanelState currentState;
+    private ScrollingPane scrollingPane;
 
     public PanelController(CharacterController characterController, DialogueController dialogueController,
-                           NarrativeController narrativeController) {
+                           NarrativeController narrativeController, StageView stageView) {
         this.characterController = characterController;
         this.dialogueController = dialogueController;
         this.narrativeController = narrativeController;
+        this.stageView = stageView;
         panelStateIdMap = new HashMap<>();
         panelStates = new ArrayList<>();
         currentState = new PanelState();
@@ -105,5 +113,42 @@ public class PanelController {
         //swap panel id's
         panelStates.get(position1).setPanelId(position1Id);
         panelStates.get(position2).setPanelId(position2Id);
+    }
+
+    public void setScrollingPane(ScrollingPane scrollingPane) {
+        this.scrollingPane = scrollingPane;
+    }
+
+    public ComicWrapper exportToComicWrapper() {
+        String premise = "Default Premise";
+        List<PanelWrapper> panels = new ArrayList<>();
+        for (PanelState panelState : panelStates) {
+            CharacterWrapper left = new CharacterWrapper(panelState.getCharacterLeft(), panelState.getDialogueLeft());
+            CharacterWrapper right = new CharacterWrapper(panelState.getCharacterRight(), panelState.getDialogueRight());
+            panels.add(new PanelWrapper(panelState.getNarrativeTop(), left, right, panelState.getNarrativeBottom()));
+        }
+        return new ComicWrapper(premise, panels, new ArrayList<>());
+    }
+
+    public void resetAllState() {
+        panelStates.clear();
+        panelStateIdMap.clear();
+    }
+
+    public void importFromComicWrapper(ComicWrapper comicWrapper) {
+        resetAllState();
+        scrollingPane.resetAllState();
+        for (PanelWrapper panelWrapper : comicWrapper.getPanels()) {
+            reset();
+            scrollingPane.requestFocus();
+            characterController.setCharacter(Selection.IS_LEFT, panelWrapper.getLeft().getCharacter());
+            characterController.setCharacter(Selection.IS_RIGHT, panelWrapper.getRight().getCharacter());
+            dialogueController.setDialogue(Selection.IS_LEFT, panelWrapper.getLeft().getDialogue());
+            dialogueController.setDialogue(Selection.IS_RIGHT, panelWrapper.getRight().getDialogue());
+            narrativeController.setNarrative(Selection.IS_TOP, panelWrapper.getAbove());
+            narrativeController.setNarrative(Selection.IS_BOTTOM, panelWrapper.getBelow());
+            stageView.render();
+            scrollingPane.saveToScrollingPane();
+        }
     }
 }

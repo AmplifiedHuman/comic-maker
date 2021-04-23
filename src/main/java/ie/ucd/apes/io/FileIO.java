@@ -1,12 +1,17 @@
 package ie.ucd.apes.io;
 
+import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.utils.GifSequenceWriter;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
-import java.awt.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,9 +26,6 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
-
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 
 public class FileIO {
     public static List<String> getFileNames(String path)
@@ -73,5 +75,29 @@ public class FileIO {
             System.out.println("Cannot export GIF");
             e.printStackTrace();
         }
+    }
+
+    public static void exportXML(File file, ComicWrapper comicWrapper) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(ComicWrapper.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(comicWrapper, file);
+        } catch (JAXBException e) {
+            System.out.println("Cannot export XML");
+            e.printStackTrace();
+        }
+    }
+
+    public static ComicWrapper importXML(File file) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(ComicWrapper.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            return (ComicWrapper) unmarshaller.unmarshal(file);
+        } catch (JAXBException e) {
+            System.out.println("Cannot import XML");
+            e.printStackTrace();
+        }
+        return null;
     }
 }
