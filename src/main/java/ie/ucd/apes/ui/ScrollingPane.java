@@ -5,10 +5,7 @@ import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.ui.stage.StageView;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -119,6 +116,7 @@ public class ScrollingPane extends ScrollPane {
     // frontend changes
     private void save(Image image, String id) {
         CapturedScene scene = new CapturedScene(image);
+
         scene.setOnMouseClicked((e) -> {
             if (panelController.isEdited() && !panelController.isDefaultState() && alertSave()) {
                 saveToScrollingPane();
@@ -126,8 +124,53 @@ public class ScrollingPane extends ScrollPane {
             scene.requestFocus();
             loadData(orderingMap.get(id));
         });
+
+        scene.getMoveLeftButton().setOnMouseClicked((e) -> moveLeftInScrollingPane(id));
+        scene.getMoveRightButton().setOnMouseClicked((e) -> moveRightInScrollingPane(id));
+
         orderingMap.put(panelController.getCurrentId(), container.getChildren().size());
         container.getChildren().add(scene);
+    }
+
+    private void moveRightInScrollingPane(String currentId) {
+        if (orderingMap.containsKey(currentId)) {
+            int position = orderingMap.get(currentId);
+            if(position < orderingMap.size()-1){
+                panelController.swapStates(position, position+1);
+                swapScrollPanelImages(position, position+1);
+                saveSwappedPanels(position, position+1);
+                loadData(position+1);
+            }
+        }
+    }
+
+    private void moveLeftInScrollingPane(String currentId) {
+        if (orderingMap.containsKey(currentId)) {
+            int position = orderingMap.get(currentId);
+            if(position > 0){
+                panelController.swapStates(position, position-1);
+                swapScrollPanelImages(position, position-1);
+                saveSwappedPanels(position, position-1);
+                loadData(position-1);
+            }
+        }
+    }
+
+    private void swapScrollPanelImages(int position1, int position2){
+        CapturedScene position1Scene = (CapturedScene) container.getChildren().get(position1);
+        CapturedScene position2Scene = (CapturedScene) container.getChildren().get(position2);
+        Image tempSceneImage = position1Scene.getImage();
+
+        //swap images of panels
+        update(position2Scene.getImage(), position1);
+        update(tempSceneImage, position2);
+    }
+
+    private void saveSwappedPanels(int position1, int position2){
+        panelController.loadPanel(position1);
+        panelController.save(position1);
+        panelController.loadPanel(position2);
+        panelController.save(position2);
     }
 
     private void loadData(int position) {

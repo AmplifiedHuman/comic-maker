@@ -1,10 +1,7 @@
 package ie.ucd.apes.ui;
 
 import ie.ucd.apes.io.FileIO;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -31,9 +28,17 @@ public class TopMenuBar extends MenuBar {
         fileChooser.setTitle("Save");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("GIF (*.gif)", "*.gif"));
         gifMenuItem.setOnAction(actionEvent -> {
-            File file = fileChooser.showSaveDialog(stage);
-            if (file != null) {
-                FileIO.exportGIF(file, scrollingPane.getImages());
+            if(!scrollingPane.getImages().isEmpty()){
+                File file = fileChooser.showSaveDialog(stage);
+                if (file != null) {
+                    FileIO.exportGIF(file, scrollingPane.getImages());
+                }
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Project Empty!");
+                alert.setContentText("There is nothing to save.");
+                alert.showAndWait();
             }
         });
         fileMenu.getItems().addAll(new MenuItem("Save As XML"), gifMenuItem);

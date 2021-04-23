@@ -91,4 +91,19 @@ public class PanelController {
         dialogueController.reset();
         narrativeController.reset();
     }
+
+    public void swapStates (int position1, int position2){
+        String position1Id = panelStates.get(position1).getPanelId();
+        String position2Id = panelStates.get(position2).getPanelId();
+
+        PanelState temp = panelStates.get(position1);
+
+        //swap panelStates of the two positions
+        panelStates.set(position1, panelStates.get(position2));
+        panelStates.set(position2, temp);
+
+        //swap panel id's
+        panelStates.get(position1).setPanelId(position1Id);
+        panelStates.get(position2).setPanelId(position2Id);
+    }
 }

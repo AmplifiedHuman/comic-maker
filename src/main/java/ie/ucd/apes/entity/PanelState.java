@@ -9,7 +9,7 @@ public class PanelState {
     private Dialogue dialogueRight;
     private Narrative narrativeTop;
     private Narrative narrativeBottom;
-    private final String panelId;
+    private String panelId;
     private int panelPosition;
 
     public PanelState() {
@@ -20,59 +20,49 @@ public class PanelState {
         return characterLeft;
     }
 
-    public void setCharacterLeft(Character characterLeft) {
-        this.characterLeft = characterLeft;
-    }
+    public void setCharacterLeft(Character characterLeft) { this.characterLeft = characterLeft; }
 
     public Character getCharacterRight() {
         return characterRight;
     }
 
-    public void setCharacterRight(Character characterRight) {
-        this.characterRight = characterRight;
-    }
+    public void setCharacterRight(Character characterRight) { this.characterRight = characterRight; }
 
     public Dialogue getDialogueLeft() {
         return dialogueLeft;
     }
 
-    public void setDialogueLeft(Dialogue dialogueLeft) {
-        this.dialogueLeft = dialogueLeft;
-    }
+    public void setDialogueLeft(Dialogue dialogueLeft) { this.dialogueLeft = dialogueLeft; }
 
     public Dialogue getDialogueRight() {
         return dialogueRight;
     }
 
-    public void setDialogueRight(Dialogue dialogueRight) {
-        this.dialogueRight = dialogueRight;
-    }
+    public void setDialogueRight(Dialogue dialogueRight) { this.dialogueRight = dialogueRight; }
 
     public Narrative getNarrativeTop() {
         return narrativeTop;
     }
 
-    public void setNarrativeTop(Narrative narrativeTop) {
-        this.narrativeTop = narrativeTop;
-    }
+    public void setNarrativeTop(Narrative narrativeTop) { this.narrativeTop = narrativeTop; }
 
     public Narrative getNarrativeBottom() {
         return narrativeBottom;
     }
 
-    public void setNarrativeBottom(Narrative narrativeBottom) {
-        this.narrativeBottom = narrativeBottom;
-    }
+    public void setNarrativeBottom(Narrative narrativeBottom) { this.narrativeBottom = narrativeBottom; }
 
     public int getPanelPosition() {
         return panelPosition;
     }
 
-    public void setPanelPosition(int panelPosition) {
-        this.panelPosition = panelPosition;
-    }
+    public void setPanelPosition(int panelPosition) { this.panelPosition = panelPosition; }
 
     public String getPanelId() {
         return panelId;
+    }
+
+    public void setPanelId(String panelId) {
+        this.panelId = panelId;
     }
 }

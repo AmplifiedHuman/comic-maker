@@ -11,21 +11,27 @@ import javafx.scene.layout.StackPane;
 
 public class CapturedScene extends HBox {
     private final ImageView imageView;
+    private Button moveLeftButton;
+    private Button moveRightButton;
 
     public CapturedScene(Image image) {
         StackPane stackPane = new StackPane();
+
         imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(200);
-        HBox orderButtonsHBox = new HBox();
-        Button moveLeftButton = new Button("←");
-        Button moveRightButton = new Button("→");
-        orderButtonsHBox.getChildren().addAll(moveLeftButton, moveRightButton);
-        orderButtonsHBox.setAlignment(Pos.CENTER);
 
+        //buttons for changing order of panels
+        moveLeftButton = new Button("←");
+        moveRightButton = new Button("→");
         moveLeftButton.setStyle("visibility: hidden;");
         moveRightButton.setStyle("visibility: hidden;");
 
+        HBox orderButtonsHBox = new HBox();
+        orderButtonsHBox.getChildren().addAll(moveLeftButton, moveRightButton);
+        orderButtonsHBox.setAlignment(Pos.CENTER);
+
+        //buttons become visible when hovered over image in scroll pane
         stackPane.setOnMouseEntered((e) -> {
             moveRightButton.setStyle("visibility: visible;");
             moveLeftButton.setStyle("visibility: visible;");
@@ -50,5 +56,13 @@ public class CapturedScene extends HBox {
 
     public Image getImage() {
         return imageView.getImage();
+    }
+
+    public Button getMoveLeftButton() {
+        return moveLeftButton;
+    }
+
+    public Button getMoveRightButton() {
+        return moveRightButton;
     }
 }
