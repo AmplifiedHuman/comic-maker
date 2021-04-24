@@ -8,10 +8,7 @@ import ie.ucd.apes.entity.xml.PanelWrapper;
 import ie.ucd.apes.ui.ScrollingPane;
 import ie.ucd.apes.ui.stage.StageView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PanelController {
     private final CharacterController characterController;
@@ -20,6 +17,7 @@ public class PanelController {
     private final StageView stageView;
     private final Map<String, PanelState> panelStateIdMap;
     private final List<PanelState> panelStates;
+    private final Stack<PanelState> deletedPanelStates;
     private PanelState currentState;
     private ScrollingPane scrollingPane;
 
@@ -32,6 +30,7 @@ public class PanelController {
         panelStateIdMap = new HashMap<>();
         panelStates = new ArrayList<>();
         currentState = new PanelState();
+        deletedPanelStates = new Stack<>();
     }
 
     public boolean isCurrentStateNew() {
@@ -73,6 +72,7 @@ public class PanelController {
 
     public void delete(int position, String id) {
         if (position >= 0 && position < panelStates.size() && panelStateIdMap.containsKey(id)) {
+            deletedPanelStates.push(panelStateIdMap.get(id));
             panelStates.remove(position);
             panelStateIdMap.remove(id);
         }
@@ -113,6 +113,10 @@ public class PanelController {
         //swap panel id's
         panelStates.get(position1).setPanelId(position1Id);
         panelStates.get(position2).setPanelId(position2Id);
+
+        // update id map
+        panelStateIdMap.put(position1Id, panelStates.get(position1));
+        panelStateIdMap.put(position2Id, panelStates.get(position2));
     }
 
     public void setScrollingPane(ScrollingPane scrollingPane) {
@@ -152,5 +156,11 @@ public class PanelController {
             stageView.render();
             scrollingPane.saveToScrollingPane();
         }
+    }
+
+    public void restoreState(int position) {
+        PanelState restoredState = deletedPanelStates.pop();
+        panelStates.add(position, restoredState);
+        panelStateIdMap.put(restoredState.getPanelId(), restoredState);
     }
 }

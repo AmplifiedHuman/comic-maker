@@ -2,10 +2,14 @@ package ie.ucd.apes.ui;
 
 
 import ie.ucd.apes.controller.PanelController;
+import ie.ucd.apes.entity.DeletedScene;
 import ie.ucd.apes.ui.stage.StageView;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -19,6 +23,7 @@ public class ScrollingPane extends ScrollPane {
     private final PanelController panelController;
     private final StageView stageView;
     private final Map<String, Integer> orderingMap;
+    private final Stack<DeletedScene> deletedScenes;
 
     public ScrollingPane(PanelController panelController, StageView stageView) {
         this.panelController = panelController;
@@ -39,6 +44,33 @@ public class ScrollingPane extends ScrollPane {
         getStyleClass().clear();
         setFocusTraversable(true);
         getStyleClass().add("scroll-pane");
+        deletedScenes = new Stack<>();
+    }
+
+    public void restoreDeleted() {
+        if (deletedScenes.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Illegal Action!");
+            alert.setContentText("There are no deleted panels remaining.");
+            alert.showAndWait();
+        } else {
+            DeletedScene deletedScene = deletedScenes.pop();
+            int position = deletedScene.getPosition();
+            String id = deletedScene.getId();
+            Image image = deletedScene.getImage();
+            for (Map.Entry<String, Integer> entry : orderingMap.entrySet()) {
+                int currentPosition = entry.getValue();
+                if (currentPosition >= position) {
+                    entry.setValue(currentPosition + 1);
+                }
+            }
+            orderingMap.put(id, position);
+            CapturedScene capturedScene = initPanelListeners(image, id);
+            container.getChildren().add(position, capturedScene);
+            // update backend changes
+            panelController.restoreState(position);
+        }
     }
 
     public void saveToScrollingPane() {
@@ -69,6 +101,8 @@ public class ScrollingPane extends ScrollPane {
             if (orderingMap.size() > 0 && orderingMap.containsKey(currentId)) {
                 int targetPosition = orderingMap.get(currentId);
                 orderingMap.remove(currentId);
+                deletedScenes.push(new DeletedScene(((CapturedScene) container.getChildren().get(targetPosition)).getImage(),
+                        targetPosition, currentId));
                 container.getChildren().remove(targetPosition);
                 updateScenePositions(targetPosition);
                 panelController.delete(targetPosition, currentId);
@@ -116,6 +150,12 @@ public class ScrollingPane extends ScrollPane {
 
     // frontend changes
     private void save(Image image, String id) {
+        CapturedScene scene = initPanelListeners(image, id);
+        orderingMap.put(panelController.getCurrentId(), container.getChildren().size());
+        container.getChildren().add(scene);
+    }
+
+    private CapturedScene initPanelListeners(Image image, String id) {
         CapturedScene scene = new CapturedScene(image);
 
         scene.setOnMouseClicked((e) -> {
@@ -128,19 +168,17 @@ public class ScrollingPane extends ScrollPane {
 
         scene.getMoveLeftButton().setOnMouseClicked((e) -> moveLeftInScrollingPane(id));
         scene.getMoveRightButton().setOnMouseClicked((e) -> moveRightInScrollingPane(id));
-
-        orderingMap.put(panelController.getCurrentId(), container.getChildren().size());
-        container.getChildren().add(scene);
+        return scene;
     }
 
     private void moveRightInScrollingPane(String currentId) {
         if (orderingMap.containsKey(currentId)) {
             int position = orderingMap.get(currentId);
-            if(position < orderingMap.size()-1){
-                panelController.swapStates(position, position+1);
-                swapScrollPanelImages(position, position+1);
-                saveSwappedPanels(position, position+1);
-                loadData(position+1);
+            if (position < orderingMap.size() - 1) {
+                panelController.swapStates(position, position + 1);
+                swapScrollPanelImages(position, position + 1);
+                saveSwappedPanels(position, position + 1);
+                loadData(position + 1);
             }
         }
     }
@@ -148,16 +186,16 @@ public class ScrollingPane extends ScrollPane {
     private void moveLeftInScrollingPane(String currentId) {
         if (orderingMap.containsKey(currentId)) {
             int position = orderingMap.get(currentId);
-            if(position > 0){
-                panelController.swapStates(position, position-1);
-                swapScrollPanelImages(position, position-1);
-                saveSwappedPanels(position, position-1);
-                loadData(position-1);
+            if (position > 0) {
+                panelController.swapStates(position, position - 1);
+                swapScrollPanelImages(position, position - 1);
+                saveSwappedPanels(position, position - 1);
+                loadData(position - 1);
             }
         }
     }
 
-    private void swapScrollPanelImages(int position1, int position2){
+    private void swapScrollPanelImages(int position1, int position2) {
         CapturedScene position1Scene = (CapturedScene) container.getChildren().get(position1);
         CapturedScene position2Scene = (CapturedScene) container.getChildren().get(position2);
         Image tempSceneImage = position1Scene.getImage();
@@ -167,7 +205,7 @@ public class ScrollingPane extends ScrollPane {
         update(tempSceneImage, position2);
     }
 
-    private void saveSwappedPanels(int position1, int position2){
+    private void saveSwappedPanels(int position1, int position2) {
         panelController.loadPanel(position1);
         panelController.save(position1);
         panelController.loadPanel(position2);

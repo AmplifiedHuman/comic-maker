@@ -16,6 +16,7 @@ public class TopMenuBar extends MenuBar {
     private final PanelController panelController;
     private Menu fileMenu;
     private Menu helpMenu;
+    private Menu undoDeleteMenu;
 
     public TopMenuBar(Stage stage, ScrollingPane scrollingPane, PanelController panelController) {
         this.stage = stage;
@@ -23,7 +24,8 @@ public class TopMenuBar extends MenuBar {
         this.panelController = panelController;
         initFileMenu();
         initHelpMenu();
-        this.getMenus().addAll(fileMenu, helpMenu);
+        initUndoDelete();
+        this.getMenus().addAll(fileMenu, helpMenu, undoDeleteMenu);
     }
 
     private void initFileMenu() {
@@ -34,13 +36,12 @@ public class TopMenuBar extends MenuBar {
         fileChooser.setTitle("Save");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("GIF (*.gif)", "*.gif"));
         gifMenuItem.setOnAction(actionEvent -> {
-            if(!scrollingPane.getImages().isEmpty()){
+            if (!scrollingPane.getImages().isEmpty()) {
                 File file = fileChooser.showSaveDialog(stage);
                 if (file != null) {
                     FileIO.exportGIF(file, scrollingPane.getImages());
                 }
-            }
-            else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Project Empty!");
                 alert.setContentText("There is nothing to save.");
@@ -78,5 +79,11 @@ public class TopMenuBar extends MenuBar {
         Label helpLabel = new Label("Help");
         helpLabel.setOnMouseClicked(e -> new HelpBox());
         helpMenu = new Menu("", helpLabel);
+    }
+
+    private void initUndoDelete() {
+        Label undoDeleteLabel = new Label("Undo Delete");
+        undoDeleteLabel.setOnMouseClicked(e -> scrollingPane.restoreDeleted());
+        undoDeleteMenu = new Menu("", undoDeleteLabel);
     }
 }

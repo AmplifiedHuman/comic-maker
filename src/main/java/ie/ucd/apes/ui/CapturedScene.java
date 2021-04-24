@@ -11,8 +11,8 @@ import javafx.scene.layout.StackPane;
 
 public class CapturedScene extends HBox {
     private final ImageView imageView;
-    private Button moveLeftButton;
-    private Button moveRightButton;
+    private final Button moveLeftButton;
+    private final Button moveRightButton;
 
     public CapturedScene(Image image) {
         StackPane stackPane = new StackPane();
