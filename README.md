@@ -113,6 +113,8 @@ Some extra features/bonuses we included:
 
 ### Sprint 6 - Saving, Loading and Deleting Panels
 
+Github Repo: [https://github.com/AmplifiedHuman/comic-maker](https://github.com/AmplifiedHuman/comic-maker)
+
 In this sprint we added saving, loading and deleting. To save the current pane, just click on the save button, and the
 current pane will be saved. To load a pane, click on the thumbnail in the scroll pane, and it will load it into the
 working pane. To work on a new pane, save the current pane first, and a new pane will be generated automatically. We
