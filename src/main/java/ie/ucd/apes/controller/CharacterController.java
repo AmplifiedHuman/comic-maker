@@ -21,6 +21,10 @@ public class CharacterController {
         getCharacter(selection).setImageFileName(imageFileName);
     }
 
+    public String getCharacterImageFileName(Selection selection) {
+        return getCharacter(selection).getImageFileName();
+    }
+
     public Image renderCharacterImage(String imageFileName) {
         if (imageFileName == null || imageFileName.equals(Constants.BLANK_IMAGE)) {
             return null;

@@ -46,10 +46,11 @@ public class Layout extends VBox {
                 narrativeController, stageView);
         ScrollingPane scrollingPane = new ScrollingPane(panelController, stageView);
         panelController.setScrollingPane(scrollingPane);
+        characterView.setScrollingPane(scrollingPane);
         ColorPane colorPane = new ColorPane(characterView);
         characterView.setColorPane(colorPane);
         OptionsPane optionsPane = new OptionsPane(characterView, dialogueView, narrativeView, scrollingPane);
-
+        characterView.setOptionsPane(optionsPane);
         TopMenuBar topMenuBar = new TopMenuBar(stage, scrollingPane, panelController);
 
         HBox spacer = new HBox();

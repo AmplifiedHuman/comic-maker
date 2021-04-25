@@ -24,6 +24,7 @@ public class ScrollingPane extends ScrollPane {
     private final StageView stageView;
     private final Map<String, Integer> orderingMap;
     private final Stack<DeletedScene> deletedScenes;
+    private Boolean isClicked;
 
     public ScrollingPane(PanelController panelController, StageView stageView) {
         this.panelController = panelController;
@@ -44,7 +45,12 @@ public class ScrollingPane extends ScrollPane {
         getStyleClass().clear();
         setFocusTraversable(true);
         getStyleClass().add("scroll-pane");
+        isClicked = false;
         deletedScenes = new Stack<>();
+    }
+
+    public boolean isClicked() {
+        return isClicked;
     }
 
     public void restoreDeleted() {
@@ -83,7 +89,9 @@ public class ScrollingPane extends ScrollPane {
             panelController.save(position);
         }
         panelController.reset();
+        isClicked = true;
         stageView.render();
+        isClicked = false;
     }
 
     public List<BufferedImage> getImages() {
@@ -163,7 +171,9 @@ public class ScrollingPane extends ScrollPane {
                 saveToScrollingPane();
             }
             scene.requestFocus();
+            isClicked = true;
             loadData(orderingMap.get(id));
+            isClicked = false;
         });
 
         scene.getMoveLeftButton().setOnMouseClicked((e) -> moveLeftInScrollingPane(id));

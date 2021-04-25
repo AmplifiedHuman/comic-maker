@@ -6,6 +6,8 @@ import ie.ucd.apes.entity.PruneLevel;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.CharacterImage;
 import ie.ucd.apes.ui.ColorPane;
+import ie.ucd.apes.ui.OptionsPane;
+import ie.ucd.apes.ui.ScrollingPane;
 import ie.ucd.apes.utils.ColorUtils;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.image.ImageView;
@@ -15,13 +17,23 @@ public class CharacterView {
     private final CharacterController characterController;
     private final CharacterImage characterLeftView;
     private final CharacterImage characterRightView;
+    private OptionsPane optionsPane;
     private ColorPane colorPane;
+    private ScrollingPane scrollingPane;
 
     public CharacterView(CharacterController characterController) {
         this.characterController = characterController;
         characterLeftView = new CharacterImage(null);
         characterRightView = new CharacterImage(null);
         renderCharacters();
+    }
+
+    public void setScrollingPane(ScrollingPane scrollingPane) {
+        this.scrollingPane = scrollingPane;
+    }
+
+    public void setOptionsPane(OptionsPane optionsPane) {
+        this.optionsPane = optionsPane;
     }
 
     public void renderCharacterImage(Selection selection) {
@@ -40,15 +52,17 @@ public class CharacterView {
     }
 
     public void updateCharacterImage(String newImageName, Selection selection) {
-        characterController.resetState(selection);
-        characterController.setCharacterImageFileName(newImageName, selection);
-        renderCharacterImage(selection);
-        ImageView imageView = getImageView(selection);
-        colorPane.setSkinColorSelector(characterController.getSkinColor(selection));
-        colorPane.setHairColorSelector(characterController.getHairColor(selection));
-        getCharacterImage(selection).requestFocus();
-        if (characterController.isFlipped(selection)) {
-            imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        if (scrollingPane != null && !scrollingPane.isClicked()) {
+            characterController.resetState(selection);
+            characterController.setCharacterImageFileName(newImageName, selection);
+            renderCharacterImage(selection);
+            ImageView imageView = getImageView(selection);
+            colorPane.setSkinColorSelector(characterController.getSkinColor(selection));
+            colorPane.setHairColorSelector(characterController.getHairColor(selection));
+            getCharacterImage(selection).requestFocus();
+            if (characterController.isFlipped(selection)) {
+                imageView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+            }
         }
     }
 
@@ -93,6 +107,10 @@ public class CharacterView {
     }
 
     public void renderCharacters() {
+        if (optionsPane != null && scrollingPane != null && scrollingPane.isClicked()) {
+            optionsPane.setListView(Selection.IS_LEFT, characterController.getCharacterImageFileName(Selection.IS_LEFT));
+            optionsPane.setListView(Selection.IS_RIGHT, characterController.getCharacterImageFileName(Selection.IS_RIGHT));
+        }
         renderCharacterImage(Selection.IS_LEFT);
         renderCharacterImage(Selection.IS_RIGHT);
         characterLeftView.setFocusTraversable(true);

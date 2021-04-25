@@ -64,6 +64,9 @@ public class Character {
     @XmlElement(name = "pose", nillable = true)
     @XmlJavaTypeAdapter(PosingAdapter.class)
     public void setImageFileName(String imageFileName) {
+        if (imageFileName == null) {
+            imageFileName = BLANK_IMAGE;
+        }
         this.imageFileName = imageFileName;
     }
 

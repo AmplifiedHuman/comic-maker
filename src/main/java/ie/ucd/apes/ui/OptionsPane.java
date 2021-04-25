@@ -29,6 +29,8 @@ public class OptionsPane extends VBox {
     private final ScrollingPane scrollingPane;
     private MenuButton leftButton;
     private MenuButton rightButton;
+    private ListView<String> leftListView;
+    private ListView<String> rightListView;
     private Button flipButton;
     private Button genderButton;
     private Button speechButton;
@@ -192,8 +194,23 @@ public class OptionsPane extends VBox {
             }
         });
         listView.setItems(filteredData);
+        // save list view reference
+        if (selection.equals(Selection.IS_LEFT)) {
+            leftListView = listView;
+        } else {
+            rightListView = listView;
+        }
         BorderPane content = new BorderPane(listView);
         content.setTop(filterInput);
         return new CustomMenuItem(content, true);
+    }
+
+    public void setListView(Selection selection, String characterImageName) {
+        if (selection.equals(Selection.IS_LEFT) && leftListView != null) {
+            leftListView.getSelectionModel().select(leftListView.getItems().indexOf(characterImageName));
+        } else if (selection.equals(Selection.IS_RIGHT) && rightListView != null) {
+            rightListView.getSelectionModel().select(rightListView.getItems().indexOf(characterImageName));
+        }
+        scrollingPane.requestFocus();
     }
 }
