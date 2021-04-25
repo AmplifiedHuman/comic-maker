@@ -94,8 +94,8 @@ are working in our current release.
 ### Sprint 5 - Adding Narrative Bars
 
 For this sprint we added top and bottom narrative bars, which works similarly to the dialogue boxes but in this case,
-the user does not need to click on a specific character before clicking the top/bottom narrative button. We also broke down
-and refactored some larger classes into smaller classes so that they're easier to work with.
+the user does not need to click on a specific character before clicking the top/bottom narrative button. We also broke
+down and refactored some larger classes into smaller classes so that they're easier to work with.
 
 ![Sprint 5](readme-resources/sprint5.png)
 
@@ -110,6 +110,30 @@ Some extra features/bonuses we included:
   frames is set to 1s.
 
 ![Sprint 5 Extra](readme-resources/sprint5_extra.gif)
+
+### Sprint 6 - Saving, Loading and Deleting Panels
+
+In this sprint we added saving, loading and deleting. To save the current pane, just click on the save button, and the
+current pane will be saved. To load a pane, click on the thumbnail in the scroll pane, and it will load it into the
+working pane. To work on a new pane, save the current pane first, and a new pane will be generated automatically. We
+feel that a new button is not necessary for this since the save button is sufficient for this purpose. And finally, to
+delete a panel just click on it and click on the delete icon. Alternatively, if you'd like to clear a new panel the
+delete button also serves the same purpose.
+
+![Sprint 6](readme-resources/sprint6.png)
+
+In addition to this week's requirement, we also added/improved some features to improve the overall user experience:
+
+- We changed the stage so that unused space is filled by white space, and it will gradually grow from both sides as the
+  dialogue/narrative bar grows larger. The reason for this is due to the fact that GIF generation only works for images
+  of the same size.
+- Included a prompt to ask the user if they want to save or discard their current panel if the current panel is new or
+  modified. Note that, our application can figure out whether if a panel is modified from their original state or is
+  empty, so it will not display anything if nothing is modified at all!
+- Added delete prompt to make sure it's an intended action.
+- Included an **Undo Delete** button so the user can undo any accidental deletes.
+- We also made sure that the left, right character selection button and also the color picker is updated correctly after
+  loading a saved panel.
 
 ## Team Members
 
