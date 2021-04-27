@@ -166,6 +166,13 @@ public class PanelController {
             } else {
                 characterController.setCharacter(Selection.IS_RIGHT, panelWrapper.getRight().getCharacter());
             }
+            // fill missing entities
+            if (panelWrapper.getLeft().getDialogue() == null) {
+                panelWrapper.getLeft().setDialogue(new Dialogue(Constants.DEFAULT_DIALOGUE));
+            }
+            if (panelWrapper.getRight().getDialogue() == null) {
+                panelWrapper.getRight().setDialogue(new Dialogue(Constants.DEFAULT_DIALOGUE));
+            }
             dialogueController.setDialogue(Selection.IS_LEFT, panelWrapper.getLeft().getDialogue());
             dialogueController.setDialogue(Selection.IS_RIGHT, panelWrapper.getRight().getDialogue());
             narrativeController.setNarrative(Selection.IS_TOP, panelWrapper.getAbove() == null ?
