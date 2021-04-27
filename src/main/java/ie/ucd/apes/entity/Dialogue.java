@@ -1,6 +1,7 @@
 package ie.ucd.apes.entity;
 
 import ie.ucd.apes.adapters.dialogue.DialogueTypeAdapter;
+import ie.ucd.apes.adapters.dialogue.VisibleAdapter;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,11 +12,12 @@ import java.util.Objects;
 @XmlRootElement(name = "balloon")
 public class Dialogue {
     private String text;
-    private boolean isVisible;
+    private Boolean isVisible;
     private DialogueType dialogueType;
 
     public Dialogue() {
-        this("", false, DialogueType.SPEECH);
+        text = "";
+        isVisible = true;
     }
 
     public Dialogue(String text, boolean isVisible, DialogueType dialogueType) {
@@ -39,11 +41,13 @@ public class Dialogue {
         this.text = text;
     }
 
-    public boolean isVisible() {
+    public Boolean getIsVisible() {
         return isVisible;
     }
 
-    public void setVisible(boolean visible) {
+    @XmlElement(name = "visible")
+    @XmlJavaTypeAdapter(VisibleAdapter.class)
+    public void setIsVisible(Boolean visible) {
         isVisible = visible;
     }
 

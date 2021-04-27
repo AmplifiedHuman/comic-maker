@@ -16,11 +16,14 @@ public class DialogueController {
 
     public void toggleDialogue(Selection selection) {
         Dialogue dialogue = getDialogue(selection);
-        dialogue.setVisible(!dialogue.isVisible());
+        dialogue.setIsVisible(!dialogue.getIsVisible());
+        if (!dialogue.getIsVisible()) {
+            setDialogueText(selection, "");
+        }
     }
 
     public boolean isVisible(Selection selection) {
-        return getDialogue(selection).isVisible();
+        return getDialogue(selection).getIsVisible();
     }
 
     public void setDialogueText(Selection selection, String text) {

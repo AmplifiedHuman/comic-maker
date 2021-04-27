@@ -16,4 +16,10 @@ public class FileLoaderTest {
             Assertions.fail("Cannot load character images");
         }
     }
+
+    @Test
+    public void testIsValidCharacterPose() {
+        Assertions.assertTrue(FileIO.isValidCharacterPose("angry"));
+        Assertions.assertFalse(FileIO.isValidCharacterPose("angy"));
+    }
 }

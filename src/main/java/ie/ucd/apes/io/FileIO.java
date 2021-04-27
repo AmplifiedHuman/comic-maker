@@ -1,5 +1,6 @@
 package ie.ucd.apes.io;
 
+import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.utils.GifSequenceWriter;
 import javafx.embed.swing.SwingFXUtils;
@@ -99,5 +100,10 @@ public class FileIO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean isValidCharacterPose(String pose) {
+        String imagePath = String.format("/%s/%s.png", Constants.CHARACTER_FOLDER, pose);
+        return FileIO.class.getResourceAsStream(imagePath) != null;
     }
 }

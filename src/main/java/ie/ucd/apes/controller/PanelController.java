@@ -5,6 +5,7 @@ import ie.ucd.apes.entity.*;
 import ie.ucd.apes.entity.xml.CharacterWrapper;
 import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.entity.xml.PanelWrapper;
+import ie.ucd.apes.ui.ErrorPopup;
 import ie.ucd.apes.ui.ScrollingPane;
 import ie.ucd.apes.ui.stage.StageView;
 
@@ -146,7 +147,9 @@ public class PanelController {
         for (Character character : comicWrapper.getFigures()) {
             characterMap.put(character.getName(), character);
         }
-        for (PanelWrapper panelWrapper : comicWrapper.getPanels()) {
+        List<String> allErrors = new ArrayList<>();
+        for (int i = 0; i < comicWrapper.getPanels().size(); i++) {
+            PanelWrapper panelWrapper = comicWrapper.getPanels().get(i);
             reset();
             scrollingPane.requestFocus();
             String leftName = panelWrapper.getLeft().getCharacter().getName();
@@ -169,8 +172,20 @@ public class PanelController {
                     new Narrative(Constants.DEFAULT_TOP_NARRATIVE) : panelWrapper.getAbove());
             narrativeController.setNarrative(Selection.IS_BOTTOM, panelWrapper.getBelow() == null ?
                     new Narrative(Constants.DEFAULT_BOTTOM_NARRATIVE) : panelWrapper.getBelow());
+            List<String> errors = validate(characterController.getCharacter(Selection.IS_LEFT),
+                    characterController.getCharacter(Selection.IS_RIGHT),
+                    dialogueController.getDialogue(Selection.IS_LEFT),
+                    dialogueController.getDialogue(Selection.IS_RIGHT));
+            if (!errors.isEmpty()) {
+                allErrors.add(String.format("Panel %d:", i + 1));
+                allErrors.addAll(errors);
+                allErrors.add("");
+            }
             stageView.render();
             scrollingPane.saveToScrollingPane();
+        }
+        if (!allErrors.isEmpty()) {
+            new ErrorPopup(allErrors);
         }
     }
 
@@ -194,6 +209,52 @@ public class PanelController {
             currentCharacter.setLipsColor(figure.getLipsColor());
         }
         return currentCharacter;
+    }
+
+    private List<String> validate(Character characterLeft, Character characterRight, Dialogue leftDialogue,
+                                  Dialogue rightDialogue) {
+        List<String> errors = new ArrayList<>();
+        validateCharacter(errors, characterLeft);
+        validateCharacter(errors, characterRight);
+        validateDialogue(errors, characterLeft, leftDialogue);
+        validateDialogue(errors, characterRight, rightDialogue);
+        return errors;
+    }
+
+    private void validateDialogue(List<String> errors, Character character, Dialogue dialogue) {
+        String name = character.getName() != null && !character.getName().isEmpty() ? character.getName() : "Unnamed Character";
+        if (dialogue.getDialogueType() == null) {
+            errors.add(String.format("%s has an invalid balloon status type.", name));
+            dialogue.setDialogueType(DialogueType.THOUGHT);
+        }
+        if (dialogue.getIsVisible() == null) {
+            errors.add(String.format("%s has an invalid visible property.", name));
+            dialogue.setIsVisible(true);
+        }
+    }
+
+    private void validateCharacter(List<String> errors, Character character) {
+        String name = character.getName() != null && !character.getName().isEmpty() ? character.getName() : "Unnamed Character";
+        if (character.getIsMale() == null) {
+            errors.add(String.format("%s has an invalid appearance property.", name));
+            character.setIsMale(false);
+        }
+        if (character.getIsFlipped() == null) {
+            errors.add(String.format("%s has an invalid facing property.", name));
+            character.setIsFlipped(false);
+        }
+        if (character.getHairColor() == null) {
+            errors.add(String.format("%s has an invalid hair property.", name));
+            character.setHairColor(Constants.DEFAULT_HAIR_COLOR);
+        }
+        if (character.getSkinColor() == null) {
+            errors.add(String.format("%s has an invalid skin property.", name));
+            character.setSkinColor(Constants.DEFAULT_SKIN_COLOR);
+        }
+        if (character.getImageFileName() == null) {
+            errors.add(String.format("%s has an invalid pose property.", name));
+            character.setImageFileName(Constants.BLANK_IMAGE);
+        }
     }
 
     public void restoreState(int position) {

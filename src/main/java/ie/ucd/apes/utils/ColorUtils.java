@@ -5,6 +5,7 @@ import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class ColorUtils {
     private static final Map<String, Color> hexToColorMap = new HashMap<>();
@@ -118,7 +119,17 @@ public class ColorUtils {
         if (hexToColorMap.isEmpty()) {
             initHexToColorMap();
         }
-        return hexToColorMap.getOrDefault(colorString.toLowerCase(), toFXColor(colorString));
+        if (hexToColorMap.containsKey(colorString)) {
+            return hexToColorMap.get(colorString);
+        } else if (validateHexString(colorString)) {
+            return toFXColor(colorString);
+        } else {
+            return null;
+        }
+    }
+
+    private static boolean validateHexString(String s) {
+        return Pattern.matches("^#[0-9A-F]{6}$", s);
     }
 
     private static void initHexToColorMap() {

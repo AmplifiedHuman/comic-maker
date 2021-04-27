@@ -43,6 +43,7 @@ public class DialogueView {
             }
             dialogueBox.setDialogueStyle(selection, dialogueType);
             dialogueBox.setVisible(dialogueController.isVisible(selection));
+            dialogueBox.setText(dialogueController.getDialogueText(selection));
         }
     }
 

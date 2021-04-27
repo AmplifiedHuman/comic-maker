@@ -20,7 +20,6 @@ public class Character {
     private Color skinColor;
     private Color hairColor;
     private Color lipsColor;
-
     private String name;
 
     public Character() {
@@ -51,11 +50,8 @@ public class Character {
     }
 
     @XmlElement(name = "pose", nillable = true)
-    @XmlJavaTypeAdapter(PosingAdapter.class)
+    @XmlJavaTypeAdapter(PoseAdapter.class)
     public void setImageFileName(String imageFileName) {
-        if (imageFileName == null) {
-            imageFileName = BLANK_IMAGE;
-        }
         this.imageFileName = imageFileName;
     }
 
