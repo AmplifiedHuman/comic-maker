@@ -1,6 +1,5 @@
 package ie.ucd.apes.adapters.character;
 
-import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.utils.ColorUtils;
 import javafx.scene.paint.Color;
 
@@ -10,16 +9,16 @@ public class LipsAdapter extends XmlAdapter<String, Color> {
 
     @Override
     public Color unmarshal(String s) {
-        if (s.equalsIgnoreCase("default")) {
-            return Constants.DEFAULT_SKIN_COLOR;
+        if (s == null || s.isEmpty() || s.equalsIgnoreCase("default")) {
+            return null;
         }
         return ColorUtils.getColorFromHexOrColorName(s);
     }
 
     @Override
     public String marshal(Color lipsColor) {
-        if (lipsColor.equals(Constants.DEFAULT_SKIN_COLOR)) {
-            return "default";
+        if (lipsColor == null) {
+            return null;
         }
         return ColorUtils.toHexString(lipsColor);
     }

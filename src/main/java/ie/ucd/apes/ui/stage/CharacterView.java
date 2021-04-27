@@ -167,8 +167,11 @@ public class CharacterView {
     private void renderSkinColor(ImageView imageView, Selection selection) {
         Color characterSkinColor = characterController.getSkinColor(selection);
         ColorUtils.changeColor(imageView, Constants.DEFAULT_SKIN_COLOR, characterSkinColor, PruneLevel.NONE);
-        if (characterController.isMale(selection)) {
-            ColorUtils.changeColor(imageView, Constants.LIPS_COLOR, characterSkinColor, PruneLevel.MEDIUM);
+        if (characterController.isMale(selection) && characterController.getLipsColor(selection) == null) {
+            ColorUtils.changeColor(imageView, Constants.LIPS_COLOR, Constants.REPLACEMENT_LIPS_COLOR, PruneLevel.MEDIUM);
+        } else if (characterController.getLipsColor(selection) != null) {
+            ColorUtils.changeColor(imageView, Constants.LIPS_COLOR, characterController.getLipsColor(selection),
+                    PruneLevel.MEDIUM);
         }
     }
 

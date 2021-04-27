@@ -94,6 +94,10 @@ public class CharacterController {
                 && characterRight.equals(Constants.DEFAULT_RIGHT_CHARACTER);
     }
 
+    public Color getLipsColor(Selection selection) {
+        return getCharacter(selection).getLipsColor();
+    }
+
     public void reset() {
         characterLeft = new Character(Constants.DEFAULT_LEFT_CHARACTER);
         characterRight = new Character(Constants.DEFAULT_RIGHT_CHARACTER);

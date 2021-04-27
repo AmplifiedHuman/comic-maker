@@ -12,6 +12,7 @@ public class Constants {
     public static final Color DEFAULT_SKIN_COLOR = ColorUtils.generateColor(255, 232, 216);
     public static final Color RIBBON_COLOR = ColorUtils.generateColor(236, 180, 181);
     public static final Color LIPS_COLOR = ColorUtils.generateColor(255, 0, 0);
+    public static final Color REPLACEMENT_LIPS_COLOR = Color.LIGHTPINK;
 
     // replacement colours
     public static final Color REPLACEMENT_WIG_COLOR = ColorUtils.generateColor(255, 255, 254);

@@ -10,7 +10,9 @@ public class HairAdapter extends XmlAdapter<String, Color> {
 
     @Override
     public Color unmarshal(String s) {
-        if (s.equalsIgnoreCase("default")) {
+        if (s == null || s.isEmpty()) {
+            return null;
+        } else if (s.equalsIgnoreCase("default")) {
             return Constants.DEFAULT_HAIR_COLOR;
         }
         return ColorUtils.getColorFromHexOrColorName(s);

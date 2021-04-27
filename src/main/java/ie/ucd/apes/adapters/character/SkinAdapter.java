@@ -10,7 +10,9 @@ public class SkinAdapter extends XmlAdapter<String, Color> {
 
     @Override
     public Color unmarshal(String s) {
-        if (s.equalsIgnoreCase("default")) {
+        if (s == null || s.isEmpty()) {
+            return null;
+        } else if (s.equalsIgnoreCase("default")) {
             return Constants.DEFAULT_SKIN_COLOR;
         }
         return ColorUtils.getColorFromHexOrColorName(s);

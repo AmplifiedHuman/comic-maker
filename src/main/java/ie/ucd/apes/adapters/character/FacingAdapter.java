@@ -6,7 +6,9 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class FacingAdapter extends XmlAdapter<String, Boolean> {
     @Override
     public Boolean unmarshal(String s) throws UnmarshalException {
-        if (!s.equalsIgnoreCase("left") && !s.equalsIgnoreCase("right")) {
+        if (s == null) {
+            return null;
+        } else if (!s.equalsIgnoreCase("left") && !s.equalsIgnoreCase("right")) {
             throw new UnmarshalException("[Error] Cannot unmarshal facing/orientation.");
         }
         return s.equalsIgnoreCase("left");

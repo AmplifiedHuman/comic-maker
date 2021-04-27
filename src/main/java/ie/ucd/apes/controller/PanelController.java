@@ -142,11 +142,27 @@ public class PanelController {
     public void importFromComicWrapper(ComicWrapper comicWrapper) {
         resetAllState();
         scrollingPane.resetAllState();
+        Map<String, Character> characterMap = new HashMap<>();
+        for (Character character : comicWrapper.getFigures()) {
+            characterMap.put(character.getName(), character);
+        }
         for (PanelWrapper panelWrapper : comicWrapper.getPanels()) {
             reset();
             scrollingPane.requestFocus();
-            characterController.setCharacter(Selection.IS_LEFT, panelWrapper.getLeft().getCharacter());
-            characterController.setCharacter(Selection.IS_RIGHT, panelWrapper.getRight().getCharacter());
+            String leftName = panelWrapper.getLeft().getCharacter().getName();
+            String rightName = panelWrapper.getRight().getCharacter().getName();
+            if (characterMap.containsKey(leftName)) {
+                characterController.setCharacter(Selection.IS_LEFT, loadPropertyFromFigure(characterMap.get(leftName),
+                        panelWrapper.getLeft().getCharacter()));
+            } else {
+                characterController.setCharacter(Selection.IS_LEFT, panelWrapper.getLeft().getCharacter());
+            }
+            if (characterMap.containsKey(rightName)) {
+                characterController.setCharacter(Selection.IS_RIGHT, loadPropertyFromFigure(characterMap.get(rightName),
+                        panelWrapper.getRight().getCharacter()));
+            } else {
+                characterController.setCharacter(Selection.IS_RIGHT, panelWrapper.getRight().getCharacter());
+            }
             dialogueController.setDialogue(Selection.IS_LEFT, panelWrapper.getLeft().getDialogue());
             dialogueController.setDialogue(Selection.IS_RIGHT, panelWrapper.getRight().getDialogue());
             narrativeController.setNarrative(Selection.IS_TOP, panelWrapper.getAbove() == null ?
@@ -156,6 +172,28 @@ public class PanelController {
             stageView.render();
             scrollingPane.saveToScrollingPane();
         }
+    }
+
+    private Character loadPropertyFromFigure(Character figure, Character currentCharacter) {
+        if (currentCharacter.getImageFileName() == null) {
+            currentCharacter.setImageFileName(figure.getImageFileName());
+        }
+        if (currentCharacter.getIsFlipped() == null) {
+            currentCharacter.setIsFlipped(figure.getIsFlipped());
+        }
+        if (currentCharacter.getIsMale() == null) {
+            currentCharacter.setIsMale(figure.getIsMale());
+        }
+        if (currentCharacter.getSkinColor() == null) {
+            currentCharacter.setSkinColor(figure.getSkinColor());
+        }
+        if (currentCharacter.getHairColor() == null) {
+            currentCharacter.setHairColor(figure.getHairColor());
+        }
+        if (currentCharacter.getLipsColor() == null) {
+            currentCharacter.setLipsColor(figure.getLipsColor());
+        }
+        return currentCharacter;
     }
 
     public void restoreState(int position) {

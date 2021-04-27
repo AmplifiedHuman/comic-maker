@@ -24,13 +24,6 @@ public class Character {
     private String name;
 
     public Character() {
-        imageFileName = null;
-        isFlipped = null;
-        isMale = null;
-        skinColor = null;
-        hairColor = null;
-        name = null;
-        lipsColor = null;
     }
 
     public Character(String imageFileName, boolean isFlipped, boolean isMale) {
@@ -40,11 +33,7 @@ public class Character {
         skinColor = DEFAULT_SKIN_COLOR;
         hairColor = DEFAULT_HAIR_COLOR;
         name = "";
-        if (isMale) {
-            lipsColor = DEFAULT_SKIN_COLOR;
-        } else {
-            lipsColor = LIPS_COLOR;
-        }
+        lipsColor = null;
     }
 
     public Character(Character copy) {
@@ -88,11 +77,6 @@ public class Character {
     @XmlJavaTypeAdapter(AppearanceAdapter.class)
     public void setIsMale(Boolean male) {
         this.isMale = male;
-        if (isMale) {
-            lipsColor = skinColor;
-        } else {
-            lipsColor = LIPS_COLOR;
-        }
     }
 
     public void flipOrientation() {
@@ -101,11 +85,6 @@ public class Character {
 
     public void changeGender() {
         isMale = !isMale;
-        if (isMale) {
-            lipsColor = skinColor;
-        } else {
-            lipsColor = LIPS_COLOR;
-        }
     }
 
     public Color getSkinColor() {
@@ -116,9 +95,6 @@ public class Character {
     @XmlJavaTypeAdapter(SkinAdapter.class)
     public void setSkinColor(Color skinColor) {
         this.skinColor = skinColor;
-        if (isMale) {
-            lipsColor = skinColor;
-        }
     }
 
     public Color getHairColor() {
