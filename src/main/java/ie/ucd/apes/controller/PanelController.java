@@ -21,6 +21,7 @@ public class PanelController {
     private final Stack<PanelState> deletedPanelStates;
     private PanelState currentState;
     private ScrollingPane scrollingPane;
+    private String premise;
 
     public PanelController(CharacterController characterController, DialogueController dialogueController,
                            NarrativeController narrativeController, StageView stageView) {
@@ -32,6 +33,7 @@ public class PanelController {
         panelStates = new ArrayList<>();
         currentState = new PanelState();
         deletedPanelStates = new Stack<>();
+        premise = "";
     }
 
     public boolean isCurrentStateNew() {
@@ -125,7 +127,6 @@ public class PanelController {
     }
 
     public ComicWrapper exportToComicWrapper() {
-        String premise = "Default Premise";
         List<PanelWrapper> panels = new ArrayList<>();
         for (PanelState panelState : panelStates) {
             CharacterWrapper left = new CharacterWrapper(panelState.getCharacterLeft(), panelState.getDialogueLeft());
@@ -146,6 +147,9 @@ public class PanelController {
         Map<String, Character> characterMap = new HashMap<>();
         for (Character character : comicWrapper.getFigures()) {
             characterMap.put(character.getName(), character);
+        }
+        if (comicWrapper.getPremise() != null) {
+            premise = comicWrapper.getPremise();
         }
         List<String> allErrors = new ArrayList<>();
         for (int i = 0; i < comicWrapper.getPanels().size(); i++) {
@@ -216,6 +220,14 @@ public class PanelController {
             currentCharacter.setLipsColor(figure.getLipsColor());
         }
         return currentCharacter;
+    }
+
+    public String getPremise() {
+        return premise;
+    }
+
+    public void setPremise(String s) {
+        premise = s;
     }
 
     private List<String> validate(Character characterLeft, Character characterRight, Dialogue leftDialogue,

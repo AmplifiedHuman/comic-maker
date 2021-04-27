@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.Optional;
 
 public class TopMenuBar extends MenuBar {
     private final Stage stage;
@@ -54,6 +55,12 @@ public class TopMenuBar extends MenuBar {
         xmlFileChooser.setTitle("Save");
         xmlFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML (*.xml)", "*.xml"));
         xmlMenuItem.setOnAction(actionEvent -> {
+            TextInputDialog dialog = new TextInputDialog("Comic Premise");
+            dialog.setTitle("Premise");
+            dialog.setHeaderText("Enter Premise");
+            dialog.setContentText("Please enter a premise for the comic:");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(s -> panelController.setPremise(result.get()));
             File file = xmlFileChooser.showSaveDialog(stage);
             if (file != null) {
                 FileIO.exportXML(file, panelController.exportToComicWrapper());
