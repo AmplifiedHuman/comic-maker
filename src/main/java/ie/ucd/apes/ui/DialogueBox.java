@@ -14,14 +14,27 @@ public class DialogueBox extends Label {
         if (dialogueType.equals(DialogueType.SPEECH)) {
             getStyleClass().clear();
             getStyleClass().add("speech-box");
+            setDialogueSize();
         } else if (dialogueType.equals(DialogueType.THOUGHT)) {
             if (selection.equals(Selection.IS_LEFT)) {
                 getStyleClass().clear();
                 getStyleClass().add("thought-box-left");
+                setDialogueSize();
             } else {
                 getStyleClass().clear();
                 getStyleClass().add("thought-box");
+                setDialogueSize();
             }
+        }
+    }
+
+    public void setDialogueSize() {
+        if(this.getText().length() < 50) {
+            getStyleClass().add("small-dialogue");
+        } else if(this.getText().length() < 80 && this.getText().length() > 50){
+            getStyleClass().add("medium-dialogue");
+        } else {
+            getStyleClass().add("large-dialogue");
         }
     }
 }

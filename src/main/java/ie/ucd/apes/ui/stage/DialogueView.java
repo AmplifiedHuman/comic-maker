@@ -79,6 +79,7 @@ public class DialogueView {
     }
 
     private void showDialoguePopup(Selection selection) {
+        DialogueBox dialogueBox = getDialogueBox(selection);
         TextInputDialog popup = new TextInputDialog(dialogueController.getDialogueText(selection));
         popup.setTitle("Speech Dialogue");
         if (selection.equals(Selection.IS_LEFT)) {
@@ -88,8 +89,9 @@ public class DialogueView {
         }
         Optional<String> result = popup.showAndWait();
         if (result.isPresent()) {
-            if (result.get().length() < 100) {
+            if (result.get().length() <= 150) {
                 result.ifPresent(text -> setDialogueText(text, selection));
+                dialogueBox.setDialogueStyle(selection, dialogueController.getDialogueType(selection));
             } else {
                 showWarningAlert();
             }
