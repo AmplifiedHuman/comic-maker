@@ -8,7 +8,7 @@ public class AlertBox extends Alert {
         if(type.equals("Dialogue")){
             setTitle(String.format("%s Text Limit Exceeded", type));
             setHeaderText(String.format("%s Text Limit Exceeded", type));
-            setContentText(String.format("%s text box cannot exceed 100 characters", type));
+            setContentText(String.format("%s text box cannot exceed 150 characters", type));
         } else if(type.equals("Narrative")){
             setTitle(String.format("%s Text Limit Exceeded", type));
             setHeaderText(String.format("%s Text Limit Exceeded", type));
