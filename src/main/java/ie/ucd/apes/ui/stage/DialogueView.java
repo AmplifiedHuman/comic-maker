@@ -89,7 +89,7 @@ public class DialogueView {
         }
         Optional<String> result = popup.showAndWait();
         if (result.isPresent()) {
-            if (result.get().length() <= 150) {
+            if (result.get().length() <= 190) {
                 result.ifPresent(text -> setDialogueText(text, selection));
                 dialogueBox.setDialogueStyle(selection, dialogueController.getDialogueType(selection));
             } else {
