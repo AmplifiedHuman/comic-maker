@@ -1,6 +1,7 @@
 package ie.ucd.apes.ui;
 
-import javafx.embed.swing.SwingFXUtils;
+import ie.ucd.apes.entity.Constants;
+import ie.ucd.apes.io.FileIO;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -11,18 +12,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
-import javax.imageio.ImageIO;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class HelpBox extends Alert {
-    private List<Image> tutorialImages;
     private final ImageView image;
-    private List<String> captions;
     private final Label caption;
+    private List<Image> tutorialImages;
+    private List<String> captions;
     private int index = 0;
 
 
@@ -32,10 +32,10 @@ public class HelpBox extends Alert {
         setHeaderText("QuickStart Guide");
         getDialogPane().setMinWidth(700);
         getDialogPane().setMinHeight(550);
-        setResizable (false);
+        setResizable(false);
 
-        loadCaptions();     //load slide captions from text file
-        loadImages();       //load slide images from directory
+        loadCaptions();
+        loadImages();
 
         VBox slideShow = new VBox();
         HBox slideShowImage = new HBox();
@@ -65,49 +65,49 @@ public class HelpBox extends Alert {
         slideShowImage.getChildren().addAll(arrowLeft, image, arrowRight);
         slideShow.getChildren().addAll(slideShowImage, caption);
         getDialogPane().setContent(slideShow);
-
-        showAndWait();
     }
 
     private void nextSlide() {
-        if(index == tutorialImages.size() - 1 || index == captions.size() - 1) index = 0;
-        else index++;
+        if (index == tutorialImages.size() - 1 || index == captions.size() - 1) {
+            index = 0;
+        } else {
+            index++;
+        }
         image.setImage(tutorialImages.get(index));
         caption.setText(captions.get(index));
     }
 
     private void previousSlide() {
-        if(index == 0) index = tutorialImages.size() - 1;
-        else index--;
+        if (index == 0) {
+            index = tutorialImages.size() - 1;
+        } else {
+            index--;
+        }
         image.setImage(tutorialImages.get(index));
         caption.setText(captions.get(index));
     }
 
     private void loadImages() {
-        tutorialImages = new LinkedList<>();
-        for (int i = 1; i <= captions.size(); i++){
-            File file = new File("src/main/resources/tutorialScreenshots/" + i + ".png");
-            try {
-                tutorialImages.add(SwingFXUtils.toFXImage(ImageIO.read(file), null));
-            } catch (IOException e) {
-                e.printStackTrace();
+        tutorialImages = new ArrayList<>();
+        try {
+            List<String> fileNames = FileIO.getFileNames(Constants.HELP_FOLDER);
+            int size = fileNames.size() - 1;
+            for (int i = 1; i <= size; i++) {
+                tutorialImages.add(new Image(Objects.requireNonNull(getClass()
+                        .getResourceAsStream(String.format("/%s/%s.png", Constants.HELP_FOLDER, i)))));
             }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+            System.out.println("[Error] Cannot load help popup images.");
         }
     }
 
     public void loadCaptions() {
-        captions = new LinkedList<>();
-        BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("src/main/resources/tutorialScreenshots/tutorialCaptions.txt"));
-            String line = reader.readLine();
-            while (line != null) {
-                captions.add(line);
-                line = reader.readLine();
-            }
-            reader.close();
+            captions = FileIO.loadTextResource("help/captions.txt");
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("[Error] Cannot load help popup caption.");
         }
     }
 }

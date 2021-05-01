@@ -34,7 +34,7 @@ public class Apes {
                 Taskbar.getTaskbar().setIconImage(icon.getImage());
             }
             stage.show();
-            new HelpBox();
+            new HelpBox().showAndWait();
         }
 
     }

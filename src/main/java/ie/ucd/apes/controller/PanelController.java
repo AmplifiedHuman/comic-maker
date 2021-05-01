@@ -272,7 +272,7 @@ public class PanelController {
         }
         if (character.getImageFileName() == null) {
             errors.add(String.format("%s has an invalid pose property.", name));
-            character.setImageFileName(Constants.BLANK_IMAGE);
+            character.setImageFileName("neutral.png");
         }
     }
 

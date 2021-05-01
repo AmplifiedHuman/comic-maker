@@ -13,17 +13,12 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -66,7 +61,8 @@ public class FileIO {
             for (int i = 1; i < images.size(); i++) {
                 writer.writeToSequence(images.get(i));
             }
-            FileInputStream inputStream = new FileInputStream("src/main/resources/end_screen.png");
+            InputStream inputStream = FileIO.class.getClassLoader().getResourceAsStream("end_screen.png");
+            assert inputStream != null;
             Image img = new Image(inputStream, 600, 550, false, false);
             BufferedImage endScreen = SwingFXUtils.fromFXImage(img, null);
             writer.writeToSequence(endScreen);
@@ -105,5 +101,17 @@ public class FileIO {
     public static boolean isValidCharacterPose(String pose) {
         String imagePath = String.format("/%s/%s.png", Constants.CHARACTER_FOLDER, pose);
         return FileIO.class.getResourceAsStream(imagePath) != null;
+    }
+
+    public static List<String> loadTextResource(String fullPath) throws FileNotFoundException {
+        InputStream inputStream = FileIO.class.getClassLoader().getResourceAsStream(fullPath);
+        assert inputStream != null;
+        Scanner scanner = new Scanner(inputStream);
+        List<String> result = new ArrayList<>();
+        while (scanner.hasNextLine()) {
+            result.add(scanner.nextLine());
+        }
+        scanner.close();
+        return result;
     }
 }

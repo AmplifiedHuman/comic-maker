@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 public class Constants {
     public static final String CHARACTER_FOLDER = "characters";
+    public static final String HELP_FOLDER = "help";
     public static final String BLANK_IMAGE = "blank";
     // colors
     public static final Color DEFAULT_WIG_COLOR = ColorUtils.generateColor(240, 255, 0);

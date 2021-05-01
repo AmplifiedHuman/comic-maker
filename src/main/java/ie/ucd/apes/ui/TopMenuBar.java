@@ -18,6 +18,7 @@ public class TopMenuBar extends MenuBar {
     private Menu fileMenu;
     private Menu helpMenu;
     private Menu undoDeleteMenu;
+    private HelpBox helpBox;
 
     public TopMenuBar(Stage stage, ScrollingPane scrollingPane, PanelController panelController) {
         this.stage = stage;
@@ -84,7 +85,8 @@ public class TopMenuBar extends MenuBar {
 
     private void initHelpMenu() {
         Label helpLabel = new Label("Help");
-        helpLabel.setOnMouseClicked(e -> new HelpBox());
+        helpBox = new HelpBox();
+        helpLabel.setOnMouseClicked(e -> helpBox.showAndWait());
         helpMenu = new Menu("", helpLabel);
     }
 
