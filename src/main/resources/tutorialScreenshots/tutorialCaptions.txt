@@ -1,0 +1,10 @@
+1. Add a character to the stage by clicking on the left or right arrow buttons. Select a character from the dropdown or search it's name.
+2. To flip character, first click on the character and then click the flip button.
+3. To change gender, first click on the desired character and then click the gender button.
+4. To add left and right dialogues/thought bubbles, select a character and click dialogue/thought button, after that click on the text box and enter text.
+5. To add top and bottom narrative bar, click on the top/bottom text button and click on the text box to enter text.
+6. To save the current pane, just click on the save button and the current pane will be saved. To load it, click on it's thumbnail in the scroll pane and it will load it into the working pane.
+7. To delete a pane, click on it's thumbnail in the scroll pane and then click the bin button to delete it.
+8. In the top left of the window there is a menu bar with more options. Click on File to select an export/import option. Clicking Undo Delete recovers recently deleted panes.
+9. Reorder the panes by hovering over their thumbnails and clicking on the arrow buttons to move the pane left or right.
+10. To change a characters skin or hair color, first click on the character then click on the color selector dropdown. Click a color square to select it.
