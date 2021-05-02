@@ -137,6 +137,30 @@ In addition to this week's requirement, we also added/improved some features to 
 - We also made sure that the left, right character selection button and also the color picker is updated correctly after
   loading a saved panel.
 
+### Sprint 7 - importing and exporting xml
+
+This week, we implemented XML importing and exporting in our application. To export to XML do File -> Export As XML and
+to import use File -> Import XML. We used a SAX parser (JAXB) rather than a DOM model for easier / modular entity
+serialisation. We wrote custom adapters for most properties and also created a few wrapper classes to aid serialisation.
+
+![Sprint 7](readme-resources/sprint7.png)
+
+Aside from the core requirements, we added a popup box which shows a scrollable list of errors in the provided XML file
+(if there's any) for easier debugging and troubleshooting.
+
+![Sprint 7 Error](readme-resources/sprint7_error.png)
+
+Another improvement we made is the help menu, we manage to integrate helpful images and messages to guide the user so that
+it feels more intuitive to use.
+
+![Sprint 7 Help](readme-resources/sprint7_help.png)
+
+In addition to this week's requirement, we also added/improved some features to improve the overall user experience:
+
+- improved dialogue boxes so that our font automatically resizes depending on the length of the text
+- changed the font for narrative bars
+- fixed a bug in GIF generation due to improper loading of the ending image
+
 ## Team Members
 
 - Chee Guan Tee (Jason) - [@AmplifiedHuman](https://github.com/AmplifiedHuman)
