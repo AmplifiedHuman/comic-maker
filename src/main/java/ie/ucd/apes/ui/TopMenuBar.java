@@ -4,6 +4,7 @@ import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.io.FileIO;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -56,12 +57,7 @@ public class TopMenuBar extends MenuBar {
         xmlFileChooser.setTitle("Save");
         xmlFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML (*.xml)", "*.xml"));
         xmlMenuItem.setOnAction(actionEvent -> {
-            TextInputDialog dialog = new TextInputDialog("Comic Premise");
-            dialog.setTitle("Premise");
-            dialog.setHeaderText("Enter Premise");
-            dialog.setContentText("Please enter a premise for the comic:");
-            Optional<String> result = dialog.showAndWait();
-            result.ifPresent(s -> panelController.setPremise(result.get()));
+            getPremise();
             File file = xmlFileChooser.showSaveDialog(stage);
             if (file != null) {
                 FileIO.exportXML(file, panelController.exportToComicWrapper());
@@ -79,8 +75,28 @@ public class TopMenuBar extends MenuBar {
                 panelController.importFromComicWrapper(Objects.requireNonNull(wrapper));
             }
         });
+        // export as HTML
+        MenuItem htmlMenuItem = new MenuItem("Export As HTML");
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Export As HTML");
+        htmlMenuItem.setOnAction(actionEvent -> {
+            getPremise();
+            File directory = directoryChooser.showDialog(stage);
+            if (directory != null) {
+                FileIO.exportHTML(directory.getAbsolutePath(), panelController.exportToHTMLWrapper());
+            }
+        });
         // add to menu
-        fileMenu.getItems().addAll(xmlMenuItem, importXMLMenuItem, gifMenuItem);
+        fileMenu.getItems().addAll(xmlMenuItem, htmlMenuItem, importXMLMenuItem, gifMenuItem);
+    }
+
+    private void getPremise() {
+        TextInputDialog dialog = new TextInputDialog("Comic Premise");
+        dialog.setTitle("Premise");
+        dialog.setHeaderText("Enter Premise");
+        dialog.setContentText("Please enter a premise for the comic:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(s -> panelController.setPremise(result.get()));
     }
 
     private void initHelpMenu() {

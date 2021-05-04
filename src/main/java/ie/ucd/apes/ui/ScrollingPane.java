@@ -254,6 +254,15 @@ public class ScrollingPane extends ScrollPane {
         return result.isPresent() && result.get() == delete;
     }
 
+    public List<Image> getThumbnails() {
+        List<Image> thumbnails = new ArrayList<>();
+        for (Node n : container.getChildren()) {
+            CapturedScene capturedScene = (CapturedScene) n;
+            thumbnails.add(capturedScene.getImage());
+        }
+        return thumbnails;
+    }
+
     public void resetAllState() {
         container.getChildren().clear();
         orderingMap.clear();
