@@ -1,11 +1,13 @@
 package ie.ucd.apes.io;
 
 import ie.ucd.apes.entity.Constants;
+import ie.ucd.apes.entity.html.HTMLWrapper;
 import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.utils.GifSequenceWriter;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 import javax.xml.bind.JAXBContext;
@@ -18,6 +20,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -113,5 +118,42 @@ public class FileIO {
         }
         scanner.close();
         return result;
+    }
+
+    public static void exportHTML(String rootPath, HTMLWrapper htmlWrapper) {
+        InputStream inputStream = FileIO.class.getClassLoader().getResourceAsStream("html/style.css");
+        if (inputStream != null) {
+            try {
+                // copy css
+                Files.copy(inputStream, Paths.get(rootPath + "/style.css"), StandardCopyOption.REPLACE_EXISTING);
+                // copy images
+                for (int i = 0; i < htmlWrapper.getImages().size(); i++) {
+                    BufferedImage bImage = SwingFXUtils.fromFXImage(htmlWrapper.getImages().get(i), null);
+                    File file = new File(String.format("%s/%s.png", rootPath, i + 1));
+                    ImageIO.write(bImage, "png", file);
+                }
+                // write html
+                FileWriter writer = new FileWriter(String.format("%s/index.html", rootPath));
+                writer.append("<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\"> <meta http-equiv=\"X-UA-Compatible\" " +
+                        "content=\"IE=edge\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> <link rel=\"stylesheet\" " +
+                        "href=\"style.css\">");
+                // webpage title
+                writer.append(String.format("<title>%s</title>", htmlWrapper.getPremise()));
+                writer.append("</head><body>");
+                // premise
+                writer.append(String.format("<h1>%s</h1>", htmlWrapper.getPremise()));
+                // add panels
+                writer.append("<div class=\"grid\">");
+                for (int i = 0; i < htmlWrapper.getImages().size(); i++) {
+                    writer.append(String.format("<div class=\"panel\"> <img src=\"%s.png\" /> </div>", i + 1));
+                }
+                writer.append("</div></div></body></html>");
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                System.out.println("[Error] Cannot export comic html.");
+                e.printStackTrace();
+            }
+        }
     }
 }

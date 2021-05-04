@@ -2,6 +2,7 @@ package ie.ucd.apes.controller;
 
 import ie.ucd.apes.entity.Character;
 import ie.ucd.apes.entity.*;
+import ie.ucd.apes.entity.html.HTMLWrapper;
 import ie.ucd.apes.entity.xml.CharacterWrapper;
 import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.entity.xml.PanelWrapper;
@@ -274,6 +275,10 @@ public class PanelController {
             errors.add(String.format("%s has an invalid pose property.", name));
             character.setImageFileName("neutral.png");
         }
+    }
+
+    public HTMLWrapper exportToHTMLWrapper() {
+        return new HTMLWrapper(premise, scrollingPane.getThumbnails());
     }
 
     public void restoreState(int position) {
