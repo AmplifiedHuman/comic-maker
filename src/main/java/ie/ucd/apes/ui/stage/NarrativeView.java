@@ -17,6 +17,8 @@ public class NarrativeView {
         this.narrativeController = narrativeController;
         narrativeBarTop = new NarrativeBar("");
         narrativeBarBottom = new NarrativeBar("");
+        narrativeBarTop.getStyleClass().add("narrative-bar-top");
+        narrativeBarBottom.getStyleClass().add("narrative-bar-bottom");
         renderNarrativeBars();
     }
 
