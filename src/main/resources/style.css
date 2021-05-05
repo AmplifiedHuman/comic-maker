@@ -42,6 +42,7 @@
 }
 
 .narrative-bar {
+    -fx-font-family: "Arial Black";
     -fx-alignment: center;
     -fx-font-size: large;
     -fx-font-weight: bold;

@@ -27,9 +27,9 @@ public class StageView extends VBox {
 
     private void initView() {
         GridPane tiles = new GridPane();
-        setAlignment(Pos.CENTER_LEFT);
-        setMinWidth(600);
-        setMaxWidth(600);
+        setAlignment(Pos.CENTER_RIGHT);
+        setMinWidth(620);
+        setMaxWidth(620);
         tiles.setHgap(49);
         setMinHeight(550);
         setMaxHeight(550);
@@ -56,12 +56,14 @@ public class StageView extends VBox {
         tiles.add(characterView.getCharacterImage(Selection.IS_LEFT), 0, 2);
         tiles.add(box, 1, 2);
         tiles.add(characterView.getCharacterImage(Selection.IS_RIGHT), 2, 2);
-
+        GridPane.setMargin(characterView.getCharacterImage(Selection.IS_LEFT), new Insets(0, 0, 15, 0));
+        GridPane.setMargin(characterView.getCharacterImage(Selection.IS_RIGHT), new Insets(0, 0, 15, 0));
         // background
         tiles.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.getChildren().add(tiles);
-        VBox.setVgrow(this, Priority.NEVER);
+        tiles.setPadding(new Insets(0, 10, 0, 10));
+        getChildren().add(tiles);
+        HBox.setHgrow(this, Priority.ALWAYS);
     }
 
     public void render() {
