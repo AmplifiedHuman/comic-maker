@@ -28,8 +28,8 @@ public class Apes {
 
     public static class App extends Application {
         private static final int SPLASH_WIDTH = 830;
-        private Pane splashLayout;
-        private ProgressBar loadProgress;
+        private Pane splashPane;
+        private ProgressBar progressBar;
 
         public static void main(String[] args) {
             launch();
@@ -37,12 +37,12 @@ public class Apes {
 
         @Override
         public void init() {
-            ImageView splash = new ImageView("splash_screen.png");
-            loadProgress = new ProgressBar();
-            loadProgress.setPrefWidth(SPLASH_WIDTH);
-            splashLayout = new VBox();
-            splashLayout.getChildren().addAll(splash, loadProgress);
-            splashLayout.setStyle(
+            ImageView splash = new ImageView("/splash_screen.png");
+            progressBar = new ProgressBar();
+            progressBar.setPrefWidth(SPLASH_WIDTH);
+            splashPane = new VBox();
+            splashPane.getChildren().addAll(splash, progressBar);
+            splashPane.setStyle(
                     "-fx-padding: 5; " +
                             "-fx-background-color: white; " +
                             "-fx-border-width:5; " +
@@ -53,7 +53,7 @@ public class Apes {
                             "derive(#3C3F41, 50%)" +
                             ");"
             );
-            splashLayout.setEffect(new DropShadow());
+            splashPane.setEffect(new DropShadow());
         }
 
         @Override
@@ -65,7 +65,7 @@ public class Apes {
                     return null;
                 }
             };
-            showSplash(
+            showSplashScreen(
                     stage,
                     task,
                     this::showMainStage
@@ -89,32 +89,32 @@ public class Apes {
             new HelpBox().show();
         }
 
-        private void showSplash(
-                final Stage initStage,
+        private void showSplashScreen(
+                final Stage splashStage,
                 Task<?> task,
                 InitCompletionHandler initCompletionHandler
         ) {
-            loadProgress.progressProperty().bind(task.progressProperty());
+            progressBar.progressProperty().bind(task.progressProperty());
             task.stateProperty().addListener((observableValue, oldState, newState) -> {
                 if (newState == Worker.State.SUCCEEDED) {
-                    loadProgress.progressProperty().unbind();
-                    loadProgress.setProgress(1);
-                    initStage.toFront();
-                    FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
+                    progressBar.progressProperty().unbind();
+                    progressBar.setProgress(1);
+                    splashStage.toFront();
+                    FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashPane);
                     fadeSplash.setFromValue(1.0);
                     fadeSplash.setToValue(0.0);
-                    fadeSplash.setOnFinished(actionEvent -> initStage.hide());
+                    fadeSplash.setOnFinished(actionEvent -> splashStage.hide());
                     fadeSplash.play();
 
                     initCompletionHandler.complete();
                 }
             });
 
-            Scene splashScene = new Scene(splashLayout);
-            initStage.setScene(splashScene);
-            initStage.initStyle(StageStyle.TRANSPARENT);
-            initStage.setAlwaysOnTop(true);
-            initStage.show();
+            Scene splashScene = new Scene(splashPane);
+            splashStage.setScene(splashScene);
+            splashStage.initStyle(StageStyle.TRANSPARENT);
+            splashStage.setAlwaysOnTop(true);
+            splashStage.show();
         }
 
         public interface InitCompletionHandler {
