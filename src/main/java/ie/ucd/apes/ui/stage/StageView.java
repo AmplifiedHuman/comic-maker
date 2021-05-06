@@ -41,8 +41,8 @@ public class StageView extends VBox {
 
         DialogueBox leftDialogueBox = dialogueView.getDialogueBox(Selection.IS_LEFT);
         DialogueBox rightDialogueBox = dialogueView.getDialogueBox(Selection.IS_RIGHT);
-        GridPane.setMargin(leftDialogueBox, new Insets(0,0,0,1));
-        GridPane.setMargin(rightDialogueBox, new Insets(0,1,0,0));
+        GridPane.setMargin(leftDialogueBox, new Insets(0,0,0,5));
+        GridPane.setMargin(rightDialogueBox, new Insets(0,5,0,0));
         tiles.add(leftDialogueBox, 0, 1);
         tiles.add(rightDialogueBox, 2, 1);
         GridPane.setValignment(leftDialogueBox, VPos.BOTTOM);

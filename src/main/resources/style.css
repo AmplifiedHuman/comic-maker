@@ -48,12 +48,20 @@
     -fx-font-weight: bold;
 }
 
-.narrative-bar-top {
+.narrative-bar-top-small {
     -fx-padding: 0 20 20 20;
 }
 
-.narrative-bar-bottom {
+.narrative-bar-top-large {
+    -fx-padding: 0 20 50 20;
+}
+
+.narrative-bar-bottom-small {
     -fx-padding: 20 20 0 20;
+}
+
+.narrative-bar-bottom-large {
+    -fx-padding: 50 20 0 20;
 }
 
 .captured-scene:focused {

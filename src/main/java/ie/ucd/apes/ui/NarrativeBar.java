@@ -15,4 +15,28 @@ public class NarrativeBar extends Label {
         getStyleClass().clear();
         getStyleClass().add("narrative-bar");
     }
+
+    public void setNarrativeSizeTop() {
+        if(this.getText().length() < 70) {
+            getStyleClass().clear();
+            getStyleClass().add("narrative-bar");
+            getStyleClass().add("narrative-bar-top-large");
+        } else {
+            getStyleClass().clear();
+            getStyleClass().add("narrative-bar");
+            getStyleClass().add("narrative-bar-top-small");
+        }
+    }
+
+    public void setNarrativeSizeBottom() {
+        if(this.getText().length() < 70) {
+            getStyleClass().clear();
+            getStyleClass().add("narrative-bar");
+            getStyleClass().add("narrative-bar-bottom-large");
+        } else {
+            getStyleClass().clear();
+            getStyleClass().add("narrative-bar");
+            getStyleClass().add("narrative-bar-bottom-small");
+        }
+    }
 }

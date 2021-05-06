@@ -17,8 +17,6 @@ public class NarrativeView {
         this.narrativeController = narrativeController;
         narrativeBarTop = new NarrativeBar("");
         narrativeBarBottom = new NarrativeBar("");
-        narrativeBarTop.getStyleClass().add("narrative-bar-top");
-        narrativeBarBottom.getStyleClass().add("narrative-bar-bottom");
         renderNarrativeBars();
     }
 
@@ -57,6 +55,8 @@ public class NarrativeView {
         if (result.isPresent()) {
             if (result.get().length() < 120) {
                 result.ifPresent(text -> setNarrativeText(text, selection));
+                narrativeBarTop.setNarrativeSizeTop();
+                narrativeBarBottom.setNarrativeSizeBottom();
             } else {
                 new AlertBox("Narrative");
             }
