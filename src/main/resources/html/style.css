@@ -1,10 +1,21 @@
 h1 {
     text-align: center;
+    font-family: alloyInk, "Marker Felt", Arial, monospace;
+    font-size: 80px;
+    margin: auto;
+    width: 80%;
+    transform: rotate(-3deg) skew(-10deg);
+    padding-top: 40px;
+    color: #485263;
+}
+
+body {
+    background-image: url(background.png);
 }
 
 .grid {
     display: grid;
-    grid-gap: 30px;
+    grid-gap: 40px;
     width: auto;
     grid-template-columns: auto auto;
     justify-items: stretch;
@@ -13,16 +24,21 @@ h1 {
 }
 
 .panel {
-    width: 600px;
+    width: 450px;
     height: auto;
-    border: 2px black solid;
+    border: 2px #616d80 solid;
+    box-shadow: 3px 6px 10px #a3a2a2;
+}
+
+.panel:hover {
+    transform: scale(1.01);
 }
 
 .panel > img {
     width: 100%;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1000px) {
     .grid {
         grid-template-columns: auto;
     }
@@ -30,6 +46,12 @@ h1 {
 
 @media only screen and (max-width: 600px) {
     .panel {
-        width: 400px;
+        width: 300px;
     }
+}
+
+/* Font created by Wahyu Eka Prasetya (https://www.dafont.com/profile.php?user=1067915) */
+@font-face {
+    font-family: alloyInk;
+    src: url(AlloyInk-font.otf);
 }

@@ -126,6 +126,12 @@ public class FileIO {
             try {
                 // copy css
                 Files.copy(inputStream, Paths.get(rootPath + "/style.css"), StandardCopyOption.REPLACE_EXISTING);
+                // copy custom font
+                File fontFile = new File("src/main/resources/html/AlloyInk-font.otf");
+                Files.copy(fontFile.toPath(), Paths.get(rootPath + "/AlloyInk-font.otf"), StandardCopyOption.REPLACE_EXISTING);
+                // copy custom background image
+                File backgroundFile = new File("src/main/resources/html/background.png");
+                Files.copy(backgroundFile.toPath(), Paths.get(rootPath + "/background.png"), StandardCopyOption.REPLACE_EXISTING);
                 // copy images
                 for (int i = 0; i < htmlWrapper.getImages().size(); i++) {
                     BufferedImage bImage = SwingFXUtils.fromFXImage(htmlWrapper.getImages().get(i), null);
@@ -147,7 +153,13 @@ public class FileIO {
                 for (int i = 0; i < htmlWrapper.getImages().size(); i++) {
                     writer.append(String.format("<div class=\"panel\"> <img src=\"%s.png\" /> </div>", i + 1));
                 }
-                writer.append("</div></div></body></html>");
+                // add end image when number of panels is odd
+                if (htmlWrapper.getImages().size() % 2 != 0){
+                    File file = new File("src/main/resources/end_screen.png");
+                    Files.copy(file.toPath(), Paths.get(rootPath + "/end_screen.png"), StandardCopyOption.REPLACE_EXISTING);
+                    writer.append("<div class=\"panel\"> <img src=\"end_screen.png\" /> </div>");
+                }
+                writer.append("</div></body></html>");
                 writer.flush();
                 writer.close();
             } catch (IOException e) {

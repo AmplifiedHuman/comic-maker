@@ -5,6 +5,7 @@
 5. To add top and bottom narrative bar, click on the top/bottom text button and click on the text box to enter text.
 6. To save the current pane, just click on the save button and the current pane will be saved. To load it, click on it's thumbnail in the scroll pane and it will load it into the working pane.
 7. To delete a pane, click on it's thumbnail in the scroll pane and then click the bin button to delete it.
-8. In the top left of the window there is a menu bar with more options. Click on File to select an export/import option. Clicking Undo Delete recovers recently deleted panes.
-9. Reorder the panes by hovering over their thumbnails and clicking on the arrow buttons to move the pane left or right.
-10. To change a characters skin or hair color, first click on the character then click on the color selector dropdown. Click a color square to select it.
+8. Reorder the panes by hovering over their thumbnails and clicking on the arrow buttons to move the pane left or right.
+9. To change a characters skin or hair color, first click on the character then click on the color selector dropdown. Click a color square to select it.
+10. In the top left of the window there is a menu bar with more options. Clicking Undo Delete recovers recently deleted panes.
+11. Click on File to select an export or import option.
