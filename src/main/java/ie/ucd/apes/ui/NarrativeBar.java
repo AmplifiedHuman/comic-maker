@@ -1,7 +1,6 @@
 package ie.ucd.apes.ui;
 
 import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
 import javafx.scene.text.TextAlignment;
 
 public class NarrativeBar extends Label {
@@ -11,13 +10,12 @@ public class NarrativeBar extends Label {
         this.setMaxHeight(150);
         this.setWrapText(true);
         this.setTextAlignment(TextAlignment.CENTER);
-        setMinHeight(Region.USE_PREF_SIZE);
         getStyleClass().clear();
         getStyleClass().add("narrative-bar");
     }
 
     public void setNarrativeSizeTop() {
-        if(this.getText().length() < 70) {
+        if (this.getText().length() < 80) {
             getStyleClass().clear();
             getStyleClass().add("narrative-bar");
             getStyleClass().add("narrative-bar-top-large");
@@ -29,7 +27,7 @@ public class NarrativeBar extends Label {
     }
 
     public void setNarrativeSizeBottom() {
-        if(this.getText().length() < 70) {
+        if (this.getText().length() < 80) {
             getStyleClass().clear();
             getStyleClass().add("narrative-bar");
             getStyleClass().add("narrative-bar-bottom-large");

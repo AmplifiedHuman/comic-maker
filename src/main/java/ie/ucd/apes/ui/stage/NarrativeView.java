@@ -2,7 +2,6 @@ package ie.ucd.apes.ui.stage;
 
 import ie.ucd.apes.controller.NarrativeController;
 import ie.ucd.apes.entity.Selection;
-import ie.ucd.apes.ui.AlertBox;
 import ie.ucd.apes.ui.NarrativeBar;
 import javafx.scene.control.TextInputDialog;
 
@@ -41,6 +40,8 @@ public class NarrativeView {
         narrativeBarBottom.setVisible(narrativeController.isVisible(Selection.IS_BOTTOM));
         narrativeBarTop.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_TOP));
         narrativeBarBottom.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_BOTTOM));
+        narrativeBarTop.setNarrativeSizeTop();
+        narrativeBarBottom.setNarrativeSizeBottom();
     }
 
     private void showNarrativeBarPopUp(Selection selection) {
@@ -53,22 +54,20 @@ public class NarrativeView {
         }
         Optional<String> result = popup.showAndWait();
         if (result.isPresent()) {
-            if (result.get().length() < 120) {
-                result.ifPresent(text -> setNarrativeText(text, selection));
-                narrativeBarTop.setNarrativeSizeTop();
-                narrativeBarBottom.setNarrativeSizeBottom();
-            } else {
-                new AlertBox("Narrative");
-            }
+            result.ifPresent(text -> setNarrativeText(text, selection));
+            narrativeBarTop.setNarrativeSizeTop();
+            narrativeBarBottom.setNarrativeSizeBottom();
         }
     }
 
     private void setNarrativeText(String text, Selection selection) {
         NarrativeBar narrativeBar = getNarrativeBar(selection);
         if (text.isBlank()) {
-            text = "CLICK HERE TO EDIT TEXT";
+            narrativeBar.setText("CLICK HERE TO EDIT TEXT");
         }
         narrativeController.setNarrativeText(selection, text);
         narrativeBar.setText(text);
+        narrativeBarTop.setNarrativeSizeTop();
+        narrativeBarBottom.setNarrativeSizeBottom();
     }
 }

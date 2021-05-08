@@ -3,7 +3,6 @@ package ie.ucd.apes.ui.stage;
 import ie.ucd.apes.controller.DialogueController;
 import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
-import ie.ucd.apes.ui.AlertBox;
 import ie.ucd.apes.ui.DialogueBox;
 import javafx.scene.control.TextInputDialog;
 
@@ -74,10 +73,6 @@ public class DialogueView {
         dialogueBox.setText(text);
     }
 
-    private void showWarningAlert() {
-        new AlertBox("Dialogue");
-    }
-
     private void showDialoguePopup(Selection selection) {
         DialogueBox dialogueBox = getDialogueBox(selection);
         TextInputDialog popup = new TextInputDialog(dialogueController.getDialogueText(selection));
@@ -89,12 +84,8 @@ public class DialogueView {
         }
         Optional<String> result = popup.showAndWait();
         if (result.isPresent()) {
-            if (result.get().length() <= 190) {
-                result.ifPresent(text -> setDialogueText(text, selection));
-                dialogueBox.setDialogueStyle(selection, dialogueController.getDialogueType(selection));
-            } else {
-                showWarningAlert();
-            }
+            result.ifPresent(text -> setDialogueText(text, selection));
+            dialogueBox.setDialogueStyle(selection, dialogueController.getDialogueType(selection));
         }
     }
 }
