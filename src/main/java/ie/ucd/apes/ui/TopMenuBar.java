@@ -92,9 +92,9 @@ public class TopMenuBar extends MenuBar {
 
     private void getPremise() {
         TextInputDialog dialog = new TextInputDialog(panelController.getPremise());
-        dialog.setTitle("Premise");
-        dialog.setHeaderText("Enter Premise");
-        dialog.setContentText("Please enter a premise for the comic:");
+        dialog.setTitle("Title");
+        dialog.setHeaderText("Enter Title");
+        dialog.setContentText("Please enter a title for the comic:");
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(s -> panelController.setPremise(result.get()));
     }

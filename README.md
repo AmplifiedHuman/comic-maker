@@ -150,8 +150,8 @@ Aside from the core requirements, we added a popup box which shows a scrollable 
 
 ![Sprint 7 Error](readme-resources/sprint7_error.png)
 
-Another improvement we made is the help menu, we manage to integrate helpful images and messages to guide the user so that
-it feels more intuitive to use.
+Another improvement we made is the help menu, we manage to integrate helpful images and messages to guide the user so
+that it feels more intuitive to use.
 
 ![Sprint 7 Help](readme-resources/sprint7_help.png)
 
@@ -160,6 +160,25 @@ In addition to this week's requirement, we also added/improved some features to 
 - improved dialogue boxes so that our font automatically resizes depending on the length of the text
 - changed the font for narrative bars
 - fixed a bug in GIF generation due to improper loading of the ending image
+
+### Sprint 8 - Exporting to HTML
+
+This week, we implemented HTML exporting in our application. To export to XML do File -> Export As HTML. We used a
+separate css file for styling, and we generate the html file by using a FileWriter. We also added a prompt to get the
+comic title, if a comic premise already exist, it will prefill it with that.
+
+![Sprint 8](readme-resources/sprint8.png)
+
+For the generated html webpage, we ensured that it's valid and also responsive which means that it can be viewed comfortably
+on both mobile and larger screens.
+
+![Sprint 8](readme-resources/sprint8_html.png)
+
+In addition to this week's requirement, we also added/improved some features to improve the overall user experience:
+
+- improved narrative boxes so that our font automatically resizes depending on the length of the text
+- we put extra effort in styling the generated html page
+- we added an extra end screen if there is an odd number of panes in the generated html page
 
 ## Team Members
 
