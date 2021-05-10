@@ -91,16 +91,10 @@ public class FileIO {
         }
     }
 
-    public static ComicWrapper importXML(File file) {
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(ComicWrapper.class);
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            return (ComicWrapper) unmarshaller.unmarshal(file);
-        } catch (JAXBException e) {
-            System.out.println("Cannot import XML");
-            e.printStackTrace();
-        }
-        return null;
+    public static ComicWrapper importXML(File file) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(ComicWrapper.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        return (ComicWrapper) unmarshaller.unmarshal(file);
     }
 
     public static boolean isValidCharacterPose(String pose) {
@@ -156,7 +150,7 @@ public class FileIO {
                     writer.append(String.format("<div class=\"panel\"> <img src=\"%s.png\" /> </div>", i + 1));
                 }
                 // add end image when number of panels is odd
-                if (htmlWrapper.getImages().size() % 2 != 0){
+                if (htmlWrapper.getImages().size() % 2 != 0) {
                     InputStream inputStreamEndScreen = FileIO.class.getClassLoader().getResourceAsStream("end_screen.png");
                     assert inputStreamEndScreen != null;
                     Files.copy(inputStreamEndScreen, Paths.get(rootPath + "/end_screen.png"), StandardCopyOption.REPLACE_EXISTING);

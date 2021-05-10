@@ -8,8 +8,9 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.util.Objects;
+import java.util.Collections;
 import java.util.Optional;
 
 public class TopMenuBar extends MenuBar {
@@ -71,8 +72,17 @@ public class TopMenuBar extends MenuBar {
         importXMLMenuItem.setOnAction(actionEvent -> {
             File file = importXMLFileChooser.showOpenDialog(stage);
             if (file != null) {
-                ComicWrapper wrapper = FileIO.importXML(file);
-                panelController.importFromComicWrapper(Objects.requireNonNull(wrapper));
+                ComicWrapper wrapper = null;
+                try {
+                    wrapper = FileIO.importXML(file);
+                } catch (JAXBException e) {
+                    String errorMessage = e.getCause().toString();
+                    new ErrorPopup(Collections.singletonList(errorMessage.replace("org.xml.sax.SAXParseException; ", "")),
+                            "Error parsing XML file: Syntax Error");
+                }
+                if (wrapper != null) {
+                    panelController.importFromComicWrapper(wrapper);
+                }
             }
         });
         // export as HTML

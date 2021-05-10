@@ -8,10 +8,10 @@ import javafx.scene.text.Text;
 import java.util.List;
 
 public class ErrorPopup extends Alert {
-    public ErrorPopup(List<String> errors) {
+    public ErrorPopup(List<String> errors, String message) {
         super(AlertType.ERROR);
         setTitle("XML Import Error");
-        setHeaderText("Error parsing XML file: Some properties are invalid and are replaced with default values.");
+        setHeaderText(message);
         getDialogPane().setMinWidth(900);
         setResizable(true);
         ScrollPane scrollPane = new ScrollPane();

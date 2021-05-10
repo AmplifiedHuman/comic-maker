@@ -197,7 +197,7 @@ public class PanelController {
             scrollingPane.saveToScrollingPane();
         }
         if (!allErrors.isEmpty()) {
-            new ErrorPopup(allErrors);
+            new ErrorPopup(allErrors, "Error parsing XML file: Some properties are invalid and are replaced with default values.");
         }
     }
 
