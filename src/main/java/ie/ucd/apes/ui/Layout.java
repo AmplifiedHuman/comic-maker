@@ -56,7 +56,7 @@ public class Layout extends VBox {
         vbox.getChildren().add(colorPane);
         vbox.getChildren().add(optionsPane);
         HBox.setMargin(vbox, new Insets(5, 50, 0, 0));
-        HBox.setMargin(stageView, new Insets(5, 0, 10, 85));
+        HBox.setMargin(stageView, new Insets(5, 0, 5, 85));
         hbox.getChildren().add(vbox);
         this.getChildren().add(topMenuBar);
         this.getChildren().add(hbox);

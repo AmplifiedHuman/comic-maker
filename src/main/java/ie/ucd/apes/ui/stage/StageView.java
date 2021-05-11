@@ -31,8 +31,8 @@ public class StageView extends VBox {
         setMinWidth(620);
         setMaxWidth(620);
         tiles.setHgap(49);
-        setMinHeight(550);
-        setMaxHeight(550);
+        setMinHeight(520);
+        setMaxHeight(520);
 
         NarrativeBar narrativeBarTop = narrativeView.getNarrativeBar(Selection.IS_TOP);
         NarrativeBar narrativeBarBottom = narrativeView.getNarrativeBar(Selection.IS_BOTTOM);
