@@ -13,8 +13,8 @@ import ie.ucd.apes.ui.stage.DialogueView;
 import ie.ucd.apes.ui.stage.NarrativeView;
 import ie.ucd.apes.ui.stage.StageView;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -24,7 +24,6 @@ public class Layout extends VBox {
         this.getStyleClass().add("background");
         VBox vbox = new VBox(16);
         HBox hbox = new HBox(50);
-        HBox.setHgrow(this, Priority.ALWAYS);
 
         Narrative narrativeTop = new Narrative(Constants.DEFAULT_TOP_NARRATIVE);
         Narrative narrativeBottom = new Narrative(Constants.DEFAULT_BOTTOM_NARRATIVE);
@@ -53,16 +52,16 @@ public class Layout extends VBox {
         characterView.setOptionsPane(optionsPane);
         TopMenuBar topMenuBar = new TopMenuBar(stage, scrollingPane, panelController);
 
-        HBox spacer = new HBox();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
         hbox.getChildren().add(stageView);
-        hbox.getChildren().add(spacer);
         vbox.getChildren().add(colorPane);
         vbox.getChildren().add(optionsPane);
-        HBox.setMargin(vbox, new Insets(0, 50, 0, 0));
+        HBox.setMargin(vbox, new Insets(5, 50, 0, 0));
+        HBox.setMargin(stageView, new Insets(5, 0, 10, 85));
         hbox.getChildren().add(vbox);
         this.getChildren().add(topMenuBar);
         this.getChildren().add(hbox);
         this.getChildren().add(scrollingPane);
+        hbox.setAlignment(Pos.CENTER);
+        setAlignment(Pos.CENTER);
     }
 }

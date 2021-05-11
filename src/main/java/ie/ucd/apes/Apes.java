@@ -75,9 +75,9 @@ public class Apes {
 
         private void showMainStage() {
             Stage mainStage = new Stage(StageStyle.DECORATED);
-            var scene = new Scene(new Layout(mainStage), 900, 750);
+            var scene = new Scene(new Layout(mainStage), 900, 790);
             mainStage.setMinWidth(900);
-            mainStage.setMinHeight(800);
+            mainStage.setMinHeight(790);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
             mainStage.setScene(scene);
             mainStage.getIcons().add(new Image("/buttons/logo.png"));
