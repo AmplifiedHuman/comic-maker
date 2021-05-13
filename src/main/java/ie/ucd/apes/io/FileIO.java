@@ -114,20 +114,25 @@ public class FileIO {
         return result;
     }
 
-    public static void exportHTML(String rootPath, HTMLWrapper htmlWrapper) {
+    public static void exportHTML(String rootPath, HTMLWrapper htmlWrapper, boolean isBackgroundEnabled,
+                                  boolean isFontEnabled, boolean isEndingEnabled) {
         InputStream inputStream = FileIO.class.getClassLoader().getResourceAsStream("html/style.css");
         if (inputStream != null) {
             try {
                 // copy css
                 Files.copy(inputStream, Paths.get(rootPath + "/style.css"), StandardCopyOption.REPLACE_EXISTING);
                 // copy custom font
-                InputStream inputStreamFont = FileIO.class.getClassLoader().getResourceAsStream("html/AlloyInk-font.otf");
-                assert inputStreamFont != null;
-                Files.copy(inputStreamFont, Paths.get(rootPath + "/AlloyInk-font.otf"), StandardCopyOption.REPLACE_EXISTING);
+                if (isFontEnabled) {
+                    InputStream inputStreamFont = FileIO.class.getClassLoader().getResourceAsStream("html/AlloyInk-font.otf");
+                    assert inputStreamFont != null;
+                    Files.copy(inputStreamFont, Paths.get(rootPath + "/AlloyInk-font.otf"), StandardCopyOption.REPLACE_EXISTING);
+                }
                 // copy custom background image
-                InputStream inputStreamBackground = FileIO.class.getClassLoader().getResourceAsStream("html/background.png");
-                assert inputStreamBackground != null;
-                Files.copy(inputStreamBackground, Paths.get(rootPath + "/background.png"), StandardCopyOption.REPLACE_EXISTING);
+                if (isBackgroundEnabled) {
+                    InputStream inputStreamBackground = FileIO.class.getClassLoader().getResourceAsStream("html/background.png");
+                    assert inputStreamBackground != null;
+                    Files.copy(inputStreamBackground, Paths.get(rootPath + "/background.png"), StandardCopyOption.REPLACE_EXISTING);
+                }
                 // copy images
                 for (int i = 0; i < htmlWrapper.getImages().size(); i++) {
                     BufferedImage bImage = SwingFXUtils.fromFXImage(htmlWrapper.getImages().get(i), null);
@@ -150,7 +155,7 @@ public class FileIO {
                     writer.append(String.format("<div class=\"panel\"> <img src=\"%s.png\" /> </div>", i + 1));
                 }
                 // add end image when number of panels is odd
-                if (htmlWrapper.getImages().size() % 2 != 0) {
+                if (isEndingEnabled && htmlWrapper.getImages().size() % 2 != 0) {
                     InputStream inputStreamEndScreen = FileIO.class.getClassLoader().getResourceAsStream("end_screen.png");
                     assert inputStreamEndScreen != null;
                     Files.copy(inputStreamEndScreen, Paths.get(rootPath + "/end_screen.png"), StandardCopyOption.REPLACE_EXISTING);

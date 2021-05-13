@@ -3,7 +3,11 @@ package ie.ucd.apes.ui;
 import ie.ucd.apes.controller.PanelController;
 import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.io.FileIO;
+import ie.ucd.apes.ui.popup.ErrorPopup;
+import ie.ucd.apes.ui.popup.HelpBox;
+import ie.ucd.apes.ui.popup.ToggleSwitch;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -58,10 +62,11 @@ public class TopMenuBar extends MenuBar {
         xmlFileChooser.setTitle("Save");
         xmlFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML (*.xml)", "*.xml"));
         xmlMenuItem.setOnAction(actionEvent -> {
-            getPremise();
-            File file = xmlFileChooser.showSaveDialog(stage);
-            if (file != null) {
-                FileIO.exportXML(file, panelController.exportToComicWrapper());
+            if (setPremise()) {
+                File file = xmlFileChooser.showSaveDialog(stage);
+                if (file != null) {
+                    FileIO.exportXML(file, panelController.exportToComicWrapper());
+                }
             }
         });
         // import xml
@@ -90,23 +95,56 @@ public class TopMenuBar extends MenuBar {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Export As HTML");
         htmlMenuItem.setOnAction(actionEvent -> {
-            getPremise();
-            File directory = directoryChooser.showDialog(stage);
-            if (directory != null) {
-                FileIO.exportHTML(directory.getAbsolutePath(), panelController.exportToHTMLWrapper());
+            Results options = getHTMLOptions();
+            if (options != null) {
+                panelController.setPremise(options.getPremise());
+                File directory = directoryChooser.showDialog(stage);
+                if (directory != null) {
+                    FileIO.exportHTML(directory.getAbsolutePath(), panelController.exportToHTMLWrapper(),
+                            options.getBackgroundEnabled(), options.isFontEnabled(), options.isEndingEnabled());
+                }
             }
         });
         // add to menu
         fileMenu.getItems().addAll(xmlMenuItem, htmlMenuItem, importXMLMenuItem, gifMenuItem);
     }
 
-    private void getPremise() {
+    private boolean setPremise() {
         TextInputDialog dialog = new TextInputDialog(panelController.getPremise());
         dialog.setTitle("Title");
         dialog.setHeaderText("Enter Title");
         dialog.setContentText("Please enter a title for the comic:");
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(s -> panelController.setPremise(result.get()));
+        return result.isPresent();
+    }
+
+    private Results getHTMLOptions() {
+        Dialog<Results> dialog = new Dialog<>();
+        dialog.setTitle("HTML Export Options");
+        dialog.setHeaderText("Options");
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.setMinWidth(500);
+        dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Label premiseLabel = new Label("Please enter the comic title:");
+        TextField premise = new TextField(panelController.getPremise());
+        ToggleSwitch backgroundOption = new ToggleSwitch("Enable decorated background?");
+        ToggleSwitch fontOption = new ToggleSwitch("Enable decorated text?");
+        ToggleSwitch endingOption = new ToggleSwitch("Enable ending panel for odd number of panels?");
+
+        VBox dialogContent = new VBox(new VBox(premiseLabel, premise), backgroundOption, fontOption, endingOption);
+        dialogContent.setSpacing(15);
+        dialogPane.setContent(dialogContent);
+        dialog.setResultConverter((ButtonType button) -> {
+            if (button == ButtonType.OK) {
+                return new Results(premise.getText(), backgroundOption.isEnabled(), fontOption.isEnabled(),
+                        endingOption.isEnabled());
+            }
+            return null;
+        });
+        Optional<Results> optionalResult = dialog.showAndWait();
+        return optionalResult.orElse(null);
     }
 
     private void initHelpMenu() {
@@ -120,5 +158,35 @@ public class TopMenuBar extends MenuBar {
         Label undoDeleteLabel = new Label("Undo Delete");
         undoDeleteLabel.setOnMouseClicked(e -> scrollingPane.restoreDeleted());
         undoDeleteMenu = new Menu("", undoDeleteLabel);
+    }
+
+    private static class Results {
+        private final String premise;
+        private final boolean isBackgroundEnabled;
+        private final boolean isFontEnabled;
+        private final boolean isEndingEnabled;
+
+        public Results(String premise, boolean enableBackground, boolean enableFont, boolean enableEnding) {
+            this.premise = premise;
+            this.isBackgroundEnabled = enableBackground;
+            this.isFontEnabled = enableFont;
+            this.isEndingEnabled = enableEnding;
+        }
+
+        public String getPremise() {
+            return premise;
+        }
+
+        public Boolean getBackgroundEnabled() {
+            return isBackgroundEnabled;
+        }
+
+        public boolean isFontEnabled() {
+            return isFontEnabled;
+        }
+
+        public boolean isEndingEnabled() {
+            return isEndingEnabled;
+        }
     }
 }
