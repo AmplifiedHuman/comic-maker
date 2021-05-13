@@ -15,7 +15,7 @@ public class NarrativeBar extends Label {
     }
 
     public void setNarrativeSizeTop() {
-        if (this.getText().length() < 80) {
+        if (this.getText().length() < 70) {
             getStyleClass().clear();
             getStyleClass().add("narrative-bar");
             getStyleClass().add("narrative-bar-top-large");
@@ -27,7 +27,7 @@ public class NarrativeBar extends Label {
     }
 
     public void setNarrativeSizeBottom() {
-        if (this.getText().length() < 80) {
+        if (this.getText().length() < 70) {
             getStyleClass().clear();
             getStyleClass().add("narrative-bar");
             getStyleClass().add("narrative-bar-bottom-large");
