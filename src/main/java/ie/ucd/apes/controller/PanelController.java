@@ -6,8 +6,8 @@ import ie.ucd.apes.entity.html.HTMLWrapper;
 import ie.ucd.apes.entity.xml.CharacterWrapper;
 import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.entity.xml.PanelWrapper;
-import ie.ucd.apes.ui.popup.ErrorPopup;
 import ie.ucd.apes.ui.ScrollingPane;
+import ie.ucd.apes.ui.popup.ErrorPopup;
 import ie.ucd.apes.ui.stage.StageView;
 
 import java.util.*;
@@ -16,19 +16,22 @@ public class PanelController {
     private final CharacterController characterController;
     private final DialogueController dialogueController;
     private final NarrativeController narrativeController;
-    private final StageView stageView;
+    private final BackgroundController backgroundController;
     private final Map<String, PanelState> panelStateIdMap;
     private final List<PanelState> panelStates;
     private final Stack<PanelState> deletedPanelStates;
+    private final StageView stageView;
     private PanelState currentState;
     private ScrollingPane scrollingPane;
     private String premise;
 
     public PanelController(CharacterController characterController, DialogueController dialogueController,
-                           NarrativeController narrativeController, StageView stageView) {
+                           NarrativeController narrativeController, BackgroundController backgroundController,
+                           StageView stageView) {
         this.characterController = characterController;
         this.dialogueController = dialogueController;
         this.narrativeController = narrativeController;
+        this.backgroundController = backgroundController;
         this.stageView = stageView;
         panelStateIdMap = new HashMap<>();
         panelStates = new ArrayList<>();
@@ -43,7 +46,7 @@ public class PanelController {
 
     public boolean isDefaultState() {
         return characterController.isDefaultState() && dialogueController.isDefaultState()
-                && narrativeController.isDefaultState() && stageView.isBackgroundDefaultState();
+                && narrativeController.isDefaultState() && backgroundController.isBackgroundDefaultState();
     }
 
     public String getCurrentId() {
@@ -61,7 +64,7 @@ public class PanelController {
                 || !dialogueController.getDialogue(Selection.IS_RIGHT).equals(originalPanel.getDialogueRight())
                 || !narrativeController.getNarrative(Selection.IS_TOP).equals(originalPanel.getNarrativeTop())
                 || !narrativeController.getNarrative(Selection.IS_BOTTOM).equals(originalPanel.getNarrativeBottom())
-                || !stageView.getBackgroundImage().equals(originalPanel.getBackgroundImage());
+                || !backgroundController.getBackground().equals(originalPanel.getBackground());
     }
 
     public void loadPanel(int position) {
@@ -73,7 +76,7 @@ public class PanelController {
         dialogueController.setDialogue(Selection.IS_RIGHT, new Dialogue(currentState.getDialogueRight()));
         narrativeController.setNarrative(Selection.IS_TOP, new Narrative(currentState.getNarrativeTop()));
         narrativeController.setNarrative(Selection.IS_BOTTOM, new Narrative(currentState.getNarrativeBottom()));
-        stageView.setBackgroundImage(currentState.getBackgroundImage());
+        backgroundController.setBackground(new Background(currentState.getBackground()));
     }
 
     public void delete(int position, String id) {
@@ -91,7 +94,7 @@ public class PanelController {
         currentState.setDialogueRight(new Dialogue(dialogueController.getDialogue(Selection.IS_RIGHT)));
         currentState.setNarrativeTop(new Narrative(narrativeController.getNarrative(Selection.IS_TOP)));
         currentState.setNarrativeBottom(new Narrative(narrativeController.getNarrative(Selection.IS_BOTTOM)));
-        currentState.setBackgroundImage(stageView.getBackgroundImage());
+        currentState.setBackground(new Background(backgroundController.getBackground()));
         if (position >= panelStates.size()) {
             panelStates.add(currentState);
         } else {
@@ -105,7 +108,7 @@ public class PanelController {
         characterController.reset();
         dialogueController.reset();
         narrativeController.reset();
-        stageView.resetBackgroundImage();
+        backgroundController.reset();
     }
 
     public void swapStates(int position1, int position2) {
@@ -136,7 +139,8 @@ public class PanelController {
         for (PanelState panelState : panelStates) {
             CharacterWrapper left = new CharacterWrapper(panelState.getCharacterLeft(), panelState.getDialogueLeft());
             CharacterWrapper right = new CharacterWrapper(panelState.getCharacterRight(), panelState.getDialogueRight());
-            panels.add(new PanelWrapper(panelState.getNarrativeTop(), left, right, panelState.getNarrativeBottom()));
+            panels.add(new PanelWrapper(panelState.getNarrativeTop(), left, right, panelState.getNarrativeBottom(),
+                    panelState.getBackground()));
         }
         return new ComicWrapper(premise, panels, new ArrayList<>());
     }
@@ -192,6 +196,11 @@ public class PanelController {
                     characterController.getCharacter(Selection.IS_RIGHT),
                     dialogueController.getDialogue(Selection.IS_LEFT),
                     dialogueController.getDialogue(Selection.IS_RIGHT));
+            if (panelWrapper.getBackground() != null && panelWrapper.getBackground().getBackgroundImage().isEmpty()) {
+                errors.add("Invalid background image");
+                backgroundController.setBackground(new Background(Constants.BLANK_IMAGE));
+            }
+            backgroundController.setBackground(panelWrapper.getBackground() == null ? new Background(Constants.BLANK_IMAGE) : panelWrapper.getBackground());
             if (!errors.isEmpty()) {
                 allErrors.add(String.format("Panel %d:", i + 1));
                 allErrors.addAll(errors);

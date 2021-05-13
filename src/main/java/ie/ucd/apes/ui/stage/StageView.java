@@ -1,5 +1,6 @@
 package ie.ucd.apes.ui.stage;
 
+import ie.ucd.apes.controller.BackgroundController;
 import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.popup.DialogueBox;
@@ -19,14 +20,15 @@ public class StageView extends VBox {
     private final CharacterView characterView;
     private final DialogueView dialogueView;
     private final NarrativeView narrativeView;
+    private final BackgroundController backgroundController;
     private OptionsPane optionsPane;
-    private String backgroundImage;
 
-    public StageView(CharacterView characterView, DialogueView dialogueView, NarrativeView narrativeView) {
+    public StageView(CharacterView characterView, DialogueView dialogueView, NarrativeView narrativeView,
+                     BackgroundController backgroundController) {
         this.characterView = characterView;
         this.dialogueView = dialogueView;
         this.narrativeView = narrativeView;
-        backgroundImage = Constants.BLANK_IMAGE;
+        this.backgroundController = backgroundController;
         initView();
     }
 
@@ -71,10 +73,13 @@ public class StageView extends VBox {
         HBox.setHgrow(this, Priority.ALWAYS);
     }
 
-    public void setBackgroundImage(String newBackgroundName) {
-        backgroundImage = newBackgroundName;
-        if(!newBackgroundName.contains(".png")) {
-            switch (newBackgroundName){
+    public void renderBackgroundImage() {
+        String backgroundName = backgroundController.getBackgroundString();
+        if (optionsPane != null) {
+            optionsPane.setBackgroundsListView(backgroundName);
+        }
+        if(!backgroundName.contains(".png")) {
+            switch (backgroundName){
                 case "blue":
                     setBackground(new Background(new BackgroundFill(Color.web("41B0F6"), CornerRadii.EMPTY, Insets.EMPTY)));
                     break;
@@ -96,22 +101,9 @@ public class StageView extends VBox {
         }
         else {
             Image backgroundImage = new Image(Objects.requireNonNull(getClass()
-                    .getResourceAsStream(String.format("/%s/%s", Constants.BACKGROUNDS_FOLDER, newBackgroundName))));
+                    .getResourceAsStream(String.format("/%s/%s", Constants.BACKGROUNDS_FOLDER, backgroundName))));
             setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         }
-        optionsPane.setBackgroundsListView(newBackgroundName);
-    }
-
-    public String getBackgroundImage() {
-        return backgroundImage;
-    }
-
-    public void resetBackgroundImage() {
-        setBackgroundImage(Constants.BLANK_IMAGE);
-    }
-
-    public boolean isBackgroundDefaultState() {
-        return backgroundImage.equals(Constants.BLANK_IMAGE);
     }
 
     public void setOptionsPane(OptionsPane optionsPane) {
@@ -122,9 +114,15 @@ public class StageView extends VBox {
         characterView.renderCharacters();
         dialogueView.renderDialogues();
         narrativeView.renderNarrativeBars();
+        renderBackgroundImage();
     }
 
     public WritableImage takeScreenshot() {
         return snapshot(new SnapshotParameters(), null);
+    }
+
+    public void updateBackgroundImage(String newValue) {
+        backgroundController.setBackgroundString(newValue);
+        renderBackgroundImage();
     }
 }

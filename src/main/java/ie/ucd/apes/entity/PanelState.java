@@ -9,7 +9,7 @@ public class PanelState {
     private Dialogue dialogueRight;
     private Narrative narrativeTop;
     private Narrative narrativeBottom;
-    private String backgroundImageFileName;
+    private Background background;
     private String panelId;
     private int panelPosition;
 
@@ -65,12 +65,12 @@ public class PanelState {
         this.narrativeBottom = narrativeBottom;
     }
 
-    public String getBackgroundImage() {
-        return backgroundImageFileName;
+    public Background getBackground() {
+        return background;
     }
 
-    public void setBackgroundImage(String newBackgroundImageFileName) {
-        backgroundImageFileName = newBackgroundImageFileName;
+    public void setBackground(Background background) {
+        this.background = background;
     }
 
     public int getPanelPosition() {

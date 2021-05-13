@@ -103,6 +103,7 @@ public class XMLTest {
         Narrative above = new Narrative(Constants.DEFAULT_TOP_NARRATIVE);
         above.setVisible(true);
         Narrative below = new Narrative(Constants.DEFAULT_BOTTOM_NARRATIVE);
-        return new PanelWrapper(above, leftWrapper, rightWrapper, below);
+        Background background = new Background(Constants.BLANK_IMAGE);
+        return new PanelWrapper(above, leftWrapper, rightWrapper, below, background);
     }
 }

@@ -162,8 +162,6 @@ public class CharacterView {
 
     private void renderGender(ImageView imageView, Selection selection) {
         if (characterController.isMale(selection)) {
-//            ColorUtils.changeColor(imageView, Constants.DEFAULT_WIG_COLOR, Constants.REPLACEMENT_WIG_COLOR, PruneLevel.LOW);
-//            ColorUtils.changeColor(imageView, Constants.RIBBON_COLOR, Constants.REPLACEMENT_RIBBON_COLOR, PruneLevel.LOW);
             ColorUtils.changeColor(imageView, Constants.DEFAULT_WIG_COLOR, Color.TRANSPARENT, PruneLevel.LOW);
             ColorUtils.changeColor(imageView, Constants.RIBBON_COLOR, Color.TRANSPARENT, PruneLevel.LOW);
         }

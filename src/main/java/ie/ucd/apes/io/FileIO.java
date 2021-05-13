@@ -68,7 +68,7 @@ public class FileIO {
             }
             InputStream inputStream = FileIO.class.getClassLoader().getResourceAsStream("end_screen.png");
             assert inputStream != null;
-            Image img = new Image(inputStream, 600, 550, false, false);
+            Image img = new Image(inputStream, 620, 520, false, false);
             BufferedImage endScreen = SwingFXUtils.fromFXImage(img, null);
             writer.writeToSequence(endScreen);
             writer.close();
@@ -99,6 +99,11 @@ public class FileIO {
 
     public static boolean isValidCharacterPose(String pose) {
         String imagePath = String.format("/%s/%s.png", Constants.CHARACTER_FOLDER, pose);
+        return FileIO.class.getResourceAsStream(imagePath) != null;
+    }
+
+    public static boolean isValidBackground(String background) {
+        String imagePath = String.format("/%s/%s.png", Constants.BACKGROUNDS_FOLDER, background);
         return FileIO.class.getResourceAsStream(imagePath) != null;
     }
 

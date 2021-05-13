@@ -11,8 +11,6 @@ import ie.ucd.apes.ui.stage.StageView;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -274,7 +272,12 @@ public class OptionsPane extends VBox {
         });
         // update character listener
         listView.getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldValue, newValue) -> stageView.setBackgroundImage(newValue));
+                (observableValue, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        stageView.updateBackgroundImage(newValue);
+                    }
+                });
+        backgroundListView = listView;
         FilteredList<String> filteredData = new FilteredList<>(listView.getItems(), s -> true);
         TextField filterInput = new TextField();
         filterInput.textProperty().addListener(obs -> {
@@ -286,8 +289,6 @@ public class OptionsPane extends VBox {
             }
         });
         listView.setItems(filteredData);
-        // save list view reference
-        backgroundListView = listView;
         BorderPane content = new BorderPane(listView);
         content.setTop(filterInput);
         return new CustomMenuItem(content, true);
