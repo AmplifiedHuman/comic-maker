@@ -33,7 +33,7 @@ public class TopMenuBar extends MenuBar {
         initFileMenu();
         initHelpMenu();
         initUndoDelete();
-        this.getMenus().addAll(fileMenu, helpMenu, undoDeleteMenu);
+        this.getMenus().addAll(fileMenu, undoDeleteMenu, helpMenu);
     }
 
     private void initFileMenu() {

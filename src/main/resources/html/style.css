@@ -25,7 +25,7 @@ body {
 
 .panel {
     width: 450px;
-    height: auto;
+    height: 377px;
     border: 2px #616d80 solid;
     box-shadow: 3px 6px 10px #a3a2a2;
 }
@@ -51,6 +51,7 @@ body {
 @media only screen and (max-width: 600px) {
     .panel {
         width: 300px;
+        height: 251px;
     }
 
     h1 {
