@@ -7,9 +7,12 @@ import ie.ucd.apes.io.FileIO;
 import ie.ucd.apes.ui.stage.CharacterView;
 import ie.ucd.apes.ui.stage.DialogueView;
 import ie.ucd.apes.ui.stage.NarrativeView;
+import ie.ucd.apes.ui.stage.StageView;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -26,11 +29,14 @@ public class OptionsPane extends VBox {
     private final CharacterView characterView;
     private final DialogueView dialogueView;
     private final NarrativeView narrativeView;
+    private final StageView stageView;
     private final ScrollingPane scrollingPane;
     private MenuButton leftButton;
     private MenuButton rightButton;
     private ListView<String> leftListView;
     private ListView<String> rightListView;
+    private MenuButton backgroundButton;
+    private ListView<String> backgroundListView;
     private Button flipButton;
     private Button genderButton;
     private Button speechButton;
@@ -41,11 +47,13 @@ public class OptionsPane extends VBox {
     private Button deleteButton;
 
     public OptionsPane(CharacterView characterView, DialogueView dialogueView,
-                       NarrativeView narrativeView, ScrollingPane scrollingPane) {
+                       NarrativeView narrativeView, ScrollingPane scrollingPane,
+                       StageView stageView) {
         this.characterView = characterView;
         this.dialogueView = dialogueView;
         this.narrativeView = narrativeView;
         this.scrollingPane = scrollingPane;
+        this.stageView = stageView;
         initLeftAndRightButton();
         initFlipButton();
         initGenderButton();
@@ -54,19 +62,21 @@ public class OptionsPane extends VBox {
         initNarrativeButtons();
         initSaveButton();
         initDeleteButton();
+        initBackgroundButton();
 
         GridPane optionsPane = new GridPane();
 
-        optionsPane.add(leftButton, 0, 0, 1, 1);
-        optionsPane.add(rightButton, 1, 0, 1, 1);
-        optionsPane.add(flipButton, 0, 1, 1, 1);
-        optionsPane.add(genderButton, 1, 1, 1, 1);
-        optionsPane.add(speechButton, 0, 2, 1, 1);
-        optionsPane.add(topNarrativeButton, 1, 2, 1, 1);
-        optionsPane.add(thoughtButton, 0, 3, 1, 1);
-        optionsPane.add(bottomNarrativeButton, 1, 3, 1, 1);
-        optionsPane.add(saveButton, 0, 4, 1, 1);
-        optionsPane.add(deleteButton, 1, 4, 1, 1);
+        optionsPane.add(backgroundButton, 0, 0, 2, 1);
+        optionsPane.add(leftButton, 0, 1, 1, 1);
+        optionsPane.add(rightButton, 1, 1, 1, 1);
+        optionsPane.add(flipButton, 0, 2, 1, 1);
+        optionsPane.add(genderButton, 1, 2, 1, 1);
+        optionsPane.add(speechButton, 0, 3, 1, 1);
+        optionsPane.add(topNarrativeButton, 1, 3, 1, 1);
+        optionsPane.add(thoughtButton, 0, 4, 1, 1);
+        optionsPane.add(bottomNarrativeButton, 1, 4, 1, 1);
+        optionsPane.add(saveButton, 0, 5, 1, 1);
+        optionsPane.add(deleteButton, 1, 5, 1, 1);
 
         optionsPane.setHgap(5);
         optionsPane.setVgap(5);
@@ -210,6 +220,82 @@ public class OptionsPane extends VBox {
             leftListView.getSelectionModel().select(leftListView.getItems().indexOf(characterImageName));
         } else if (selection.equals(Selection.IS_RIGHT) && rightListView != null) {
             rightListView.getSelectionModel().select(rightListView.getItems().indexOf(characterImageName));
+        }
+        scrollingPane.requestFocus();
+    }
+
+    private void initBackgroundButton() {
+        backgroundButton = new MenuButton("", new ImageView("/buttons/background_button.png"));
+        backgroundButton.setTooltip(new Tooltip("Set Background"));
+        backgroundButton.setFocusTraversable(false);
+        try {
+            backgroundButton.getItems().add(loadBackgroundsMenuItem());
+        } catch (IOException | URISyntaxException ioException) {
+            System.out.println("Cannot load backgrounds.");
+        }
+        backgroundButton.setMaxWidth(169);
+    }
+
+    private CustomMenuItem loadBackgroundsMenuItem() throws IOException, URISyntaxException {
+        List<String> files = FileIO.getFileNames(Constants.BACKGROUNDS_FOLDER);
+        Collections.sort(files);
+        files.add(0, Constants.BLANK_IMAGE);
+        files.add(1, "blue");
+        files.add(2, "green");
+        files.add(3, "yellow");
+        files.add(4, "red");
+        files.add(5, "pink");
+        ListView<String> listView = new ListView<>(FXCollections.observableList(files));
+        listView.setCellFactory(param -> new ListCell<>() {
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            public void updateItem(String name, boolean empty) {
+                super.updateItem(name, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else if (name.equals(Constants.BLANK_IMAGE) || name.equals("blue")
+                        || name.equals("green") || name.equals("yellow")
+                        || name.equals("red") || name.equals("pink")) {
+                    setText(name);
+                    setGraphic(null);
+                } else {
+                    Image iconImage = new Image(Objects.requireNonNull(getClass()
+                            .getResourceAsStream(String.format("/%s/%s", Constants.BACKGROUNDS_FOLDER, name))));
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(100);
+                    imageView.setSmooth(true);
+                    imageView.setImage(iconImage);
+                    setText(name);
+                    setGraphic(imageView);
+                }
+            }
+        });
+        // update character listener
+        listView.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldValue, newValue) -> stageView.setBackgroundImage(newValue));
+        FilteredList<String> filteredData = new FilteredList<>(listView.getItems(), s -> true);
+        TextField filterInput = new TextField();
+        filterInput.textProperty().addListener(obs -> {
+            String filter = filterInput.getText();
+            if (filter == null || filter.length() == 0) {
+                filteredData.setPredicate(s -> true);
+            } else {
+                filteredData.setPredicate(s -> s.contains(filter));
+            }
+        });
+        listView.setItems(filteredData);
+        // save list view reference
+        backgroundListView = listView;
+        BorderPane content = new BorderPane(listView);
+        content.setTop(filterInput);
+        return new CustomMenuItem(content, true);
+    }
+
+    public void setBackgroundsListView(String backgroundName) {
+        if (backgroundListView != null) {
+            backgroundListView.getSelectionModel().select(backgroundListView.getItems().indexOf(backgroundName));
         }
         scrollingPane.requestFocus();
     }

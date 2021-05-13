@@ -9,6 +9,7 @@ public class PanelState {
     private Dialogue dialogueRight;
     private Narrative narrativeTop;
     private Narrative narrativeBottom;
+    private String backgroundImageFileName;
     private String panelId;
     private int panelPosition;
 
@@ -62,6 +63,14 @@ public class PanelState {
 
     public void setNarrativeBottom(Narrative narrativeBottom) {
         this.narrativeBottom = narrativeBottom;
+    }
+
+    public String getBackgroundImage() {
+        return backgroundImageFileName;
+    }
+
+    public void setBackgroundImage(String newBackgroundImageFileName) {
+        backgroundImageFileName = newBackgroundImageFileName;
     }
 
     public int getPanelPosition() {

@@ -103,6 +103,13 @@ public class ColorUtils {
         }
     }
 
+    //Changes pure white color to transparent
+    public static void makeTransparent(ImageView imageView) {
+        Color c1 = Color.WHITE;
+        Color c2 = Color.TRANSPARENT;
+        changeColor(imageView, c1, c2, PruneLevel.MEDIUM);
+    }
+
     // safety check to keep black edges intact
     private static boolean areColoursSimilar(Color c1, Color c2) {
         double euclideanDistance = Math.sqrt(Math.pow(c1.getRed() - c2.getRed(), 2) +

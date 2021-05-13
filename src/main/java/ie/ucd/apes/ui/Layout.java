@@ -1,13 +1,8 @@
 package ie.ucd.apes.ui;
 
-import ie.ucd.apes.controller.CharacterController;
-import ie.ucd.apes.controller.DialogueController;
-import ie.ucd.apes.controller.NarrativeController;
-import ie.ucd.apes.controller.PanelController;
+import ie.ucd.apes.controller.*;
+import ie.ucd.apes.entity.*;
 import ie.ucd.apes.entity.Character;
-import ie.ucd.apes.entity.Constants;
-import ie.ucd.apes.entity.Dialogue;
-import ie.ucd.apes.entity.Narrative;
 import ie.ucd.apes.ui.stage.CharacterView;
 import ie.ucd.apes.ui.stage.DialogueView;
 import ie.ucd.apes.ui.stage.NarrativeView;
@@ -48,8 +43,9 @@ public class Layout extends VBox {
         characterView.setScrollingPane(scrollingPane);
         ColorPane colorPane = new ColorPane(characterView);
         characterView.setColorPane(colorPane);
-        OptionsPane optionsPane = new OptionsPane(characterView, dialogueView, narrativeView, scrollingPane);
+        OptionsPane optionsPane = new OptionsPane(characterView, dialogueView, narrativeView, scrollingPane, stageView);
         characterView.setOptionsPane(optionsPane);
+        stageView.setOptionsPane(optionsPane);
         TopMenuBar topMenuBar = new TopMenuBar(stage, scrollingPane, panelController);
 
         hbox.getChildren().add(stageView);

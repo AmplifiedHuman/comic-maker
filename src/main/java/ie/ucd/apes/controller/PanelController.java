@@ -43,7 +43,7 @@ public class PanelController {
 
     public boolean isDefaultState() {
         return characterController.isDefaultState() && dialogueController.isDefaultState()
-                && narrativeController.isDefaultState();
+                && narrativeController.isDefaultState() && stageView.isBackgroundDefaultState();
     }
 
     public String getCurrentId() {
@@ -60,7 +60,8 @@ public class PanelController {
                 || !dialogueController.getDialogue(Selection.IS_LEFT).equals(originalPanel.getDialogueLeft())
                 || !dialogueController.getDialogue(Selection.IS_RIGHT).equals(originalPanel.getDialogueRight())
                 || !narrativeController.getNarrative(Selection.IS_TOP).equals(originalPanel.getNarrativeTop())
-                || !narrativeController.getNarrative(Selection.IS_BOTTOM).equals(originalPanel.getNarrativeBottom());
+                || !narrativeController.getNarrative(Selection.IS_BOTTOM).equals(originalPanel.getNarrativeBottom())
+                || !stageView.getBackgroundImage().equals(originalPanel.getBackgroundImage());
     }
 
     public void loadPanel(int position) {
@@ -72,6 +73,7 @@ public class PanelController {
         dialogueController.setDialogue(Selection.IS_RIGHT, new Dialogue(currentState.getDialogueRight()));
         narrativeController.setNarrative(Selection.IS_TOP, new Narrative(currentState.getNarrativeTop()));
         narrativeController.setNarrative(Selection.IS_BOTTOM, new Narrative(currentState.getNarrativeBottom()));
+        stageView.setBackgroundImage(currentState.getBackgroundImage());
     }
 
     public void delete(int position, String id) {
@@ -89,6 +91,7 @@ public class PanelController {
         currentState.setDialogueRight(new Dialogue(dialogueController.getDialogue(Selection.IS_RIGHT)));
         currentState.setNarrativeTop(new Narrative(narrativeController.getNarrative(Selection.IS_TOP)));
         currentState.setNarrativeBottom(new Narrative(narrativeController.getNarrative(Selection.IS_BOTTOM)));
+        currentState.setBackgroundImage(stageView.getBackgroundImage());
         if (position >= panelStates.size()) {
             panelStates.add(currentState);
         } else {
@@ -102,6 +105,7 @@ public class PanelController {
         characterController.reset();
         dialogueController.reset();
         narrativeController.reset();
+        stageView.resetBackgroundImage();
     }
 
     public void swapStates(int position1, int position2) {

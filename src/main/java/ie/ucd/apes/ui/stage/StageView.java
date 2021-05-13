@@ -1,27 +1,32 @@
 package ie.ucd.apes.ui.stage;
 
+import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.DialogueBox;
 import ie.ucd.apes.ui.NarrativeBar;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import ie.ucd.apes.ui.OptionsPane;
+import javafx.geometry.*;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+
+import java.util.Objects;
 
 
 public class StageView extends VBox {
     private final CharacterView characterView;
     private final DialogueView dialogueView;
     private final NarrativeView narrativeView;
+    private OptionsPane optionsPane;
+    private String backgroundImage;
 
     public StageView(CharacterView characterView, DialogueView dialogueView, NarrativeView narrativeView) {
         this.characterView = characterView;
         this.dialogueView = dialogueView;
         this.narrativeView = narrativeView;
+        backgroundImage = Constants.BLANK_IMAGE;
         initView();
     }
 
@@ -59,11 +64,58 @@ public class StageView extends VBox {
         GridPane.setMargin(characterView.getCharacterImage(Selection.IS_LEFT), new Insets(0, 0, 15, 0));
         GridPane.setMargin(characterView.getCharacterImage(Selection.IS_RIGHT), new Insets(0, 0, 15, 0));
         // background
-        tiles.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         tiles.setPadding(new Insets(0, 10, 0, 10));
+
         getChildren().add(tiles);
         HBox.setHgrow(this, Priority.ALWAYS);
+    }
+
+    public void setBackgroundImage(String newBackgroundName) {
+        backgroundImage = newBackgroundName;
+        if(!newBackgroundName.contains(".png")) {
+            switch (newBackgroundName){
+                case "blue":
+                    setBackground(new Background(new BackgroundFill(Color.web("41B0F6"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    break;
+                case "green":
+                    setBackground(new Background(new BackgroundFill(Color.web("89F94F"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    break;
+                case "yellow":
+                    setBackground(new Background(new BackgroundFill(Color.web("F9F789"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    break;
+                case "red":
+                    setBackground(new Background(new BackgroundFill(Color.web("FF634D"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    break;
+                case "pink":
+                    setBackground(new Background(new BackgroundFill(Color.web("FF8EC6"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    break;
+                default:
+                    setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            }
+        }
+        else {
+            Image backgroundImage = new Image(Objects.requireNonNull(getClass()
+                    .getResourceAsStream(String.format("/%s/%s", Constants.BACKGROUNDS_FOLDER, newBackgroundName))));
+            setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        }
+        optionsPane.setBackgroundsListView(newBackgroundName);
+    }
+
+    public String getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public void resetBackgroundImage() {
+        setBackgroundImage(Constants.BLANK_IMAGE);
+    }
+
+    public boolean isBackgroundDefaultState() {
+        return backgroundImage.equals(Constants.BLANK_IMAGE);
+    }
+
+    public void setOptionsPane(OptionsPane optionsPane) {
+        this.optionsPane = optionsPane;
     }
 
     public void render() {

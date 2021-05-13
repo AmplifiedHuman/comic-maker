@@ -62,11 +62,13 @@ public class NarrativeView {
 
     private void setNarrativeText(String text, Selection selection) {
         NarrativeBar narrativeBar = getNarrativeBar(selection);
+        narrativeController.setNarrativeText(selection, text);
         if (text.isBlank()) {
             narrativeBar.setText("CLICK HERE TO EDIT TEXT");
         }
-        narrativeController.setNarrativeText(selection, text);
-        narrativeBar.setText(text);
+        else {
+            narrativeBar.setText(text);
+        }
         narrativeBarTop.setNarrativeSizeTop();
         narrativeBarBottom.setNarrativeSizeBottom();
     }
