@@ -1,4 +1,4 @@
-package ie.ucd.apes.ui;
+package ie.ucd.apes.ui.popup;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;

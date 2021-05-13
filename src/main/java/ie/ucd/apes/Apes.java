@@ -1,6 +1,6 @@
 package ie.ucd.apes;
 
-import ie.ucd.apes.ui.HelpBox;
+import ie.ucd.apes.ui.popup.HelpBox;
 import ie.ucd.apes.ui.Layout;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;

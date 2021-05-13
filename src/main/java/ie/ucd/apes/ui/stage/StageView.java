@@ -2,7 +2,7 @@ package ie.ucd.apes.ui.stage;
 
 import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.Selection;
-import ie.ucd.apes.ui.DialogueBox;
+import ie.ucd.apes.ui.popup.DialogueBox;
 import ie.ucd.apes.ui.NarrativeBar;
 import ie.ucd.apes.ui.OptionsPane;
 import javafx.geometry.*;

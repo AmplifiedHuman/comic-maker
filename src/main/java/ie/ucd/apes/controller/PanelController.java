@@ -6,7 +6,7 @@ import ie.ucd.apes.entity.html.HTMLWrapper;
 import ie.ucd.apes.entity.xml.CharacterWrapper;
 import ie.ucd.apes.entity.xml.ComicWrapper;
 import ie.ucd.apes.entity.xml.PanelWrapper;
-import ie.ucd.apes.ui.ErrorPopup;
+import ie.ucd.apes.ui.popup.ErrorPopup;
 import ie.ucd.apes.ui.ScrollingPane;
 import ie.ucd.apes.ui.stage.StageView;
 
