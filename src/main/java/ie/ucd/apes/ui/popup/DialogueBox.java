@@ -29,9 +29,9 @@ public class DialogueBox extends Label {
     }
 
     private void setDialogueSize() {
-        if (this.getText().length() < 30) {
+        if (this.getText().length() < 50) {
             getStyleClass().add("small-dialogue");
-        } else if (this.getText().length() < 70 && this.getText().length() > 30) {
+        } else if (this.getText().length() < 100 && this.getText().length() > 50) {
             getStyleClass().add("medium-dialogue");
         } else {
             getStyleClass().add("large-dialogue");
