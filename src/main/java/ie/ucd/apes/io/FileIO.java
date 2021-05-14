@@ -119,24 +119,55 @@ public class FileIO {
         return result;
     }
 
-    public static void exportHTML(String rootPath, HTMLWrapper htmlWrapper, boolean isBackgroundEnabled,
+    public static void exportHTML(String rootPath, HTMLWrapper htmlWrapper, String theme, boolean isBackgroundEnabled,
                                   boolean isFontEnabled, boolean isEndingEnabled) {
-        InputStream inputStream = FileIO.class.getClassLoader().getResourceAsStream("html/style.css");
+        InputStream inputStream = FileIO.class.getClassLoader().getResourceAsStream("html/style1.css");
         if (inputStream != null) {
             try {
-                // copy css
-                Files.copy(inputStream, Paths.get(rootPath + "/style.css"), StandardCopyOption.REPLACE_EXISTING);
-                // copy custom font
-                if (isFontEnabled) {
-                    InputStream inputStreamFont = FileIO.class.getClassLoader().getResourceAsStream("html/AlloyInk-font.otf");
-                    assert inputStreamFont != null;
-                    Files.copy(inputStreamFont, Paths.get(rootPath + "/AlloyInk-font.otf"), StandardCopyOption.REPLACE_EXISTING);
-                }
-                // copy custom background image
-                if (isBackgroundEnabled) {
-                    InputStream inputStreamBackground = FileIO.class.getClassLoader().getResourceAsStream("html/background.png");
-                    assert inputStreamBackground != null;
-                    Files.copy(inputStreamBackground, Paths.get(rootPath + "/background.png"), StandardCopyOption.REPLACE_EXISTING);
+                // copy css, custom font and background image
+                switch(theme) {
+                    case "Action":
+                        inputStream = FileIO.class.getClassLoader().getResourceAsStream("html/style2.css");
+                        assert inputStream != null;
+                        Files.copy(inputStream, Paths.get(rootPath + "/style.css"), StandardCopyOption.REPLACE_EXISTING);
+                        if (isFontEnabled) {
+                            InputStream inputStreamFont = FileIO.class.getClassLoader().getResourceAsStream("html/BomberEscort-font.otf");
+                            assert inputStreamFont != null;
+                            Files.copy(inputStreamFont, Paths.get(rootPath + "/BomberEscort-font.otf"), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        if (isBackgroundEnabled) {
+                            InputStream inputStreamBackground = FileIO.class.getClassLoader().getResourceAsStream("html/background2.png");
+                            assert inputStreamBackground != null;
+                            Files.copy(inputStreamBackground, Paths.get(rootPath + "/background2.png"), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        break;
+                    case "Horror":
+                        inputStream = FileIO.class.getClassLoader().getResourceAsStream("html/style3.css");
+                        assert inputStream != null;
+                        Files.copy(inputStream, Paths.get(rootPath + "/style.css"), StandardCopyOption.REPLACE_EXISTING);
+                        if (isFontEnabled) {
+                            InputStream inputStreamFont = FileIO.class.getClassLoader().getResourceAsStream("html/PiecesNfi-font.otf");
+                            assert inputStreamFont != null;
+                            Files.copy(inputStreamFont, Paths.get(rootPath + "/PiecesNfi-font.otf"), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        if (isBackgroundEnabled) {
+                            InputStream inputStreamBackground = FileIO.class.getClassLoader().getResourceAsStream("html/background3.png");
+                            assert inputStreamBackground != null;
+                            Files.copy(inputStreamBackground, Paths.get(rootPath + "/background3.png"), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        break;
+                    default:
+                        if (isFontEnabled) {
+                            InputStream inputStreamFont = FileIO.class.getClassLoader().getResourceAsStream("html/AlloyInk-font.otf");
+                            assert inputStreamFont != null;
+                            Files.copy(inputStreamFont, Paths.get(rootPath + "/AlloyInk-font.otf"), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        if (isBackgroundEnabled) {
+                            InputStream inputStreamBackground = FileIO.class.getClassLoader().getResourceAsStream("html/background1.png");
+                            assert inputStreamBackground != null;
+                            Files.copy(inputStreamBackground, Paths.get(rootPath + "/background1.png"), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        Files.copy(inputStream, Paths.get(rootPath + "/style.css"), StandardCopyOption.REPLACE_EXISTING);
                 }
                 // copy images
                 for (int i = 0; i < htmlWrapper.getImages().size(); i++) {
@@ -159,8 +190,8 @@ public class FileIO {
                 for (int i = 0; i < htmlWrapper.getImages().size(); i++) {
                     writer.append(String.format("<div class=\"panel\"> <img src=\"%s.png\" /> </div>", i + 1));
                 }
-                // add end image when number of panels is odd
-                if (isEndingEnabled && htmlWrapper.getImages().size() % 2 != 0) {
+                // add end image panel
+                if (isEndingEnabled) {
                     InputStream inputStreamEndScreen = FileIO.class.getClassLoader().getResourceAsStream("end_screen.png");
                     assert inputStreamEndScreen != null;
                     Files.copy(inputStreamEndScreen, Paths.get(rootPath + "/end_screen.png"), StandardCopyOption.REPLACE_EXISTING);

@@ -1,0 +1,73 @@
+h1 {
+    text-align: center;
+    font-family: bomberEscort, Arial, monospace;
+    font-size: 60px;
+    margin: auto;
+    width: 80%;
+    padding-top: 40px;
+    text-shadow: 2px 2px 2px #ffd100;
+    color: #e53535;
+}
+
+body {
+    background-color: #0042fc;
+    background-image: url(background2.png);
+}
+
+.grid {
+    display: grid;
+    grid-gap: 40px;
+    width: auto;
+    grid-template-columns: auto auto;
+    justify-items: stretch;
+    justify-content: center;
+    margin: 40px;
+}
+
+.panel {
+    width: 450px;
+    height: 377px;
+    border: 2px #e53535 solid;
+    box-shadow: 3px 6px 10px #000000;
+}
+
+.panel:hover {
+    transform: scale(1.01);
+}
+
+.panel > img {
+    width: 100%;
+    height: 377px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .grid {
+        grid-template-columns: auto;
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .panel {
+        width: 300px;
+        height: 251px;
+    }
+
+    .panel > img {
+        width: 100%;
+        height: 251px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+/* Font created by Daniel Zadorozny (https://www.dafont.com/profile.php?user=448828) */
+@font-face {
+    font-family: bomberEscort;
+    src: url(BomberEscort-font.otf);
+}

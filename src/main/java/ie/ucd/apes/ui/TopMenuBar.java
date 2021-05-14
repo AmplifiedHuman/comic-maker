@@ -7,6 +7,7 @@ import ie.ucd.apes.ui.popup.ErrorPopup;
 import ie.ucd.apes.ui.popup.HelpBox;
 import ie.ucd.apes.ui.popup.ToggleSwitch;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -101,7 +102,7 @@ public class TopMenuBar extends MenuBar {
                 File directory = directoryChooser.showDialog(stage);
                 if (directory != null) {
                     FileIO.exportHTML(directory.getAbsolutePath(), panelController.exportToHTMLWrapper(),
-                            options.getBackgroundEnabled(), options.isFontEnabled(), options.isEndingEnabled());
+                            options.getTheme(), options.getBackgroundEnabled(), options.isFontEnabled(), options.isEndingEnabled());
                 }
             }
         });
@@ -129,17 +130,35 @@ public class TopMenuBar extends MenuBar {
 
         Label premiseLabel = new Label("Please enter the comic title:");
         TextField premise = new TextField(panelController.getPremise());
-        ToggleSwitch backgroundOption = new ToggleSwitch("Enable decorated background?");
-        ToggleSwitch fontOption = new ToggleSwitch("Enable decorated text?");
-        ToggleSwitch endingOption = new ToggleSwitch("Enable ending panel for odd number of panels?");
 
-        VBox dialogContent = new VBox(new VBox(premiseLabel, premise), backgroundOption, fontOption, endingOption);
+        Label themeLabel = new Label("Select a theme:");
+        ToggleButton themeButton1 = new ToggleButton("Action");
+        ToggleButton themeButton2 = new ToggleButton("Notebook");
+        ToggleButton themeButton3 = new ToggleButton("Horror");
+        ToggleGroup themeToggleGroup = new ToggleGroup();
+        themeButton1.setToggleGroup(themeToggleGroup);
+        themeButton2.setToggleGroup(themeToggleGroup);
+        themeButton3.setToggleGroup(themeToggleGroup);
+        themeToggleGroup.selectToggle(themeButton2);
+
+        //mandatory selection of theme toggle
+        themeToggleGroup.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null)
+                oldVal.setSelected(true);
+        });
+
+        HBox themeButtons = new HBox(themeButton1, themeButton2, themeButton3);
+        ToggleSwitch backgroundOption = new ToggleSwitch("Enable decorated background?");
+        ToggleSwitch fontOption = new ToggleSwitch("Enable decorated title font?");
+        ToggleSwitch endingOption = new ToggleSwitch("Enable ending panel?");
+
+        VBox dialogContent = new VBox(new VBox(premiseLabel, premise), new VBox(themeLabel, themeButtons), backgroundOption, fontOption, endingOption);
         dialogContent.setSpacing(15);
         dialogPane.setContent(dialogContent);
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
-                return new Results(premise.getText(), backgroundOption.isEnabled(), fontOption.isEnabled(),
-                        endingOption.isEnabled());
+                return new Results(premise.getText(), themeToggleGroup.getSelectedToggle().toString(),
+                        backgroundOption.isEnabled(), fontOption.isEnabled(), endingOption.isEnabled());
             }
             return null;
         });
@@ -162,12 +181,14 @@ public class TopMenuBar extends MenuBar {
 
     private static class Results {
         private final String premise;
+        private final String theme;
         private final boolean isBackgroundEnabled;
         private final boolean isFontEnabled;
         private final boolean isEndingEnabled;
 
-        public Results(String premise, boolean enableBackground, boolean enableFont, boolean enableEnding) {
+        public Results(String premise, String theme, boolean enableBackground, boolean enableFont, boolean enableEnding) {
             this.premise = premise;
+            this.theme = theme;
             this.isBackgroundEnabled = enableBackground;
             this.isFontEnabled = enableFont;
             this.isEndingEnabled = enableEnding;
@@ -175,6 +196,18 @@ public class TopMenuBar extends MenuBar {
 
         public String getPremise() {
             return premise;
+        }
+
+        public String getTheme() {
+            if (theme.contains("Action")) {
+                return "Action";
+            }
+            else if (theme.contains("Horror")) {
+                return "Horror";
+            }
+            else {
+                return "Notebook";
+            }
         }
 
         public Boolean getBackgroundEnabled() {
