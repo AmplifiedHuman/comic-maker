@@ -3,7 +3,7 @@ package ie.ucd.apes.ui.stage;
 import ie.ucd.apes.controller.DialogueController;
 import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
-import ie.ucd.apes.ui.popup.DialogueBox;
+import ie.ucd.apes.ui.DialogueBox;
 import javafx.scene.control.TextInputDialog;
 
 import java.util.Optional;

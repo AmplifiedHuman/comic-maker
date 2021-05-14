@@ -1,4 +1,4 @@
-package ie.ucd.apes.ui.popup;
+package ie.ucd.apes.ui;
 
 import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
