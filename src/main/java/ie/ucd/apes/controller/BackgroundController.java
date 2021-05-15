@@ -19,11 +19,11 @@ public class BackgroundController {
     }
 
     public String getBackgroundString() {
-        return background.getBackgroundImage();
+        return background.getBackgroundString();
     }
 
     public void setBackgroundString(String newBackground) {
-        background.setBackgroundImage(newBackground);
+        background.setBackgroundString(newBackground);
     }
 
     public void reset() {
@@ -31,7 +31,7 @@ public class BackgroundController {
     }
 
     public boolean isBackgroundDefaultState() {
-        return background.getBackgroundImage().equals(Constants.BLANK_IMAGE);
+        return background.getBackgroundString().equals(Constants.BLANK_IMAGE);
     }
 
     public boolean equals(Background otherBackground) {

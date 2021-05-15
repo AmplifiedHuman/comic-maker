@@ -295,7 +295,7 @@ public class OptionsPane extends VBox {
     }
 
     public void setBackgroundsListView(String backgroundName) {
-        if (backgroundListView != null) {
+        if (backgroundListView != null && backgroundListView.getItems().contains(backgroundName)) {
             backgroundListView.getSelectionModel().select(backgroundListView.getItems().indexOf(backgroundName));
         }
         scrollingPane.requestFocus();

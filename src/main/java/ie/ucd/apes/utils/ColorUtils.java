@@ -136,7 +136,7 @@ public class ColorUtils {
     }
 
     private static boolean validateHexString(String s) {
-        return Pattern.matches("^#[0-9A-F]{6}$", s);
+        return Pattern.matches("^#[0-9A-Fa-f]{6}$", s);
     }
 
     private static void initHexToColorMap() {

@@ -3,22 +3,22 @@ package ie.ucd.apes.entity;
 import java.util.Objects;
 
 public class Background {
-    private String backgroundImage;
+    private String backgroundString;
 
-    public Background(String backgroundImage) {
-        this.backgroundImage = backgroundImage;
+    public Background(String backgroundString) {
+        this.backgroundString = backgroundString;
     }
 
     public Background(Background newBackground) {
-        this(newBackground.getBackgroundImage());
+        this(newBackground.getBackgroundString());
     }
 
-    public String getBackgroundImage() {
-        return backgroundImage;
+    public String getBackgroundString() {
+        return backgroundString;
     }
 
-    public void setBackgroundImage(String backgroundImage) {
-        this.backgroundImage = backgroundImage;
+    public void setBackgroundString(String backgroundString) {
+        this.backgroundString = backgroundString;
     }
 
     @Override
@@ -26,11 +26,11 @@ public class Background {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Background character = (Background) o;
-        return character.backgroundImage.equals(backgroundImage);
+        return character.backgroundString.equals(backgroundString);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(backgroundImage);
+        return Objects.hash(backgroundString);
     }
 }

@@ -6,6 +6,7 @@ import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.DialogueBox;
 import ie.ucd.apes.ui.NarrativeBar;
 import ie.ucd.apes.ui.OptionsPane;
+import ie.ucd.apes.utils.ColorUtils;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -84,28 +85,10 @@ public class StageView extends VBox {
             optionsPane.setBackgroundsListView(backgroundName);
         }
         if (!backgroundName.endsWith(".png")) {
-            BackgroundFill fill;
-            switch (backgroundName) {
-                case "blue":
-                    fill = new BackgroundFill(Color.web("41B0F6"), CornerRadii.EMPTY, Insets.EMPTY);
-                    break;
-                case "green":
-                    fill = new BackgroundFill(Color.web("89F94F"), CornerRadii.EMPTY, Insets.EMPTY);
-                    break;
-                case "yellow":
-                    fill = new BackgroundFill(Color.web("F9F789"), CornerRadii.EMPTY, Insets.EMPTY);
-                    break;
-                case "red":
-                    fill = new BackgroundFill(Color.web("FF634D"), CornerRadii.EMPTY, Insets.EMPTY);
-                    break;
-                case "pink":
-                    fill = new BackgroundFill(Color.web("FF8EC6"), CornerRadii.EMPTY, Insets.EMPTY);
-                    break;
-                default:
-                    fill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY);
-            }
-            if (getBackground().getFills().isEmpty() || !getBackground().getFills().get(0).equals(fill)) {
-                setBackground(new Background(fill));
+            if (backgroundName.equals(Constants.BLANK_IMAGE)) {
+                setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            } else {
+                setBackground(new Background(new BackgroundFill(ColorUtils.getColorFromHexOrColorName(backgroundName), CornerRadii.EMPTY, Insets.EMPTY)));
             }
         } else {
             Image backgroundImage = new Image(Objects.requireNonNull(getClass()

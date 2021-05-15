@@ -196,7 +196,7 @@ public class PanelController {
                     characterController.getCharacter(Selection.IS_RIGHT),
                     dialogueController.getDialogue(Selection.IS_LEFT),
                     dialogueController.getDialogue(Selection.IS_RIGHT));
-            if (panelWrapper.getBackground() != null && panelWrapper.getBackground().getBackgroundImage().isEmpty()) {
+            if (panelWrapper.getBackground() != null && panelWrapper.getBackground().getBackgroundString().isEmpty()) {
                 errors.add("Invalid background image");
                 backgroundController.setBackground(new Background(Constants.BLANK_IMAGE));
             }
