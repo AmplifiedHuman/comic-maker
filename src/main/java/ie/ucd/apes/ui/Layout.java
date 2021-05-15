@@ -25,18 +25,19 @@ public class Layout extends VBox {
         NarrativeController narrativeController = new NarrativeController(narrativeTop, narrativeBottom);
         NarrativeView narrativeView = new NarrativeView(narrativeController);
 
+        Background background = new Background(Constants.BLANK_IMAGE);
+        BackgroundController backgroundController = new BackgroundController(background);
+
         Character characterLeft = new Character(Constants.DEFAULT_LEFT_CHARACTER);
         Character characterRight = new Character(Constants.DEFAULT_RIGHT_CHARACTER);
         CharacterController characterController = new CharacterController(characterLeft, characterRight);
-        CharacterView characterView = new CharacterView(characterController);
+        CharacterView characterView = new CharacterView(characterController, backgroundController);
 
         Dialogue dialogueLeft = new Dialogue(Constants.DEFAULT_DIALOGUE);
         Dialogue dialogueRight = new Dialogue(Constants.DEFAULT_DIALOGUE);
         DialogueController dialogueController = new DialogueController(dialogueLeft, dialogueRight);
         DialogueView dialogueView = new DialogueView(dialogueController, characterView);
 
-        Background background = new Background(Constants.BLANK_IMAGE);
-        BackgroundController backgroundController = new BackgroundController(background);
         StageView stageView = new StageView(characterView, dialogueView, narrativeView, backgroundController);
         PanelController panelController = new PanelController(characterController, dialogueController,
                 narrativeController, backgroundController, stageView);

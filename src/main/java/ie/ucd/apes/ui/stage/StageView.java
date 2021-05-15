@@ -6,7 +6,10 @@ import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.DialogueBox;
 import ie.ucd.apes.ui.NarrativeBar;
 import ie.ucd.apes.ui.OptionsPane;
-import javafx.geometry.*;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -48,8 +51,8 @@ public class StageView extends VBox {
 
         DialogueBox leftDialogueBox = dialogueView.getDialogueBox(Selection.IS_LEFT);
         DialogueBox rightDialogueBox = dialogueView.getDialogueBox(Selection.IS_RIGHT);
-        GridPane.setMargin(leftDialogueBox, new Insets(0,0,0,5));
-        GridPane.setMargin(rightDialogueBox, new Insets(0,5,0,0));
+        GridPane.setMargin(leftDialogueBox, new Insets(0, 0, 0, 5));
+        GridPane.setMargin(rightDialogueBox, new Insets(0, 5, 0, 0));
         tiles.add(leftDialogueBox, 0, 1);
         tiles.add(rightDialogueBox, 2, 1);
         GridPane.setValignment(leftDialogueBox, VPos.BOTTOM);
@@ -78,28 +81,31 @@ public class StageView extends VBox {
         if (optionsPane != null) {
             optionsPane.setBackgroundsListView(backgroundName);
         }
-        if(!backgroundName.contains(".png")) {
-            switch (backgroundName){
+        if (!backgroundName.endsWith(".png")) {
+            BackgroundFill fill;
+            switch (backgroundName) {
                 case "blue":
-                    setBackground(new Background(new BackgroundFill(Color.web("41B0F6"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    fill = new BackgroundFill(Color.web("41B0F6"), CornerRadii.EMPTY, Insets.EMPTY);
                     break;
                 case "green":
-                    setBackground(new Background(new BackgroundFill(Color.web("89F94F"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    fill = new BackgroundFill(Color.web("89F94F"), CornerRadii.EMPTY, Insets.EMPTY);
                     break;
                 case "yellow":
-                    setBackground(new Background(new BackgroundFill(Color.web("F9F789"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    fill = new BackgroundFill(Color.web("F9F789"), CornerRadii.EMPTY, Insets.EMPTY);
                     break;
                 case "red":
-                    setBackground(new Background(new BackgroundFill(Color.web("FF634D"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    fill = new BackgroundFill(Color.web("FF634D"), CornerRadii.EMPTY, Insets.EMPTY);
                     break;
                 case "pink":
-                    setBackground(new Background(new BackgroundFill(Color.web("FF8EC6"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    fill = new BackgroundFill(Color.web("FF8EC6"), CornerRadii.EMPTY, Insets.EMPTY);
                     break;
                 default:
-                    setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    fill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY);
             }
-        }
-        else {
+            if (getBackground().getFills().isEmpty() || !getBackground().getFills().get(0).equals(fill)) {
+                setBackground(new Background(fill));
+            }
+        } else {
             Image backgroundImage = new Image(Objects.requireNonNull(getClass()
                     .getResourceAsStream(String.format("/%s/%s", Constants.BACKGROUNDS_FOLDER, backgroundName))));
             setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));

@@ -1,5 +1,6 @@
 package ie.ucd.apes.ui.stage;
 
+import ie.ucd.apes.controller.BackgroundController;
 import ie.ucd.apes.controller.CharacterController;
 import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.PruneLevel;
@@ -17,14 +18,16 @@ public class CharacterView {
     private final CharacterController characterController;
     private final CharacterImage characterLeftView;
     private final CharacterImage characterRightView;
+    private final BackgroundController backgroundController;
     private OptionsPane optionsPane;
     private ColorPane colorPane;
     private ScrollingPane scrollingPane;
 
-    public CharacterView(CharacterController characterController) {
+    public CharacterView(CharacterController characterController, BackgroundController backgroundController) {
         this.characterController = characterController;
         characterLeftView = new CharacterImage(null);
         characterRightView = new CharacterImage(null);
+        this.backgroundController = backgroundController;
         renderCharacters();
     }
 
@@ -44,7 +47,9 @@ public class CharacterView {
         imageView.setImage(characterController.renderCharacterImage(selection));
         if (imageView.getImage() != null) {
             //make white background transparent
-            ColorUtils.makeTransparent(imageView);
+            if (!backgroundController.isBackgroundDefaultState()) {
+                ColorUtils.makeTransparent(imageView);
+            }
 
             // render by layers
             renderGender(imageView, selection);
