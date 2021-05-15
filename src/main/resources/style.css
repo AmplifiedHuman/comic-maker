@@ -35,7 +35,7 @@
     -fx-background-color: white;
     -fx-border-color: black;
     -fx-border-width: 2;
-    -fx-padding: 20 30 65 30;
+    -fx-padding: 20 30 45 30;
 }
 
 .thought-box-left {
@@ -43,7 +43,7 @@
     -fx-background-color: white;
     -fx-border-color: black;
     -fx-border-width: 2;
-    -fx-padding: 20 30 65 30;
+    -fx-padding: 20 30 45 30;
 }
 
 .color-label {
@@ -68,7 +68,7 @@
 
 .narrative-bar-top-large {
     -fx-font-size: 16;
-    -fx-padding: 0 20 40 20;
+    -fx-padding: 0 20 20 20;
 }
 
 .narrative-bar-bottom-small {
@@ -78,7 +78,7 @@
 
 .narrative-bar-bottom-large {
     -fx-font-size: 16;
-    -fx-padding: 40 20 0 20;
+    -fx-padding: 30 20 0 20;
 }
 
 .captured-scene:focused {
