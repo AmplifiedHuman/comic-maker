@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.Objects;
 
@@ -71,9 +72,10 @@ public class StageView extends VBox {
         // background
         setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         tiles.setPadding(new Insets(0, 10, 0, 10));
-
+        tiles.setClip(new Rectangle(620, 520));
         getChildren().add(tiles);
         HBox.setHgrow(this, Priority.ALWAYS);
+        VBox.setVgrow(this, Priority.NEVER);
     }
 
     public void renderBackgroundImage() {

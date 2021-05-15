@@ -34,8 +34,8 @@ public class NarrativeView {
     }
 
     public void renderNarrativeBars() {
-        narrativeBarTop.setText(narrativeController.getNarrativeText(Selection.IS_TOP));
-        narrativeBarBottom.setText(narrativeController.getNarrativeText(Selection.IS_BOTTOM));
+        narrativeBarTop.setText(getTruncatedText(narrativeController.getNarrativeText(Selection.IS_TOP)));
+        narrativeBarBottom.setText(getTruncatedText(narrativeController.getNarrativeText(Selection.IS_BOTTOM)));
         narrativeBarTop.setVisible(narrativeController.isVisible(Selection.IS_TOP));
         narrativeBarBottom.setVisible(narrativeController.isVisible(Selection.IS_BOTTOM));
         narrativeBarTop.setOnMouseClicked((e) -> showNarrativeBarPopUp(Selection.IS_TOP));
@@ -60,6 +60,13 @@ public class NarrativeView {
         }
     }
 
+    private String getTruncatedText(String text) {
+        if (text.length() > 150) {
+            return text.substring(0, 150) + "...";
+        }
+        return text;
+    }
+
     private void setNarrativeText(String text, Selection selection) {
         NarrativeBar narrativeBar = getNarrativeBar(selection);
         narrativeController.setNarrativeText(selection, text);
@@ -67,7 +74,7 @@ public class NarrativeView {
             narrativeBar.setText("CLICK HERE TO EDIT TEXT");
         }
         else {
-            narrativeBar.setText(text);
+            narrativeBar.setText(getTruncatedText(text));
         }
         narrativeBarTop.setNarrativeSizeTop();
         narrativeBarBottom.setNarrativeSizeBottom();

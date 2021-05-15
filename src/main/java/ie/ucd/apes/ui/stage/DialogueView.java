@@ -42,13 +42,13 @@ public class DialogueView {
             }
             dialogueBox.setDialogueStyle(selection, dialogueType);
             dialogueBox.setVisible(dialogueController.isVisible(selection));
-            dialogueBox.setText(dialogueController.getDialogueText(selection));
+            dialogueBox.setText(getTruncatedText(dialogueController.getDialogueText(selection)));
         }
     }
 
     public void renderDialogues() {
-        leftDialogueBox.setText(dialogueController.getDialogueText(Selection.IS_LEFT));
-        rightDialogueBox.setText(dialogueController.getDialogueText(Selection.IS_RIGHT));
+        leftDialogueBox.setText(getTruncatedText(dialogueController.getDialogueText(Selection.IS_LEFT)));
+        rightDialogueBox.setText(getTruncatedText(dialogueController.getDialogueText(Selection.IS_RIGHT)));
         leftDialogueBox.setDialogueStyle(Selection.IS_LEFT, dialogueController.getDialogueType(Selection.IS_LEFT));
         rightDialogueBox.setDialogueStyle(Selection.IS_RIGHT, dialogueController.getDialogueType(Selection.IS_RIGHT));
         leftDialogueBox.setVisible(dialogueController.isVisible(Selection.IS_LEFT));
@@ -70,7 +70,14 @@ public class DialogueView {
     private void setDialogueText(String text, Selection selection) {
         DialogueBox dialogueBox = getDialogueBox(selection);
         dialogueController.setDialogueText(selection, text);
-        dialogueBox.setText(text);
+        dialogueBox.setText(getTruncatedText(text));
+    }
+
+    private String getTruncatedText(String text) {
+        if (text.length() > 230) {
+            return text.substring(0, 230) + "...";
+        }
+        return text;
     }
 
     private void showDialoguePopup(Selection selection) {
