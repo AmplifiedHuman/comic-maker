@@ -275,6 +275,7 @@ public class OptionsPane extends VBox {
                 (observableValue, oldValue, newValue) -> {
                     if (newValue != null) {
                         stageView.updateBackgroundImage(newValue);
+                        characterView.setCharacterBackgroundTransparent();
                     }
                 });
         backgroundListView = listView;

@@ -59,6 +59,13 @@ public class CharacterView {
         }
     }
 
+    public void setCharacterBackgroundTransparent() {
+        if (getImageView(Selection.IS_LEFT).getImage() != null && getImageView(Selection.IS_RIGHT).getImage() != null) {
+            ColorUtils.makeTransparent(getImageView(Selection.IS_LEFT));
+            ColorUtils.makeTransparent(getImageView(Selection.IS_RIGHT));
+        }
+    }
+
     public void updateCharacterImage(String newImageName, Selection selection) {
         if (scrollingPane != null && !scrollingPane.isClicked()) {
             characterController.resetState(selection);
