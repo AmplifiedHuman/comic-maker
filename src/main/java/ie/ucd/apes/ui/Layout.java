@@ -31,7 +31,7 @@ public class Layout extends VBox {
         Character characterLeft = new Character(Constants.DEFAULT_LEFT_CHARACTER);
         Character characterRight = new Character(Constants.DEFAULT_RIGHT_CHARACTER);
         CharacterController characterController = new CharacterController(characterLeft, characterRight);
-        CharacterView characterView = new CharacterView(characterController, backgroundController);
+        CharacterView characterView = new CharacterView(characterController);
 
         Dialogue dialogueLeft = new Dialogue(Constants.DEFAULT_DIALOGUE);
         Dialogue dialogueRight = new Dialogue(Constants.DEFAULT_DIALOGUE);

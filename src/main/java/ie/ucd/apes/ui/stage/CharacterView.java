@@ -1,6 +1,5 @@
 package ie.ucd.apes.ui.stage;
 
-import ie.ucd.apes.controller.BackgroundController;
 import ie.ucd.apes.controller.CharacterController;
 import ie.ucd.apes.entity.Constants;
 import ie.ucd.apes.entity.PruneLevel;
@@ -18,16 +17,14 @@ public class CharacterView {
     private final CharacterController characterController;
     private final CharacterImage characterLeftView;
     private final CharacterImage characterRightView;
-    private final BackgroundController backgroundController;
     private OptionsPane optionsPane;
     private ColorPane colorPane;
     private ScrollingPane scrollingPane;
 
-    public CharacterView(CharacterController characterController, BackgroundController backgroundController) {
+    public CharacterView(CharacterController characterController) {
         this.characterController = characterController;
         characterLeftView = new CharacterImage(null);
         characterRightView = new CharacterImage(null);
-        this.backgroundController = backgroundController;
         renderCharacters();
     }
 
@@ -46,23 +43,12 @@ public class CharacterView {
         ImageView imageView = getImageView(selection);
         imageView.setImage(characterController.renderCharacterImage(selection));
         if (imageView.getImage() != null) {
-            //make white background transparent
-            if (!backgroundController.isBackgroundDefaultState()) {
-                ColorUtils.makeTransparent(imageView);
-            }
-
+            ColorUtils.makeTransparent(imageView);
             // render by layers
             renderGender(imageView, selection);
             renderSkinColor(imageView, selection);
             renderHairColor(imageView, selection);
             renderOrientation(imageView, selection);
-        }
-    }
-
-    public void setCharacterBackgroundTransparent() {
-        if (getImageView(Selection.IS_LEFT).getImage() != null && getImageView(Selection.IS_RIGHT).getImage() != null) {
-            ColorUtils.makeTransparent(getImageView(Selection.IS_LEFT));
-            ColorUtils.makeTransparent(getImageView(Selection.IS_RIGHT));
         }
     }
 
