@@ -74,8 +74,8 @@ public class DialogueView {
     }
 
     private String getTruncatedText(String text) {
-        if (text.length() > 230) {
-            return text.substring(0, 230) + "...";
+        if (text.length() > 210) {
+            return text.substring(0, 210) + "...";
         }
         return text;
     }
