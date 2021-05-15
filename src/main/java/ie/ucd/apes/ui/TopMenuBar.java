@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
@@ -54,6 +55,7 @@ public class TopMenuBar extends MenuBar {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Project Empty!");
                 alert.setContentText("There is nothing to save.");
+                alert.initStyle(StageStyle.UTILITY);
                 alert.showAndWait();
             }
         });
@@ -115,6 +117,7 @@ public class TopMenuBar extends MenuBar {
         dialog.setTitle("Title");
         dialog.setHeaderText("Enter Title");
         dialog.setContentText("Please enter a title for the comic:");
+        dialog.initStyle(StageStyle.UTILITY);
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(s -> panelController.setPremise(result.get()));
         return result.isPresent();
@@ -127,6 +130,7 @@ public class TopMenuBar extends MenuBar {
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.setMinWidth(500);
         dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.initStyle(StageStyle.UTILITY);
 
         Label premiseLabel = new Label("Please enter the comic title:");
         TextField premise = new TextField(panelController.getPremise());
@@ -201,11 +205,9 @@ public class TopMenuBar extends MenuBar {
         public String getTheme() {
             if (theme.contains("Action")) {
                 return "Action";
-            }
-            else if (theme.contains("Horror")) {
+            } else if (theme.contains("Horror")) {
                 return "Horror";
-            }
-            else {
+            } else {
                 return "Notebook";
             }
         }

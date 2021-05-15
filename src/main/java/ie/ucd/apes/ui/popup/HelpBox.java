@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -65,6 +66,7 @@ public class HelpBox extends Alert {
         slideShowImage.getChildren().addAll(arrowLeft, image, arrowRight);
         slideShow.getChildren().addAll(slideShowImage, caption);
         getDialogPane().setContent(slideShow);
+        initStyle(StageStyle.UTILITY);
     }
 
     private void nextSlide() {

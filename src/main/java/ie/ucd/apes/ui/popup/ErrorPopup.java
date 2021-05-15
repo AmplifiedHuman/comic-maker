@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class ErrorPopup extends Alert {
         }
         scrollPane.setContent(content);
         getDialogPane().setContent(scrollPane);
+        initStyle(StageStyle.UTILITY);
         showAndWait();
     }
 }

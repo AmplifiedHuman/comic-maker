@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
 
 import java.awt.image.BufferedImage;
 import java.util.*;
@@ -59,6 +60,7 @@ public class ScrollingPane extends ScrollPane {
             alert.setTitle("Error");
             alert.setHeaderText("Illegal Action!");
             alert.setContentText("There are no deleted panels remaining.");
+            alert.initStyle(StageStyle.UTILITY);
             alert.showAndWait();
         } else {
             DeletedScene deletedScene = deletedScenes.pop();
@@ -136,6 +138,7 @@ public class ScrollingPane extends ScrollPane {
                 alert.setTitle("Error");
                 alert.setHeaderText("Illegal Action!");
                 alert.setContentText("Cannot delete from empty scroll pane");
+                alert.initStyle(StageStyle.UTILITY);
                 alert.showAndWait();
             }
         }
@@ -230,6 +233,7 @@ public class ScrollingPane extends ScrollPane {
     public boolean alertSave() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Save or discard?");
+        alert.initStyle(StageStyle.UTILITY);
         alert.setContentText("Do you want to save any changes made?");
         ButtonType save = new ButtonType("Save", ButtonBar.ButtonData.YES);
         ButtonType discard = new ButtonType("Discard", ButtonBar.ButtonData.NO);
@@ -246,6 +250,7 @@ public class ScrollingPane extends ScrollPane {
         } else {
             alert.setContentText("Are you sure you want to delete this scene?");
         }
+        alert.initStyle(StageStyle.UTILITY);
         String message = panelController.isCurrentStateNew() ? "Clear" : "Delete";
         ButtonType delete = new ButtonType(message, ButtonBar.ButtonData.YES);
         ButtonType keep = new ButtonType("Keep", ButtonBar.ButtonData.NO);
