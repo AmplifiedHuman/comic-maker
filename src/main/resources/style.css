@@ -6,7 +6,8 @@
 .speech-box:hover,
 .thought-box:hover,
 .thought-box-left:hover,
-.narrative-bar:hover {
+.narrative-bar:hover,
+.captured-scene:hover {
     -fx-effect: dropshadow(gaussian, #ff7a7a, 5, 0.75, 0, 0);
 }
 
