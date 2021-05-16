@@ -192,6 +192,7 @@ public class ScrollingPane extends ScrollPane {
                 swapScrollPanelImages(position, position + 1);
                 saveSwappedPanels(position, position + 1);
                 loadData(position + 1);
+                setHvalue(position * 1.0 / orderingMap.size());
             }
         }
     }
@@ -204,6 +205,7 @@ public class ScrollingPane extends ScrollPane {
                 swapScrollPanelImages(position, position - 1);
                 saveSwappedPanels(position, position - 1);
                 loadData(position - 1);
+                setHvalue((position - 1) * 1.0 / orderingMap.size());
             }
         }
     }
