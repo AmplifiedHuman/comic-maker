@@ -1,12 +1,12 @@
-1. Add a character to the stage by clicking on the left or right arrow buttons. Select a character from the dropdown or search it's name.
-2. To flip character, first click on the character and then click the flip button.
-3. To change gender, first click on the desired character and then click the gender button.
-4. To add left and right dialogues/thought bubbles, select a character and click dialogue/thought button, after that click on the text box and enter text.
-5. To add top and bottom narrative bar, click on the top/bottom text button and click on the text box to enter text.
-6. To set a background image or color, click on the paint bucket button. Select a background from the dropdown or search it's name.
-7. To save the current pane, just click on the save button and the current pane will be saved. To load it, click on it's thumbnail in the scroll pane and it will load it into the working pane.
-8. To delete a pane, click on it's thumbnail in the scroll pane and then click the bin button to delete it.
+1. Add a character to the stage by clicking on the left/right arrow buttons. Choose a character from the dropdown or search its name.
+2. To flip a character, first select the desired character and then click the mirror button.
+3. To change gender, first select the desired character and then click the gender button.
+4. To add dialogue/thought bubbles, select a character then click the dialogue/thought bubble button, after that click on the bubble to enter text.
+5. To add top/bottom narrative text, click on the top/bottom text button, then click on the narrative bar to enter text.
+6. To set a background image or color, click on the paint bucket button. Select a background from the dropdown or search its name.
+7. To save the current pane, click on the floppy disk button. To load it into the working pane, click on its thumbnail in the scroll pane below the stage.
+8. To delete a pane, select its thumbnail in the scroll pane, then click the bin button to delete it.
 9. Reorder the panes by hovering over their thumbnails and clicking on the arrow buttons to move the pane left or right.
-10. To change a characters skin or hair color, first click on the character then click on the color selector dropdown. Click a color square to select it.
-11. In the top left of the window there is a menu bar with more options. Clicking Undo Delete recovers recently deleted panes.
+10. To change a character’s skin or hair color, first click on the character then click on the color selector dropdown. Click a color square to select it.
+11. In the top left of the window there is a menu bar with more options. Click Undo Delete to recover recently deleted panes.
 12. Click on File to select an export or import option.
