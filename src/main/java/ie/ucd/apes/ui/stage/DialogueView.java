@@ -5,6 +5,7 @@ import ie.ucd.apes.entity.DialogueType;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.DialogueBox;
 import javafx.scene.control.TextInputDialog;
+import javafx.stage.StageStyle;
 
 import java.util.Optional;
 
@@ -83,6 +84,7 @@ public class DialogueView {
     private void showDialoguePopup(Selection selection) {
         DialogueBox dialogueBox = getDialogueBox(selection);
         TextInputDialog popup = new TextInputDialog(dialogueController.getDialogueText(selection));
+        popup.initStyle(StageStyle.UTILITY);
         popup.setTitle("Speech Dialogue");
         if (selection.equals(Selection.IS_LEFT)) {
             popup.setHeaderText("Please enter the speech text for the left character");
