@@ -185,6 +185,9 @@ public class ScrollingPane extends ScrollPane {
     }
 
     private void moveRightInScrollingPane(String currentId) {
+        if (panelController.isEdited() && !panelController.isDefaultState() && alertSave()) {
+            saveToScrollingPane();
+        }
         if (orderingMap.containsKey(currentId)) {
             int position = orderingMap.get(currentId);
             if (position < orderingMap.size() - 1) {
@@ -198,6 +201,9 @@ public class ScrollingPane extends ScrollPane {
     }
 
     private void moveLeftInScrollingPane(String currentId) {
+        if (panelController.isEdited() && !panelController.isDefaultState() && alertSave()) {
+            saveToScrollingPane();
+        }
         if (orderingMap.containsKey(currentId)) {
             int position = orderingMap.get(currentId);
             if (position > 0) {
