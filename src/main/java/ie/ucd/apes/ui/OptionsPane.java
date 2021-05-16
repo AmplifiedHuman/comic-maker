@@ -219,7 +219,6 @@ public class OptionsPane extends VBox {
         } else if (selection.equals(Selection.IS_RIGHT) && rightListView != null) {
             rightListView.getSelectionModel().select(rightListView.getItems().indexOf(characterImageName));
         }
-        scrollingPane.requestFocus();
     }
 
     private void initBackgroundButton() {
@@ -298,6 +297,5 @@ public class OptionsPane extends VBox {
         if (backgroundListView != null && backgroundListView.getItems().contains(backgroundName)) {
             backgroundListView.getSelectionModel().select(backgroundListView.getItems().indexOf(backgroundName));
         }
-        scrollingPane.requestFocus();
     }
 }
