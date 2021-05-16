@@ -4,6 +4,7 @@ import ie.ucd.apes.controller.NarrativeController;
 import ie.ucd.apes.entity.Selection;
 import ie.ucd.apes.ui.NarrativeBar;
 import javafx.scene.control.TextInputDialog;
+import javafx.stage.StageStyle;
 
 import java.util.Optional;
 
@@ -47,6 +48,7 @@ public class NarrativeView {
     private void showNarrativeBarPopUp(Selection selection) {
         TextInputDialog popup = new TextInputDialog(narrativeController.getNarrativeText(selection));
         popup.setTitle("Narrative Bar");
+        popup.initStyle(StageStyle.UTILITY);
         if (selection.equals(Selection.IS_TOP)) {
             popup.setHeaderText("Enter text for the top bar");
         } else {
