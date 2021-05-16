@@ -41,14 +41,13 @@ fully functional.
 
 ## Extra Features
 
-### Quick Start
+### Help Popup
 
-![Quick Start](readme-resources/help.png)
+![Help Popup](readme-resources/help.png)
 
-On opening the app, the user is greeted with a QuickStart Guide which introduces them to the wide array of features the
-app has to offer. The guide uses informative images and minimal text to familiarise the user with the app’s
-functionalities in an easy-to-understand manner. The user can access the guide anytime by clicking the Help button in
-the top menu bar.
+On opening the app, the user is greeted with a Help Popup which introduces them to the wide array of features the app
+has to offer. The guide uses informative images and minimal text to familiarise the user with the app’s functionalities
+in an easy-to-understand manner. The user can access the guide anytime by clicking the Help button in the top menu bar.
 
 ### Changing Background
 
@@ -57,14 +56,15 @@ the top menu bar.
 This week, we implemented the ability to add background for the comic panels. To add background, click the background
 button that is located at the option pane to reveal a drop down list of available backgrounds. Available backgrounds
 include basic colours and some background images. We used our color changer function to make the background of each
-character transparent as the provided character images have a white background.
+character transparent as the provided character images have a white background. Backgrounds are also saved when
+exporting to XML and importing also works.
 
 ### Better resizing
 
 ![Layout](readme-resources/layout.png)
 
 We have decided to not resize the stage pane as our stage window is big enough in full screen. Resizing the application
-now centres the stage pane and options pane.
+now centres the stage pane and options pane to provide a better user experience.
 
 ### Themes for Exporting to HTML
 
@@ -72,10 +72,22 @@ now centres the stage pane and options pane.
 
 ![HTML Export](readme-resources/html_2.png)
 
-The user can export their comic to HTML for viewing in a browser. When exporting to HTML the user is presented with an
-array of options. The user can choose from three themes, “Action”, “Notebook”, and “Horror”. Each theme has their own
-unique background and title font. They can also choose to simplify the styling by disabling the background texture and
-removing the decorative title font as well as enabling/disabling the ending panel.
+The user can export their comic to HTML for viewing in a browser. To export to XML do File -> Export As HTML. We used a
+separate css file for styling, and we generate the html file by using a FileWriter. When exporting to HTML, the user is
+presented with an array of options (title filled if it exist in XML). The user can choose from three themes, “Action”,
+“Notebook”, and “Horror”. Each theme has their own unique background and title font. They can also choose to simplify
+the styling by disabling the background texture and removing the decorative title font as well as enabling/disabling the
+ending panel.
+
+For the generated html webpage, we ensured that it's valid and also responsive which means that it can be viewed
+comfortably on both mobile and larger screens.
+
+### Undo Delete
+
+![Undo Delete](readme-resources/undo_delete.png)
+
+We included an **Undo Delete** button, so the user can undo any accidental deletes. This only works when there are
+deleted panels in the current invocation.
 
 ### GIF Generation
 
@@ -89,7 +101,8 @@ end screen that shows that the gif has reached the end of the comic.
 ![XML](readme-resources/xml.png)
 
 Importing XML that has invalid syntax or invalid properties / colours will prompt an error popup to notify the user and
-default properties will be used. We made sure that the window is scrollable when there are a lot of errors.
+default properties will be used. We made sure that the window is scrollable when there are a lot of errors (if there's
+any) for easier debugging and troubleshooting.
 
 ### Reordering Panels
 
